@@ -6,14 +6,14 @@ current_phase: 02
 current_phase_name: onboarding-data-entry
 status: executing
 stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-06-30T21:51:34.743Z"
+last_updated: "2026-06-30T22:39:41.287Z"
 last_activity: 2026-06-30
 last_activity_desc: Phase 02 execution started
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 10
-  completed_plans: 7
+  completed_plans: 8
   percent: 20
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-06-30)
 ## Current Position
 
 Phase: 02 (onboarding-data-entry) — EXECUTING
-Plan: 3 of 5
+Plan: 4 of 5
 Status: Ready to execute
 Last activity: 2026-06-30 — Phase 02 execution started
 
@@ -57,6 +57,7 @@ Progress: [██░░░░░░░░] 20%
 *Updated after each plan completion*
 | Phase 02 P01 | 10min | 3 tasks | 10 files |
 | Phase 02 P02 | 24min | 3 tasks | 8 files |
+| Phase 02 P03 | 28min | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,8 @@ Recent decisions affecting current work:
 - [Phase ?]: Dexie schema v2: text index on meanings for startsWithIgnoreCase
 - [Phase ?]: findOrCreateWordForm normalizes to lowercase for consistent case-insensitive dedup
 - [Phase ?]: navigator.storage.persist() fires only when wordFormMeanings.count() === 1 (first app entry)
+- [Phase ?]: Generic FieldValues type param on LanguageChips avoids Control<any> tsc -b build failure in strict mode
+- [Phase ?]: WelcomeScreen created alongside OnboardingWizard; window.alert temporary for ProfileEditPage save success
 
 ### Pending Todos
 
@@ -92,6 +95,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-30T21:51:34.725Z
+Last session: 2026-06-30T22:39:12.006Z
 Stopped at: Completed 02-02-PLAN.md
 Resume file: None
