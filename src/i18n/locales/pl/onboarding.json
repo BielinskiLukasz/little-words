@@ -1,1 +1,38 @@
-{}
+{
+  "title": "Śledź słówka {{name}}",
+  "subtitle": "Stwórz profil dziecka, żeby zacząć",
+  "field": {
+    "name": "Imię dziecka",
+    "birthDate": "Data urodzenia",
+    "languages": "Języki używane w domu",
+    "prematureBirth": "Wcześniak",
+    "speechTherapy": "Logopeda",
+    "neurologicalCare": "Opieka neurologiczna",
+    "parentNotes": "Notatki dla lekarza"
+  },
+  "section": {
+    "medical": "Opcjonalnie: kontekst medyczny"
+  },
+  "placeholder": {
+    "name": "np. Zosia",
+    "otherLanguage": "Inny język"
+  },
+  "button": {
+    "getStarted": "Zaczynamy!",
+    "saving": "Zapisuję...",
+    "addLanguage": "Dodaj"
+  },
+  "chips": {
+    "polish": "Polski",
+    "english": "Angielski"
+  },
+  "welcome": {
+    "title": "Witaj, {{name}}!",
+    "subtitle": "Śledźmy razem słówka {{name}}"
+  },
+  "error": {
+    "nameRequired": "Imię dziecka jest wymagane",
+    "birthDateRequired": "Data urodzenia jest wymagana",
+    "languageRequired": "Wybierz co najmniej jeden język"
+  }
+}

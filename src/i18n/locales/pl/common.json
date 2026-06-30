@@ -25,5 +25,36 @@
   "meaning_one": "znaczenie",
   "meaning_few": "znaczenia",
   "meaning_many": "znaczeń",
-  "meaning_other": "znaczenia"
+  "meaning_other": "znaczenia",
+  "addWord": {
+    "title": "Dodaj słówko",
+    "wordFormLabel": "Forma słowa (co dziecko powiedziało)",
+    "meaningLabel": "Znaczenie",
+    "dateLabel": "Pierwsza obserwacja",
+    "categoriesLabel": "Kategorie",
+    "addAnotherMeaning": "+ Dodaj kolejne znaczenie",
+    "save": "Zapisz",
+    "saving": "Zapisuję...",
+    "existingLinked": "{{form}} — już połączone z: {{meanings}}",
+    "createNew": "+ Utwórz \"{{text}}\""
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "language": "Język",
+    "profile": "Profil",
+    "editProfile": "Edytuj profil",
+    "data": "Dane",
+    "about": "O aplikacji",
+    "exportJson": "Eksportuj JSON",
+    "importJson": "Importuj JSON",
+    "exportCsv": "Eksportuj CSV",
+    "comingSoon": "Wkrótce",
+    "version": "Wersja {{version}}"
+  },
+  "profile": {
+    "edit": {
+      "title": "Edytuj profil",
+      "save": "Zapisz zmiany"
+    }
+  }
 }

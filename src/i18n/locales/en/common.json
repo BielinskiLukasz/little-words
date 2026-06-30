@@ -23,5 +23,36 @@
     "loading": "Loading..."
   },
   "meaning_one": "meaning",
-  "meaning_other": "meanings"
+  "meaning_other": "meanings",
+  "addWord": {
+    "title": "Add a word",
+    "wordFormLabel": "Word form (what the child said)",
+    "meaningLabel": "Meaning",
+    "dateLabel": "First observed",
+    "categoriesLabel": "Categories",
+    "addAnotherMeaning": "+ Add another meaning",
+    "save": "Save",
+    "saving": "Saving...",
+    "existingLinked": "{{form}} — already linked to: {{meanings}}",
+    "createNew": "+ Create \"{{text}}\""
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "profile": "Profile",
+    "editProfile": "Edit profile",
+    "data": "Data",
+    "about": "About",
+    "exportJson": "Export JSON",
+    "importJson": "Import JSON",
+    "exportCsv": "Export CSV",
+    "comingSoon": "Coming soon",
+    "version": "Version {{version}}"
+  },
+  "profile": {
+    "edit": {
+      "title": "Edit profile",
+      "save": "Save changes"
+    }
+  }
 }
