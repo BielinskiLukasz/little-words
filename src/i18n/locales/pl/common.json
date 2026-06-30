@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "dashboard": "Pulpit",
+    "meanings": "Znaczenia",
+    "wordForms": "Formy słów",
+    "more": "Więcej"
+  },
+  "more": {
+    "categories": "Kategorie",
+    "timeline": "Oś czasu",
+    "doctorReport": "Raport dla lekarza",
+    "settings": "Ustawienia"
+  },
+  "onboarding": {
+    "placeholder": "Konfiguracja wkrótce"
+  },
+  "errors": {
+    "somethingWentWrong": "Coś poszło nie tak",
+    "reload": "Odśwież"
+  },
+  "app": {
+    "name": "Słówko",
+    "loading": "Ładowanie..."
+  },
+  "meaning_one": "znaczenie",
+  "meaning_few": "znaczenia",
+  "meaning_many": "znaczeń",
+  "meaning_other": "znaczenia"
+}
