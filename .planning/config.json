@@ -17,6 +17,16 @@
     "milestone_branch_template": "gsd/{milestone}-{slug}",
     "quick_branch_template": null
   },
+  "gates": {
+    "confirm_project": true,
+    "confirm_phases": true,
+    "confirm_roadmap": true,
+    "confirm_breakdown": true,
+    "confirm_plan": true,
+    "execute_next_plan": true,
+    "issues_review": true,
+    "confirm_transition": true
+  },
   "workflow": {
     "research": false,
     "plan_check": false,
