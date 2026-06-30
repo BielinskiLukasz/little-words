@@ -33,3 +33,6 @@ gsd-*
 .claude/get-shit-done/
 .claude/commands/gsd/
 .claude/hooks/lib/git-cmd.js
+
+# plan.md — local plan file (one-time Markdown-converted in Phase 5)
+plan.md
