@@ -4,7 +4,7 @@ import type { ChildProfile } from '../types'
 export async function saveChildProfile(
   profile: Omit<ChildProfile, 'id'>
 ): Promise<number> {
-  return db.childProfile.add(profile)
+  return db.childProfile.add(profile) as Promise<number>
 }
 
 export async function getChildProfile(): Promise<ChildProfile | undefined> {

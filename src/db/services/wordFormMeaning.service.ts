@@ -4,7 +4,7 @@ export async function linkMeaning(
   wordFormId: number,
   meaningId: number
 ): Promise<number> {
-  return db.wordFormMeanings.add({ wordFormId, meaningId })
+  return db.wordFormMeanings.add({ wordFormId, meaningId }) as Promise<number>
 }
 
 export async function unlinkMeaning(
