@@ -1,0 +1,39 @@
+import { vi, describe, it, expect } from 'vitest'
+import { render, screen } from '@testing-library/react'
+
+vi.mock('dexie-react-hooks', () => ({
+  useLiveQuery: vi.fn(),
+}))
+
+import { useLiveQuery } from 'dexie-react-hooks'
+import App from './App'
+
+describe('AppGate', () => {
+  it('shows splash when profileCount is undefined', () => {
+    vi.mocked(useLiveQuery).mockReturnValue(undefined)
+    render(<App />)
+    // Should show app name heading (either 'Little Words' or 'Słówko')
+    expect(screen.getByRole('heading')).toBeInTheDocument()
+  })
+
+  it('shows onboarding when profileCount is 0', () => {
+    vi.mocked(useLiveQuery).mockReturnValue(0)
+    render(<App />)
+    expect(screen.getByText(/coming soon/i)).toBeInTheDocument()
+  })
+
+  it('shows router when profileCount > 0', () => {
+    vi.mocked(useLiveQuery).mockReturnValue(1)
+    render(<App />)
+    // RouterProvider renders — no crash is sufficient; dashboard placeholder is visible
+    expect(screen.getByText(/coming soon/i)).toBeInTheDocument()
+  })
+
+  it('ErrorBoundary catches errors', () => {
+    const ThrowingComponent = () => { throw new Error('test error') }
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { ErrorBoundary } = require('./shared/components/ErrorBoundary')
+    const { container } = render(<ErrorBoundary><ThrowingComponent /></ErrorBoundary>)
+    expect(container.querySelector('button')).not.toBeNull()
+  })
+})
