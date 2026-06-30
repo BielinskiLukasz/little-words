@@ -4,7 +4,7 @@ import type { Meaning } from '../types'
 export async function addMeaning(
   meaning: Omit<Meaning, 'id'>
 ): Promise<number> {
-  return db.meanings.add(meaning)
+  return db.meanings.add(meaning) as Promise<number>
 }
 
 export async function toggleMeaningActive(

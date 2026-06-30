@@ -4,7 +4,7 @@ import type { WordForm } from '../types'
 export async function addWordForm(
   form: Omit<WordForm, 'id'>
 ): Promise<number> {
-  return db.wordForms.add(form)
+  return db.wordForms.add(form) as Promise<number>
 }
 
 export async function deleteWordForm(id: number): Promise<void> {
