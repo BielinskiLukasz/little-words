@@ -30,7 +30,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Dexie schema v1 is defined with all entities (ChildProfile, WordForm, Meaning, WordFormMeaning) and TypeScript interfaces compile without errors
   3. `t('meaning', { count: 2 })` returns the correct Polish plural form (_few) in both dev and preview builds
   4. Navigating to `/#/dashboard` lands on the correct route; navigating to `/#/` redirects to onboarding when no child profile exists
-**Plans**: TBD
+**Plans**: 5 plans
+Plans:
+- [ ] 01-01-PLAN.md — Vite scaffold, dependencies, Shadcn/UI init, Tailwind v4 OKLCH theme, Vitest config
+- [ ] 01-02-PLAN.md — Dexie schema v1: 4 entities, TypeScript interfaces, service stubs, schema tests
+- [ ] 01-03-PLAN.md — react-i18next init: Polish default, locale files, TypeScript augmentation, i18n tests
+- [ ] 01-04-PLAN.md — Hash router, RootLayout, BottomNav (4 tabs), 9 page stubs, folder skeleton
+- [ ] 01-05-PLAN.md — ErrorBoundary, AppGate (useLiveQuery gate), main.tsx import order, App tests
 **UI hint**: yes
 
 ### Phase 2: Onboarding & Data Entry
@@ -91,7 +97,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/5 | Not started | - |
 | 2. Onboarding & Data Entry | 0/TBD | Not started | - |
 | 3. Browse Views | 0/TBD | Not started | - |
 | 4. Doctor Report & Data Management | 0/TBD | Not started | - |
