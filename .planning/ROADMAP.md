@@ -49,7 +49,13 @@ Plans:
   2. After completing onboarding, the parent can tap the FAB, fill in a word form and meaning, select categories, and save — the entry persists across page reloads
   3. When typing a meaning, previously entered meanings appear as autocomplete suggestions; choosing one links the word form to an existing meaning without creating a duplicate
   4. On iOS, after the first word is saved, the parent sees an instruction to add the app to the Home Screen framed as a data-protection step
-**Plans**: TBD
+**Plans**: 5 plans
+Plans:
+- [ ] 02-01-PLAN.md — Setup: install react-hook-form/zod/date-fns, add Shadcn Sheet/Collapsible/Badge/Calendar, extend Zustand store, populate i18n locale files
+- [ ] 02-02-PLAN.md — Service layer TDD: findOrCreateWordForm, searchMeanings, addWordEntry orchestrator with atomicity and storage persist
+- [ ] 02-03-PLAN.md — Onboarding vertical slice: wizard form, LanguageChips, MedicalContextSection, WelcomeScreen, ProfileEditPage
+- [ ] 02-04-PLAN.md — Add-entry vertical slice: FAB, bottom sheet, MeaningAutocomplete, CategoryChips, multi-meaning form
+- [ ] 02-05-PLAN.md — Settings screen: Language switcher, Profile edit link, Data placeholders, About; iOS install prompt; Dashboard greeting
 **UI hint**: yes
 
 ### Phase 3: Browse Views
