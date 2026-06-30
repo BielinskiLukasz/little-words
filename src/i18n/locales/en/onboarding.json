@@ -1,1 +1,38 @@
-{}
+{
+  "title": "Track {{name}}'s words",
+  "subtitle": "Create a child profile to get started",
+  "field": {
+    "name": "Child's name",
+    "birthDate": "Date of birth",
+    "languages": "Languages used at home",
+    "prematureBirth": "Premature birth",
+    "speechTherapy": "Speech therapy",
+    "neurologicalCare": "Neurological care",
+    "parentNotes": "Notes for the doctor"
+  },
+  "section": {
+    "medical": "Optional: medical context"
+  },
+  "placeholder": {
+    "name": "e.g. Zosia",
+    "otherLanguage": "Other language"
+  },
+  "button": {
+    "getStarted": "Get started!",
+    "saving": "Saving...",
+    "addLanguage": "Add"
+  },
+  "chips": {
+    "polish": "Polish",
+    "english": "English"
+  },
+  "welcome": {
+    "title": "Welcome, {{name}}!",
+    "subtitle": "Let's track {{name}}'s words together"
+  },
+  "error": {
+    "nameRequired": "Child's name is required",
+    "birthDateRequired": "Date of birth is required",
+    "languageRequired": "Select at least one language"
+  }
+}
