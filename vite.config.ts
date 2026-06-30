@@ -14,10 +14,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       workbox: {
-        globPatterns: ['**/*'],
+        globPatterns: ['**/*.{js,css,html,webmanifest,ico,png,svg,woff,woff2}'],
         navigateFallback: null,
       },
-      includeAssets: ['**/*'],
+      includeAssets: ['**/*.{ico,png,svg}'],
       manifest: {
         name: 'Little Words',
         short_name: 'LittleWords',
