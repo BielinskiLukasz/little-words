@@ -1,19 +1,21 @@
 import { useState, KeyboardEvent } from 'react'
-import { Controller, Control } from 'react-hook-form'
+import { Controller, Control, FieldValues, Path } from 'react-hook-form'
 import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
-interface LanguageChipsProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any>
-  name: string
+interface LanguageChipsProps<TFieldValues extends FieldValues> {
+  control: Control<TFieldValues>
+  name: Path<TFieldValues>
 }
 
 const PREDEFINED_LANGUAGES = ['polish', 'english'] as const
 
-export function LanguageChips({ control, name }: LanguageChipsProps) {
+export function LanguageChips<TFieldValues extends FieldValues>({
+  control,
+  name,
+}: LanguageChipsProps<TFieldValues>) {
   const { t } = useTranslation('onboarding')
   const [customInput, setCustomInput] = useState('')
 
@@ -27,7 +29,7 @@ export function LanguageChips({ control, name }: LanguageChipsProps) {
       control={control}
       name={name}
       render={({ field }) => {
-        const value: string[] = field.value ?? []
+        const value: string[] = Array.isArray(field.value) ? (field.value as string[]) : []
 
         const togglePredefined = (langKey: string) => {
           const label = predefinedLabels[langKey]

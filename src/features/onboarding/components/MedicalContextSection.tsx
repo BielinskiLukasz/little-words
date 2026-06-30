@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { UseFormRegister } from 'react-hook-form'
+import { UseFormRegister, FieldValues } from 'react-hook-form'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -7,10 +7,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible'
-import type { OnboardingFormData } from '../hooks/useOnboarding'
 
 interface MedicalContextSectionProps {
-  register: UseFormRegister<OnboardingFormData>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  register: UseFormRegister<FieldValues & any>
 }
 
 export function MedicalContextSection({ register }: MedicalContextSectionProps) {
