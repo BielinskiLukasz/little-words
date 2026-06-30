@@ -1,0 +1,27 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "meanings": "Meanings",
+    "wordForms": "Word Forms",
+    "more": "More"
+  },
+  "more": {
+    "categories": "Categories",
+    "timeline": "Timeline",
+    "doctorReport": "Doctor Report",
+    "settings": "Settings"
+  },
+  "onboarding": {
+    "placeholder": "Onboarding coming soon"
+  },
+  "errors": {
+    "somethingWentWrong": "Something went wrong",
+    "reload": "Reload"
+  },
+  "app": {
+    "name": "Little Words",
+    "loading": "Loading..."
+  },
+  "meaning_one": "meaning",
+  "meaning_other": "meanings"
+}
