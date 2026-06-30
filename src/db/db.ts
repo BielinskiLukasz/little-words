@@ -15,6 +15,13 @@ export class AppDB extends Dexie {
       meanings: '++id, isActive, firstUseDate, lastUseDate, *categories',
       wordFormMeanings: '++id, wordFormId, meaningId, [wordFormId+meaningId]',
     })
+    // v2: adds text index on meanings for searchMeanings (startsWithIgnoreCase)
+    this.version(2).stores({
+      childProfile: '++id',
+      wordForms: '++id, form, createdAt',
+      meanings: '++id, text, isActive, firstUseDate, lastUseDate, *categories',
+      wordFormMeanings: '++id, wordFormId, meaningId, [wordFormId+meaningId]',
+    })
   }
 }
 
