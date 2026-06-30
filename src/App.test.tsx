@@ -7,6 +7,7 @@ vi.mock('dexie-react-hooks', () => ({
 
 import { useLiveQuery } from 'dexie-react-hooks'
 import App from './App'
+import { ErrorBoundary } from './shared/components/ErrorBoundary'
 
 describe('AppGate', () => {
   it('shows splash when profileCount is undefined', () => {
@@ -31,8 +32,6 @@ describe('AppGate', () => {
 
   it('ErrorBoundary catches errors', () => {
     const ThrowingComponent = () => { throw new Error('test error') }
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { ErrorBoundary } = require('./shared/components/ErrorBoundary')
     const { container } = render(<ErrorBoundary><ThrowingComponent /></ErrorBoundary>)
     expect(container.querySelector('button')).not.toBeNull()
   })
