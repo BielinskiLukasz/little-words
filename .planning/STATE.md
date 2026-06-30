@@ -5,15 +5,15 @@ milestone_name: milestone
 current_phase: 02
 current_phase_name: onboarding-data-entry
 status: executing
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-06-30T22:39:41.287Z"
+stopped_at: Completed 02-04-PLAN.md
+last_updated: "2026-06-30T23:52:48.632Z"
 last_activity: 2026-06-30
 last_activity_desc: Phase 02 execution started
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 10
-  completed_plans: 8
+  completed_plans: 9
   percent: 20
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-06-30)
 ## Current Position
 
 Phase: 02 (onboarding-data-entry) — EXECUTING
-Plan: 4 of 5
+Plan: 5 of 5
 Status: Ready to execute
 Last activity: 2026-06-30 — Phase 02 execution started
 
@@ -58,6 +58,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase 02 P01 | 10min | 3 tasks | 10 files |
 | Phase 02 P02 | 24min | 3 tasks | 8 files |
 | Phase 02 P03 | 28min | 2 tasks | 10 files |
+| Phase 02 P04 | 57min | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,9 @@ Recent decisions affecting current work:
 - [Phase ?]: navigator.storage.persist() fires only when wordFormMeanings.count() === 1 (first app entry)
 - [Phase ?]: Generic FieldValues type param on LanguageChips avoids Control<any> tsc -b build failure in strict mode
 - [Phase ?]: WelcomeScreen created alongside OnboardingWizard; window.alert temporary for ProfileEditPage save success
+- [Phase ?]: CategoryChips uses Category[] typed union not string[] for strict tsc-b build compliance
+- [Phase ?]: ExistingMeaningsPreview sub-component isolates useLiveQuery to preview scope only — avoids re-rendering WordFormInput on DB changes
+- [Phase ?]: useMeaningSearch clears debouncedPrefix immediately on empty input to prevent stale autocomplete suggestions (Pitfall 2)
 
 ### Pending Todos
 
@@ -95,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-30T22:39:12.006Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-06-30T23:52:48.609Z
+Stopped at: Completed 02-04-PLAN.md
 Resume file: None
