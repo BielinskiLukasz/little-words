@@ -58,12 +58,12 @@ Plans:
   3. When typing a meaning, previously entered meanings appear as autocomplete suggestions; choosing one links the word form to an existing meaning without creating a duplicate
   4. On iOS, after the first word is saved, the parent sees an instruction to add the app to the Home Screen framed as a data-protection step
 
-**Plans**: 1/5 plans executed
+**Plans**: 2/5 plans executed
 Plans:
 **Wave 1**
 
 - [x] 02-01-PLAN.md — Setup: install react-hook-form/zod/date-fns, add Shadcn Sheet/Collapsible/Badge/Calendar, extend Zustand store, populate i18n locale files
-- [ ] 02-02-PLAN.md — Service layer TDD: findOrCreateWordForm, searchMeanings, addWordEntry orchestrator with atomicity and storage persist
+- [x] 02-02-PLAN.md — Service layer TDD: findOrCreateWordForm, searchMeanings, addWordEntry orchestrator with atomicity and storage persist
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -131,7 +131,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 5/5 | Complete | 2026-06-30 |
-| 2. Onboarding & Data Entry | 1/5 | In Progress|  |
+| 2. Onboarding & Data Entry | 2/5 | In Progress|  |
 | 3. Browse Views | 0/TBD | Not started | - |
 | 4. Doctor Report & Data Management | 0/TBD | Not started | - |
 | 5. PWA Polish | 0/TBD | Not started | - |
