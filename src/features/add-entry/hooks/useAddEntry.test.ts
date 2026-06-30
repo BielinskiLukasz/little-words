@@ -7,27 +7,35 @@ vi.mock('@/db/services/wordEntry.service', () => ({
   addWordEntry: vi.fn(),
 }))
 
-// Mock useUIStore
+// Mock useUIStore — supports both selector and full-store call patterns
+const mockSetAddWordSheetOpen = vi.fn()
+
 vi.mock('@/stores/ui.store', () => ({
-  useUIStore: vi.fn(() => ({
-    addWordSheetOpen: false,
-    setAddWordSheetOpen: vi.fn(),
-  })),
+  useUIStore: vi.fn((selector?: (s: unknown) => unknown) => {
+    const state = {
+      addWordSheetOpen: false,
+      setAddWordSheetOpen: mockSetAddWordSheetOpen,
+      iosInstallPromptSeen: false,
+      setIosInstallPromptSeen: vi.fn(),
+    }
+    return selector ? selector(state) : state
+  }),
 }))
 
 import { addWordEntry } from '@/db/services/wordEntry.service'
 import { useUIStore } from '@/stores/ui.store'
 
 describe('useAddEntry', () => {
-  const mockSetAddWordSheetOpen = vi.fn()
-
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mocked(useUIStore).mockReturnValue({
-      addWordSheetOpen: false,
-      setAddWordSheetOpen: mockSetAddWordSheetOpen,
-      iosInstallPromptSeen: false,
-      setIosInstallPromptSeen: vi.fn(),
+    vi.mocked(useUIStore).mockImplementation((selector?: (s: unknown) => unknown) => {
+      const state = {
+        addWordSheetOpen: false,
+        setAddWordSheetOpen: mockSetAddWordSheetOpen,
+        iosInstallPromptSeen: false,
+        setIosInstallPromptSeen: vi.fn(),
+      }
+      return selector ? selector(state) : state
     })
   })
 
