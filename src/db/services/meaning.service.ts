@@ -13,3 +13,19 @@ export async function toggleMeaningActive(
 ): Promise<void> {
   await db.meanings.update(id, { isActive })
 }
+
+/**
+ * Search meanings by case-insensitive prefix match on the text field.
+ * Returns up to 10 results. Returns an empty array for empty prefix.
+ */
+export async function searchMeanings(prefix: string): Promise<Meaning[]> {
+  if (prefix.length === 0) {
+    return []
+  }
+
+  return db.meanings
+    .where('text')
+    .startsWithIgnoreCase(prefix)
+    .limit(10)
+    .toArray()
+}
