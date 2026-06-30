@@ -1,3 +1,4 @@
+import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import Dexie from 'dexie'
 import { AppDB } from './db'
@@ -47,7 +48,7 @@ describe('AppDB', () => {
       (idx) => idx.name === 'categories'
     )
     expect(categoriesIndex).toBeDefined()
-    expect(categoriesIndex?.multiEntry).toBe(true)
+    expect(categoriesIndex?.multi).toBe(true)
   })
 
   it('wordFormMeanings table has a compound index "[wordFormId+meaningId]"', async () => {
