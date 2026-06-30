@@ -1,16 +1,17 @@
 import { useTranslation } from 'react-i18next'
 import { CATEGORIES } from '@/db/schema'
+import type { Category } from '@/db/types'
 import { Badge } from '@/components/ui/badge'
 
 interface CategoryChipsProps {
-  value: string[]
-  onChange: (categories: string[]) => void
+  value: Category[]
+  onChange: (categories: Category[]) => void
 }
 
 export function CategoryChips({ value, onChange }: CategoryChipsProps) {
   const { t } = useTranslation('common')
 
-  function toggleCategory(cat: string) {
+  function toggleCategory(cat: Category) {
     if (value.includes(cat)) {
       onChange(value.filter((c) => c !== cat))
     } else {

@@ -11,7 +11,8 @@ vi.mock('@/db/services/wordEntry.service', () => ({
 const mockSetAddWordSheetOpen = vi.fn()
 
 vi.mock('@/stores/ui.store', () => ({
-  useUIStore: vi.fn((selector?: (s: unknown) => unknown) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  useUIStore: vi.fn((selector?: (s: any) => any) => {
     const state = {
       addWordSheetOpen: false,
       setAddWordSheetOpen: mockSetAddWordSheetOpen,
@@ -28,7 +29,8 @@ import { useUIStore } from '@/stores/ui.store'
 describe('useAddEntry', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mocked(useUIStore).mockImplementation((selector?: (s: unknown) => unknown) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vi.mocked(useUIStore).mockImplementation(((selector?: (s: any) => any) => {
       const state = {
         addWordSheetOpen: false,
         setAddWordSheetOpen: mockSetAddWordSheetOpen,
@@ -36,7 +38,7 @@ describe('useAddEntry', () => {
         setIosInstallPromptSeen: vi.fn(),
       }
       return selector ? selector(state) : state
-    })
+    }) as any)
   })
 
   it('initializes with empty wordForm and one empty meaning row', () => {
