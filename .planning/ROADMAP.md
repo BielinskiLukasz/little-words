@@ -12,7 +12,7 @@ Little Words ships in five vertical phases. Phase 1 locks the immutable decision
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Immutable scaffold: Vite base path, Dexie schema v1, i18n, hash router shell
+- [x] **Phase 1: Foundation** - Immutable scaffold: Vite base path, Dexie schema v1, i18n, hash router shell
 - [ ] **Phase 2: Onboarding & Data Entry** - App becomes usable: child profile wizard and FAB → bottom sheet word entry
 - [ ] **Phase 3: Browse Views** - Read-only aggregations validating the data model across all list and detail views
 - [ ] **Phase 4: Doctor Report & Data Management** - Primary value delivery: report to clipboard, JSON/CSV export and import
@@ -32,11 +32,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Navigating to `/#/dashboard` lands on the correct route; navigating to `/#/` redirects to onboarding when no child profile exists
 **Plans**: 5 plans
 Plans:
-- [ ] 01-01-PLAN.md — Vite scaffold, dependencies, Shadcn/UI init, Tailwind v4 OKLCH theme, Vitest config
-- [ ] 01-02-PLAN.md — Dexie schema v1: 4 entities, TypeScript interfaces, service stubs, schema tests
-- [ ] 01-03-PLAN.md — react-i18next init: Polish default, locale files, TypeScript augmentation, i18n tests
-- [ ] 01-04-PLAN.md — Hash router, RootLayout, BottomNav (4 tabs), 9 page stubs, folder skeleton
-- [ ] 01-05-PLAN.md — ErrorBoundary, AppGate (useLiveQuery gate), main.tsx import order, App tests
+- [x] 01-01-PLAN.md — Vite scaffold, dependencies, Shadcn/UI init, Tailwind v4 OKLCH theme, Vitest config
+- [x] 01-02-PLAN.md — Dexie schema v1: 4 entities, TypeScript interfaces, service stubs, schema tests
+- [x] 01-03-PLAN.md — react-i18next init: Polish default, locale files, TypeScript augmentation, i18n tests
+- [x] 01-04-PLAN.md — Hash router, RootLayout, BottomNav (4 tabs), 9 page stubs, folder skeleton
+- [x] 01-05-PLAN.md — ErrorBoundary, AppGate (useLiveQuery gate), main.tsx import order, App tests
 **UI hint**: yes
 
 ### Phase 2: Onboarding & Data Entry
@@ -97,7 +97,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/5 | Not started | - |
+| 1. Foundation | 5/5 | Complete | 2026-06-30 |
 | 2. Onboarding & Data Entry | 0/TBD | Not started | - |
 | 3. Browse Views | 0/TBD | Not started | - |
 | 4. Doctor Report & Data Management | 0/TBD | Not started | - |
