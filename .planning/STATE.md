@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-current_phase: 1
-current_phase_name: Foundation
+current_phase: 02
+current_phase_name: onboarding-data-entry
 status: executing
-stopped_at: Phase 2 context gathered
-last_updated: "2026-06-30T20:47:34.100Z"
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-06-30T21:14:57.286Z"
 last_activity: 2026-06-30
-last_activity_desc: Phase 1 Foundation complete (5 plans, 28 tests)
+last_activity_desc: Phase 02 execution started
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 5
-  completed_plans: 5
+  total_plans: 10
+  completed_plans: 6
   percent: 20
 ---
 
@@ -24,14 +24,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-30)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Phase 1 — Foundation
+**Current focus:** Phase 02 — onboarding-data-entry
 
 ## Current Position
 
-Phase: 1 of 5 (Foundation) — COMPLETE
-Plan: 5 of 5 complete
+Phase: 02 (onboarding-data-entry) — EXECUTING
+Plan: 2 of 5
 Status: Ready to execute
-Last activity: 2026-06-30 — Phase 1 Foundation complete (5 plans, 28 tests)
+Last activity: 2026-06-30 — Phase 02 execution started
 
 Progress: [██░░░░░░░░] 20%
 
@@ -55,6 +55,7 @@ Progress: [██░░░░░░░░] 20%
 - Trend: -
 
 *Updated after each plan completion*
+| Phase 02 P01 | 10min | 3 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,8 @@ Recent decisions affecting current work:
 - Phase 1: `createHashRouter` required — GitHub Pages does not support history API rewrites
 - Phase 2: Meanings are independent entities — deleting WordForm removes link only, not the Meaning row
 - Phase 4: Doctor Report uses plain text + clipboard (no PDF in v1)
+- [Phase ?]: Shadcn components generated via npx shadcn@latest add — local TSX source, no runtime package dependency
+- [Phase ?]: UIState is ephemeral — addWordSheetOpen resets on page reload by design (no persist middleware)
 
 ### Pending Todos
 
@@ -85,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-30T19:37:50.517Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-onboarding-data-entry/02-CONTEXT.md
+Last session: 2026-06-30T21:14:57.269Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: None

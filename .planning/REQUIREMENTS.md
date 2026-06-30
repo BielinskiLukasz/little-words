@@ -14,16 +14,16 @@
 
 ### Onboarding
 
-- [ ] **ONBD-01**: Parent cannot access the main app until a child profile is created; onboarding wizard collects mandatory fields: child name, birth date, and languages used at home
+- [x] **ONBD-01**: Parent cannot access the main app until a child profile is created; onboarding wizard collects mandatory fields: child name, birth date, and languages used at home
 - [ ] **ONBD-02**: Optional child profile fields (premature birth, speech therapy, neurological care, parent notes for doctor report) are accessible after the wizard and editable from a profile/settings screen
 - [ ] **ONBD-03**: `navigator.storage.persist()` is called silently after the first word form is added to request persistent storage and prevent browser eviction
 - [ ] **ONBD-04**: After the first word form is added, iOS users see a "Add to Home Screen" instruction (detected via user agent) framed as a data-protection feature
 
 ### Data Entry
 
-- [ ] **ENTRY-01**: A floating action button (FAB) is present on all main screens; tapping it opens a bottom sheet with the add-word form
+- [x] **ENTRY-01**: A floating action button (FAB) is present on all main screens; tapping it opens a bottom sheet with the add-word form
 - [ ] **ENTRY-02**: The Meaning field in the add-word form shows autocomplete suggestions from existing meanings as the parent types; if no match exists, a "Create new meaning" option is shown; the selected or created meaning is linked to the word form
-- [ ] **ENTRY-03**: Each meaning can be tagged with one or more categories from the fixed default list (Nouns, Verbs, Adjectives, People, Food, Animals, Vehicles, Body Parts, Onomatopoeia, Requests, Social Communication, Emotions, Places, Other); multiple selection is supported
+- [x] **ENTRY-03**: Each meaning can be tagged with one or more categories from the fixed default list (Nouns, Verbs, Adjectives, People, Food, Animals, Vehicles, Body Parts, Onomatopoeia, Requests, Social Communication, Emotions, Places, Other); multiple selection is supported
 
 ### Dashboard
 
@@ -108,13 +108,13 @@
 | FOUND-02 | Phase 1 | Pending |
 | FOUND-03 | Phase 1 | Pending |
 | FOUND-04 | Phase 1 | Pending |
-| ONBD-01 | Phase 2 | Pending |
+| ONBD-01 | Phase 2 | Complete |
 | ONBD-02 | Phase 2 | Pending |
 | ONBD-03 | Phase 2 | Pending |
 | ONBD-04 | Phase 2 | Pending |
-| ENTRY-01 | Phase 2 | Pending |
+| ENTRY-01 | Phase 2 | Complete |
 | ENTRY-02 | Phase 2 | Pending |
-| ENTRY-03 | Phase 2 | Pending |
+| ENTRY-03 | Phase 2 | Complete |
 | DASH-01 | Phase 3 | Pending |
 | DASH-02 | Phase 3 | Pending |
 | DASH-03 | Phase 3 | Pending |
@@ -132,6 +132,7 @@
 | PWA-03 | Phase 5 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 26 total
 - Mapped to phases: 26
 - Unmapped: 0 ✓
