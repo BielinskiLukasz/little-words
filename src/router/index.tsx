@@ -9,6 +9,7 @@ import { TimelinePage } from '../pages/TimelinePage';
 import { DoctorReportPage } from '../pages/DoctorReportPage';
 import { SettingsPage } from '../pages/SettingsPage';
 import { OnboardingPage } from '../pages/OnboardingPage';
+import { ProfileEditPage } from '../pages/ProfileEditPage';
 
 export const router = createHashRouter([
   {
@@ -24,6 +25,7 @@ export const router = createHashRouter([
       { path: 'timeline', element: <TimelinePage /> },
       { path: 'doctor-report', element: <DoctorReportPage /> },
       { path: 'settings', element: <SettingsPage /> },
+      { path: 'profile/edit', element: <ProfileEditPage /> },
     ],
   },
   { path: '/onboarding', element: <OnboardingPage /> },
