@@ -63,11 +63,13 @@ export async function addWordEntry(
     await linkMeaningToWordForm(wordFormId, meaningId)
   }
 
-  // Request durable storage after the very first junction row is created.
-  // navigator.storage is optional (not available in all browsers/JSDOM).
+  // Storage persist guard (T-02-02-I1):
+  // Triggered only on the very first junction row across the whole database.
+  // navigator.storage is optional — absent in some browsers and JSDOM.
+  // The call is fire-and-forget; the result (granted/denied) is not inspected
+  // and no error is surfaced to the caller.
   const totalLinks = await db.wordFormMeanings.count()
   if (totalLinks === 1) {
-    // Intentional fire-and-forget — failure is silent (T-02-02-I1)
     void navigator.storage?.persist?.()
   }
 

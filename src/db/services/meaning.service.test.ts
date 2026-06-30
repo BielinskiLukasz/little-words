@@ -84,7 +84,7 @@ describe('meaning.service - searchMeanings', () => {
   it('limits results to 10 meanings', async () => {
     const meanings = Array.from({ length: 15 }, (_, i) => ({
       text: `go word ${i}`,
-      categories: ['Verbs'] as const,
+      categories: ['Verbs' as const],
       isActive: true,
       firstUseDate: '2025-01-01',
       lastUseDate: '2025-01-01',
