@@ -20,7 +20,8 @@ describe('AppGate', () => {
   it('shows onboarding when profileCount is 0', () => {
     vi.mocked(useLiveQuery).mockReturnValue(0)
     render(<App />)
-    expect(screen.getByText(/coming soon/i)).toBeInTheDocument()
+    // OnboardingWizard renders — verify at least one text input is present (name field)
+    expect(screen.getAllByRole('textbox').length).toBeGreaterThan(0)
   })
 
   it('shows router when profileCount > 0', () => {
