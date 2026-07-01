@@ -4,17 +4,17 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 02
 current_phase_name: onboarding-data-entry
-status: executing
-stopped_at: Completed 02-04-PLAN.md
-last_updated: "2026-06-30T23:52:48.632Z"
+status: verifying
+stopped_at: Completed 02-05-PLAN.md
+last_updated: "2026-07-01T00:24:25.565Z"
 last_activity: 2026-06-30
 last_activity_desc: Phase 02 execution started
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 10
-  completed_plans: 9
-  percent: 20
+  completed_plans: 10
+  percent: 40
 ---
 
 # Project State
@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-06-30)
 
 Phase: 02 (onboarding-data-entry) — EXECUTING
 Plan: 5 of 5
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-06-30 — Phase 02 execution started
 
 Progress: [██░░░░░░░░] 20%
@@ -59,6 +59,7 @@ Progress: [██░░░░░░░░] 20%
 | Phase 02 P02 | 24min | 3 tasks | 8 files |
 | Phase 02 P03 | 28min | 2 tasks | 10 files |
 | Phase 02 P04 | 57min | 2 tasks | 11 files |
+| Phase 02 P05 | 15min | 2 tasks | 14 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,9 @@ Recent decisions affecting current work:
 - [Phase ?]: CategoryChips uses Category[] typed union not string[] for strict tsc-b build compliance
 - [Phase ?]: ExistingMeaningsPreview sub-component isolates useLiveQuery to preview scope only — avoids re-rendering WordFormInput on DB changes
 - [Phase ?]: useMeaningSearch clears debouncedPrefix immediately on empty input to prevent stale autocomplete suggestions (Pitfall 2)
+- [Phase ?]: iOSInstallPrompt named with lowercase i (iOS branding) but imported as IOSInstallPrompt alias in JSX to satisfy React component capitalization requirement
+- [Phase ?]: useSettings uses LANG_KEY constant from @/i18n as single source of truth for localStorage key
+- [Phase ?]: iOS prompt three-layer guard: UIStore trigger (ephemeral) + localStorage flag (permanent) + UA check (platform gate)
 
 ### Pending Todos
 
@@ -99,6 +103,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-06-30T23:52:48.609Z
-Stopped at: Completed 02-04-PLAN.md
+Last session: 2026-07-01T00:24:25.538Z
+Stopped at: Completed 02-05-PLAN.md
 Resume file: None

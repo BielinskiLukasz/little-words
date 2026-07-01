@@ -14,7 +14,7 @@ Little Words ships in five vertical phases. Phase 1 locks the immutable decision
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Immutable scaffold: Vite base path, Dexie schema v1, i18n, hash router shell
-- [ ] **Phase 2: Onboarding & Data Entry** - App becomes usable: child profile wizard and FAB → bottom sheet word entry
+- [x] **Phase 2: Onboarding & Data Entry** - App becomes usable: child profile wizard and FAB → bottom sheet word entry (completed 2026-07-01)
 - [ ] **Phase 3: Browse Views** - Read-only aggregations validating the data model across all list and detail views
 - [ ] **Phase 4: Doctor Report & Data Management** - Primary value delivery: report to clipboard, JSON/CSV export and import
 - [ ] **Phase 5: PWA Polish** - Full offline capability, installability, service worker update prompt, manifest verification
@@ -58,7 +58,7 @@ Plans:
   3. When typing a meaning, previously entered meanings appear as autocomplete suggestions; choosing one links the word form to an existing meaning without creating a duplicate
   4. On iOS, after the first word is saved, the parent sees an instruction to add the app to the Home Screen framed as a data-protection step
 
-**Plans**: 4/5 plans executed
+**Plans**: 5/5 plans complete
 Plans:
 **Wave 1**
 
@@ -72,7 +72,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 02-05-PLAN.md — Settings screen: Language switcher, Profile edit link, Data placeholders, About; iOS install prompt; Dashboard greeting
+- [x] 02-05-PLAN.md — Settings screen: Language switcher, Profile edit link, Data placeholders, About; iOS install prompt; Dashboard greeting
 
 **UI hint**: yes
 
@@ -131,7 +131,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 5/5 | Complete | 2026-06-30 |
-| 2. Onboarding & Data Entry | 4/5 | In Progress|  |
+| 2. Onboarding & Data Entry | 5/5 | Complete   | 2026-07-01 |
 | 3. Browse Views | 0/TBD | Not started | - |
 | 4. Doctor Report & Data Management | 0/TBD | Not started | - |
 | 5. PWA Polish | 0/TBD | Not started | - |
