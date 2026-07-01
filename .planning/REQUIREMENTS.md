@@ -17,7 +17,7 @@
 - [x] **ONBD-01**: Parent cannot access the main app until a child profile is created; onboarding wizard collects mandatory fields: child name, birth date, and languages used at home
 - [x] **ONBD-02**: Optional child profile fields (premature birth, speech therapy, neurological care, parent notes for doctor report) are accessible after the wizard and editable from a profile/settings screen
 - [x] **ONBD-03**: `navigator.storage.persist()` is called silently after the first word form is added to request persistent storage and prevent browser eviction
-- [ ] **ONBD-04**: After the first word form is added, iOS users see a "Add to Home Screen" instruction (detected via user agent) framed as a data-protection feature
+- [x] **ONBD-04**: After the first word form is added, iOS users see a "Add to Home Screen" instruction (detected via user agent) framed as a data-protection feature
 
 ### Data Entry
 
@@ -111,7 +111,7 @@
 | ONBD-01 | Phase 2 | Complete |
 | ONBD-02 | Phase 2 | Complete |
 | ONBD-03 | Phase 2 | Complete |
-| ONBD-04 | Phase 2 | Pending |
+| ONBD-04 | Phase 2 | Complete |
 | ENTRY-01 | Phase 2 | Complete |
 | ENTRY-02 | Phase 2 | Complete |
 | ENTRY-03 | Phase 2 | Complete |
