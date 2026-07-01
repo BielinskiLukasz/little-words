@@ -27,8 +27,8 @@ describe('AppGate', () => {
   it('shows router when profileCount > 0', () => {
     vi.mocked(useLiveQuery).mockReturnValue(1)
     render(<App />)
-    // RouterProvider renders — no crash is sufficient; dashboard placeholder is visible
-    expect(screen.getByText(/coming soon/i)).toBeInTheDocument()
+    // RouterProvider renders — no crash is sufficient; dashboard greeting is visible
+    expect(screen.getByRole('heading')).toBeInTheDocument()
   })
 
   it('ErrorBoundary catches errors', () => {

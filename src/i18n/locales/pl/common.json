@@ -56,5 +56,12 @@
       "title": "Edytuj profil",
       "save": "Zapisz zmiany"
     }
+  },
+  "ios": {
+    "title": "Chroń swoje dane",
+    "step1": "Dotknij ikonę Udostępnij u dołu przeglądarki",
+    "step2": "Przewiń i dotknij 'Dodaj do ekranu głównego'",
+    "step3": "Dotknij 'Dodaj' — Twoje dane pozostają bezpieczne na urządzeniu",
+    "dismiss": "Rozumiem"
   }
 }
