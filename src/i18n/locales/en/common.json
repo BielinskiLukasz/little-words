@@ -54,5 +54,12 @@
       "title": "Edit profile",
       "save": "Save changes"
     }
+  },
+  "ios": {
+    "title": "Protect your data",
+    "step1": "Tap the Share icon at the bottom of your browser",
+    "step2": "Scroll down and tap 'Add to Home Screen'",
+    "step3": "Tap 'Add' — your data stays safe on your device",
+    "dismiss": "Got it"
   }
 }

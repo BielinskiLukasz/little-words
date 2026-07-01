@@ -21,6 +21,7 @@ function createEmptyRow(): MeaningRowState {
 
 export function useAddEntry() {
   const setAddWordSheetOpen = useUIStore((s) => s.setAddWordSheetOpen)
+  const setIosInstallPromptSeen = useUIStore((s) => s.setIosInstallPromptSeen)
 
   const [wordForm, setWordForm] = useState('')
   const [meaningRows, setMeaningRows] = useState<MeaningRowState[]>([createEmptyRow()])
@@ -53,6 +54,7 @@ export function useAddEntry() {
         firstUseDate: row.firstUseDate,
       }))
       await addWordEntry({ wordForm, meanings })
+      setIosInstallPromptSeen(true)
       setAddWordSheetOpen(false)
       reset()
     } catch (err) {
