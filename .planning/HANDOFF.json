@@ -1,0 +1,38 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-07-03T00:00:00.000Z",
+  "phase": "02",
+  "phase_name": "onboarding-data-entry",
+  "phase_dir": ".planning/phases/02-onboarding-data-entry",
+  "plan": 5,
+  "task": 2,
+  "total_tasks": 2,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Phase 02 — all 5 plans executed", "status": "done", "commit": "3a148f8"},
+    {"id": 2, "name": "All summaries written (02-01 through 02-05)", "status": "done", "commit": "3a148f8"}
+  ],
+  "remaining_tasks": [
+    {"id": 3, "name": "Formal phase verification (gsd-verify-work)", "status": "not_started"},
+    {"id": 4, "name": "Plan Phase 03 (Browse Views)", "status": "not_started"}
+  ],
+  "blockers": [],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {
+      "action": "Visual browser testing of SettingsPage, iOSInstallPrompt, DashboardPage greeting",
+      "context": "Coverage items D1, D2, D6, D7, D9 require human_judgment=true — they need browser interaction or a physical iOS device (UA spoofing) to verify language switching, prompt trigger logic, and greeting rendering",
+      "blocking": false
+    }
+  ],
+  "decisions": [
+    {"decision": "iOSInstallPrompt JSX alias: named iOSInstallPrompt (iOS convention), imported as IOSInstallPrompt", "rationale": "React requires JSX components to start with uppercase", "phase": "02"},
+    {"decision": "useSettings uses LANG_KEY import from @/i18n", "rationale": "Single source of truth for localStorage key name", "phase": "02"},
+    {"decision": "Three-layer iOS prompt guard: UIStore + localStorage + UA check", "rationale": "Prevents re-appearing after page reload or cross-session", "phase": "02"},
+    {"decision": "DashboardPage: undefined from useLiveQuery = loading, not missing-profile", "rationale": "useLiveQuery returns undefined while loading, then the actual value", "phase": "02"},
+    {"decision": "DataPlaceholder rows are intentionally disabled (not stubs)", "rationale": "Backend for export/import deferred to Phase 04", "phase": "02"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Run /gsd-verify-work to formally verify Phase 02, then /gsd-plan-phase for Phase 03 (Browse Views: Dashboard word list, Meanings, Word Forms, Categories, Timeline)",
+  "context_notes": "Phase 02 is fully complete — all 5 plans executed, 73 tests passing, TypeScript clean, build succeeds (638kB). STATE.md status is 'verifying' which is the correct gate state before moving to Phase 03. No blockers. The only pending items are browser/device visual checks (non-blocking)."
+}
