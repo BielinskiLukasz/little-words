@@ -117,7 +117,7 @@ export function LanguageChips<TFieldValues extends FieldValues>({
                 onChange={(e) => setCustomInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={t('placeholder.otherLanguage')}
-                className="flex-1 px-3 py-1.5 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
+                className="flex-1 px-3 py-1.5 text-sm text-gray-900 bg-white border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
               />
               <Button
                 type="button"

@@ -63,7 +63,7 @@ export function MedicalContextSection({ register }: MedicalContextSectionProps) 
             </label>
             <textarea
               {...register('parentNotes')}
-              className="w-full px-3 py-2 text-sm border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              className="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               rows={3}
               placeholder=""
             />

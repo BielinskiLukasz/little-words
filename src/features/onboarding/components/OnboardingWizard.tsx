@@ -79,7 +79,7 @@ export function OnboardingWizard() {
               {...register('name')}
               type="text"
               placeholder={t('placeholder.name')}
-              className={`w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 ${
+              className={`w-full px-4 py-2.5 border rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 ${
                 errors.name ? 'border-red-500' : 'border-gray-300'
               }`}
             />
@@ -97,7 +97,7 @@ export function OnboardingWizard() {
             <input
               {...register('birthDate')}
               type="date"
-              className={`w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 ${
+              className={`w-full px-4 py-2.5 border rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 ${
                 errors.birthDate ? 'border-red-500' : 'border-gray-300'
               }`}
             />
