@@ -112,7 +112,7 @@ export function ProfileEditForm({
           {...register('birthDate')}
           id="profile-birth-date"
           type="date"
-          autoComplete="bday"
+          autoComplete="off"
           className={`w-full px-4 py-2.5 border rounded-lg text-sm text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring ${
             errors.birthDate ? 'border-red-500' : 'border-input'
           }`}
