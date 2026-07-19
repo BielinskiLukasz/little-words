@@ -29,7 +29,7 @@ export function MedicalContextSection({ register }: MedicalContextSectionProps) 
         </button>
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <div className="space-y-4 rounded-b-lg border border-t-0 border-border bg-amber-50/50 px-4 py-4">
+        <div className="space-y-4 rounded-b-lg border border-t-0 border-border bg-muted/30 px-4 py-4">
           <label className="flex items-center gap-3 cursor-pointer">
             <input
               {...register('prematureBirth')}
@@ -58,11 +58,12 @@ export function MedicalContextSection({ register }: MedicalContextSectionProps) 
           </label>
 
           <div>
-            <label className="block text-sm font-medium text-foreground mb-1">
+            <label htmlFor="medical-parent-notes" className="block text-sm font-medium text-foreground mb-1">
               {t('field.parentNotes')}
             </label>
             <textarea
               {...register('parentNotes')}
+              id="medical-parent-notes"
               className="w-full px-3 py-2 text-sm text-foreground bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               rows={3}
               placeholder=""
