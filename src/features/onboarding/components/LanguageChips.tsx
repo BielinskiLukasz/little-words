@@ -112,7 +112,10 @@ export function LanguageChips<TFieldValues extends FieldValues>({
             {/* Custom language input */}
             <div className="flex gap-2 mt-2">
               <input
+                id="custom-language-input"
                 type="text"
+                name="customLanguage"
+                autoComplete="off"
                 value={customInput}
                 onChange={(e) => setCustomInput(e.target.value)}
                 onKeyDown={handleKeyDown}

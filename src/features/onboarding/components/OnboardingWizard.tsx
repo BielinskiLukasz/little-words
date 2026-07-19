@@ -71,13 +71,15 @@ export function OnboardingWizard() {
         >
           {/* Child Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label htmlFor="child-name" className="block text-sm font-medium text-gray-700 mb-1.5">
               {t('field.name')}
               <span className="text-red-500 ml-0.5">*</span>
             </label>
             <input
               {...register('name')}
+              id="child-name"
               type="text"
+              autoComplete="off"
               placeholder={t('placeholder.name')}
               className={`w-full px-4 py-2.5 border rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 ${
                 errors.name ? 'border-red-500' : 'border-gray-300'
@@ -90,13 +92,15 @@ export function OnboardingWizard() {
 
           {/* Birth Date */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label htmlFor="child-birth-date" className="block text-sm font-medium text-gray-700 mb-1.5">
               {t('field.birthDate')}
               <span className="text-red-500 ml-0.5">*</span>
             </label>
             <input
               {...register('birthDate')}
+              id="child-birth-date"
               type="date"
+              autoComplete="off"
               className={`w-full px-4 py-2.5 border rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 ${
                 errors.birthDate ? 'border-red-500' : 'border-gray-300'
               }`}
@@ -108,10 +112,10 @@ export function OnboardingWizard() {
 
           {/* Languages */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <div id="languages-label" className="block text-sm font-medium text-gray-700 mb-1.5">
               {t('field.languages')}
               <span className="text-red-500 ml-0.5">*</span>
-            </label>
+            </div>
             <LanguageChips control={control} name="languages" />
             {errors.languages && (
               <p className="text-red-600 text-xs mt-1">{t('error.languageRequired')}</p>
