@@ -57,6 +57,10 @@
       "save": "Zapisz zmiany"
     }
   },
+  "dashboard": {
+    "greeting": "Cześć, {{name}}!",
+    "tracking": "Śledzenie słów {{name}}"
+  },
   "category": {
     "Nouns": "Rzeczowniki",
     "Verbs": "Czasowniki",

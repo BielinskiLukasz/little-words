@@ -55,6 +55,10 @@
       "save": "Save changes"
     }
   },
+  "dashboard": {
+    "greeting": "Hello, {{name}}!",
+    "tracking": "Tracking {{name}}'s words"
+  },
   "category": {
     "Nouns": "Nouns",
     "Verbs": "Verbs",

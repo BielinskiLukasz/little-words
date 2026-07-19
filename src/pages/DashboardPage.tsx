@@ -17,11 +17,11 @@ export function DashboardPage() {
   return (
     <div className="flex flex-col gap-4 p-6">
       <h1 className="text-2xl font-bold">
-        {profile ? `Hello, ${profile.name}!` : t('nav.dashboard')}
+        {profile ? t('dashboard.greeting', { name: profile.name }) : t('nav.dashboard')}
       </h1>
       <p className="text-muted-foreground">
         {profile
-          ? `Tracking ${profile.name}'s words`
+          ? t('dashboard.tracking', { name: profile.name })
           : t('nav.dashboard')}
       </p>
     </div>
