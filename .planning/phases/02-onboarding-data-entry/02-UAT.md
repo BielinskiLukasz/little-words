@@ -1,5 +1,5 @@
 ---
-status: testing
+status: complete
 phase: 02-onboarding-data-entry
 source: [02-01-SUMMARY.md, 02-02-SUMMARY.md, 02-03-SUMMARY.md, 02-04-SUMMARY.md, 02-05-SUMMARY.md]
 started: 2026-07-19T00:00:00Z
@@ -8,11 +8,7 @@ updated: 2026-07-20T00:00:00Z
 
 ## Current Test
 
-number: 8
-name: Settings — page shows 4 sections
-expected: |
-  Navigate to the Settings tab (the "More" tab in the bottom nav). The Settings page shows four distinct sections: Language, Profile, Data, and About. The Language section has PL/EN toggle buttons. The Profile section has an "Edit Profile" link. The Data section has disabled rows (Export JSON, Import JSON, Export CSV) marked as "Coming Soon". The About section shows the app name and a version number.
-awaiting: user response
+none — all 11 tests complete
 
 ## Tests
 
@@ -55,26 +51,26 @@ result: pass
 
 ### 8. Settings — page shows 4 sections
 expected: Navigate to the Settings tab (the "More" tab in the bottom nav). The Settings page shows four distinct sections: Language, Profile, Data, and About. The Language section has PL/EN toggle buttons. The Profile section has an "Edit Profile" link. The Data section has disabled rows (Export JSON, Import JSON, Export CSV) marked as "Coming Soon". The About section shows the app name and a version number.
-result: [pending]
+result: pass
 
 ### 9. Settings — language switcher (PL → EN)
 expected: In the Settings page, tap the "EN" button in the Language section. The UI labels across the app should switch to English immediately — no page reload or save button needed. Tap "PL" to switch back.
-result: [pending]
+result: pass
 
 ### 10. Settings — Profile Edit navigation
-expected: In the Settings page, tap the "Edit Profile" link. The app navigates to the Profile Edit page (URL becomes /#/profile/edit). The form is pre-filled with the child's name, birth date, and language choices from onboarding. Editing and saving should work (a browser alert appears confirming save — this is a known temporary behavior for this phase).
-result: [pending]
+expected: In the Settings page, tap the "Edit Profile" link. The app navigates to the Profile Edit page (URL becomes /#/profile/edit). The form is pre-filled with the child's name, birth date, and language choices from onboarding. Editing and saving navigates back without an alert.
+result: pass
 
 ### 11. Onboarding — Medical Context section collapses/expands
 expected: On the Onboarding screen (visible in a fresh private/incognito tab), there is a "Medical context" section that is collapsed by default. Tapping it expands to reveal three checkboxes (premature birth, speech therapy, neurological care) and a notes textarea. Tapping again collapses it.
-result: [pending]
+result: pass
 
 ## Summary
 
 total: 11
-passed: 6
+passed: 10
 issues: 3
-pending: 4
+pending: 0
 skipped: 0
 blocked: 0
 
