@@ -57,6 +57,22 @@
       "save": "Zapisz zmiany"
     }
   },
+  "category": {
+    "Nouns": "Rzeczowniki",
+    "Verbs": "Czasowniki",
+    "Adjectives": "Przymiotniki",
+    "People": "Ludzie",
+    "Food": "Jedzenie",
+    "Animals": "Zwierzęta",
+    "Vehicles": "Pojazdy",
+    "Body Parts": "Części ciała",
+    "Onomatopoeia": "Onomatopeja",
+    "Requests": "Prośby",
+    "Social Communication": "Komunikacja społeczna",
+    "Emotions": "Emocje",
+    "Places": "Miejsca",
+    "Other": "Inne"
+  },
   "ios": {
     "title": "Chroń swoje dane",
     "step1": "Dotknij ikonę Udostępnij u dołu przeglądarki",

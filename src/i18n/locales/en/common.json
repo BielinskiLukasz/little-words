@@ -55,6 +55,22 @@
       "save": "Save changes"
     }
   },
+  "category": {
+    "Nouns": "Nouns",
+    "Verbs": "Verbs",
+    "Adjectives": "Adjectives",
+    "People": "People",
+    "Food": "Food",
+    "Animals": "Animals",
+    "Vehicles": "Vehicles",
+    "Body Parts": "Body Parts",
+    "Onomatopoeia": "Onomatopoeia",
+    "Requests": "Requests",
+    "Social Communication": "Social Communication",
+    "Emotions": "Emotions",
+    "Places": "Places",
+    "Other": "Other"
+  },
   "ios": {
     "title": "Protect your data",
     "step1": "Tap the Share icon at the bottom of your browser",

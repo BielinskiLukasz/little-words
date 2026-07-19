@@ -8,14 +8,10 @@ updated: 2026-07-20T00:00:00Z
 
 ## Current Test
 
-number: 6
-name: Add Entry — meaning autocomplete and existing-meanings preview
+number: 8
+name: Settings — page shows 4 sections
 expected: |
-  Open the Add Entry sheet again. Type the same word form you just saved (e.g. "mama").
-  Wait ~0.5s — the existing-meanings preview should appear below the word input showing the meaning you saved.
-  
-  Then in the meaning text field, type the first letter(s) of the meaning you saved (e.g. "mo").
-  Expected: A dropdown of suggestions appears. Selecting one fills the meaning field.
+  Navigate to the Settings tab (the "More" tab in the bottom nav). The Settings page shows four distinct sections: Language, Profile, Data, and About. The Language section has PL/EN toggle buttons. The Profile section has an "Edit Profile" link. The Data section has disabled rows (Export JSON, Import JSON, Export CSV) marked as "Coming Soon". The About section shows the app name and a version number.
 awaiting: user response
 
 ## Tests
@@ -48,7 +44,10 @@ fixed: "Replaced hardcoded bg-white/border-gray-200/hover:bg-gray-50 with bg-bac
 
 ### 6. Add Entry — category chips horizontal scroll
 expected: In the Add Entry sheet, the category chips row (below the meaning text field) shows multiple category badges. If there are more chips than fit on screen, you can scroll horizontally to see all 14 categories. Tapping a chip selects/deselects it (badge appearance changes).
-result: [pending]
+result: issue
+reported: "all have only english values. switching to polish dont change them"
+severity: minor
+fixed: "Added category.* translation keys to en/common.json and pl/common.json; updated CategoryChips.tsx to use t(`category.${cat}`) instead of rendering raw schema constant"
 
 ### 7. Add Entry — save entry successfully
 expected: Fill in the Add Entry sheet (word form + at least one meaning), then tap Save. The sheet closes. No error message appears. If you reopen the sheet and type the same word form, the existing-meanings preview should now show the meaning you just saved.
@@ -73,9 +72,9 @@ result: [pending]
 ## Summary
 
 total: 11
-passed: 4
-issues: 2
-pending: 5
+passed: 6
+issues: 3
+pending: 4
 skipped: 0
 blocked: 0
 

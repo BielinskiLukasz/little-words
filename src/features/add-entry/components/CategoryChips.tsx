@@ -33,7 +33,7 @@ export function CategoryChips({ value, onChange }: CategoryChipsProps) {
               className="cursor-pointer flex-shrink-0 select-none"
               onClick={() => toggleCategory(cat)}
             >
-              {cat}
+              {t(`category.${cat}`)}
             </Badge>
           ))}
         </div>
