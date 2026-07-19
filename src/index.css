@@ -64,7 +64,7 @@
     --color-border: var(--border);
     --color-input: var(--input);
     --color-ring: var(--ring);
-    color-scheme: light;
+    color-scheme: light dark;
   }
 
   @media (prefers-color-scheme: dark) {
