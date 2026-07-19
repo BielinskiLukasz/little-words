@@ -75,7 +75,7 @@ export function LanguageChips<TFieldValues extends FieldValues>({
                   >
                     <Badge
                       variant={isSelected ? 'default' : 'outline'}
-                      className="cursor-pointer select-none"
+                      className={`cursor-pointer select-none ${isSelected ? 'text-white' : 'text-gray-700'}`}
                     >
                       {label}
                       {isSelected && (
