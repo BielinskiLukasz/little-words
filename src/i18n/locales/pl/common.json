@@ -59,7 +59,7 @@
   },
   "dashboard": {
     "greeting": "Cześć, {{name}}!",
-    "tracking": "Śledzenie słów {{name}}"
+    "tracking": "Dziennik rozwoju mowy"
   },
   "category": {
     "Nouns": "Rzeczowniki",

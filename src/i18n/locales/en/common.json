@@ -57,7 +57,7 @@
   },
   "dashboard": {
     "greeting": "Hello, {{name}}!",
-    "tracking": "Tracking {{name}}'s words"
+    "tracking": "Speech development journal"
   },
   "category": {
     "Nouns": "Nouns",

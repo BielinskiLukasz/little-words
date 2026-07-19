@@ -20,9 +20,7 @@ export function DashboardPage() {
         {profile ? t('dashboard.greeting', { name: profile.name }) : t('nav.dashboard')}
       </h1>
       <p className="text-muted-foreground">
-        {profile
-          ? t('dashboard.tracking', { name: profile.name })
-          : t('nav.dashboard')}
+        {profile ? t('dashboard.tracking') : t('nav.dashboard')}
       </p>
     </div>
   )
