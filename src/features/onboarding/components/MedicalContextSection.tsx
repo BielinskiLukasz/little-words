@@ -36,7 +36,7 @@ export function MedicalContextSection({ register }: MedicalContextSectionProps) 
               type="checkbox"
               className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
             />
-            <span className="text-sm text-gray-700">{t('field.prematureBirth')}</span>
+            <span className="text-sm text-foreground">{t('field.prematureBirth')}</span>
           </label>
 
           <label className="flex items-center gap-3 cursor-pointer">
@@ -45,7 +45,7 @@ export function MedicalContextSection({ register }: MedicalContextSectionProps) 
               type="checkbox"
               className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
             />
-            <span className="text-sm text-gray-700">{t('field.speechTherapy')}</span>
+            <span className="text-sm text-foreground">{t('field.speechTherapy')}</span>
           </label>
 
           <label className="flex items-center gap-3 cursor-pointer">
@@ -54,16 +54,16 @@ export function MedicalContextSection({ register }: MedicalContextSectionProps) 
               type="checkbox"
               className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
             />
-            <span className="text-sm text-gray-700">{t('field.neurologicalCare')}</span>
+            <span className="text-sm text-foreground">{t('field.neurologicalCare')}</span>
           </label>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
               {t('field.parentNotes')}
             </label>
             <textarea
               {...register('parentNotes')}
-              className="w-full px-3 py-2 text-sm text-gray-900 bg-white border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              className="w-full px-3 py-2 text-sm text-foreground bg-background border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring resize-none"
               rows={3}
               placeholder=""
             />

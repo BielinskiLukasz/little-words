@@ -55,13 +55,13 @@ export function OnboardingWizard() {
   }
 
   return (
-    <div className="min-h-dvh bg-gradient-to-br from-white to-amber-50 flex flex-col">
+    <div className="min-h-dvh bg-gradient-to-br from-background to-amber-50 flex flex-col">
       <div className="flex-1 overflow-y-auto p-4 pb-28 space-y-6 max-w-md mx-auto w-full">
         <header className="text-center pt-8 mb-2">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-foreground">
             {t('title', { name: childName || '…' })}
           </h1>
-          <p className="text-sm text-gray-600 mt-2">{t('subtitle')}</p>
+          <p className="text-sm text-muted-foreground mt-2">{t('subtitle')}</p>
         </header>
 
         <form
@@ -71,7 +71,7 @@ export function OnboardingWizard() {
         >
           {/* Child Name */}
           <div>
-            <label htmlFor="child-name" className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label htmlFor="child-name" className="block text-sm font-medium text-foreground mb-1.5">
               {t('field.name')}
               <span className="text-red-500 ml-0.5">*</span>
             </label>
@@ -81,8 +81,8 @@ export function OnboardingWizard() {
               type="text"
               autoComplete="off"
               placeholder={t('placeholder.name')}
-              className={`w-full px-4 py-2.5 border rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 ${
-                errors.name ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-2.5 border rounded-lg text-sm text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring ${
+                errors.name ? 'border-red-500' : 'border-input'
               }`}
             />
             {errors.name && (
@@ -92,7 +92,7 @@ export function OnboardingWizard() {
 
           {/* Birth Date */}
           <div>
-            <label htmlFor="child-birth-date" className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label htmlFor="child-birth-date" className="block text-sm font-medium text-foreground mb-1.5">
               {t('field.birthDate')}
               <span className="text-red-500 ml-0.5">*</span>
             </label>
@@ -101,8 +101,8 @@ export function OnboardingWizard() {
               id="child-birth-date"
               type="date"
               autoComplete="off"
-              className={`w-full px-4 py-2.5 border rounded-lg text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-amber-400 ${
-                errors.birthDate ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-2.5 border rounded-lg text-sm text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring ${
+                errors.birthDate ? 'border-red-500' : 'border-input'
               }`}
             />
             {errors.birthDate && (
@@ -112,7 +112,7 @@ export function OnboardingWizard() {
 
           {/* Languages */}
           <div>
-            <div id="languages-label" className="block text-sm font-medium text-gray-700 mb-1.5">
+            <div id="languages-label" className="block text-sm font-medium text-foreground mb-1.5">
               {t('field.languages')}
               <span className="text-red-500 ml-0.5">*</span>
             </div>
@@ -128,7 +128,7 @@ export function OnboardingWizard() {
       </div>
 
       {/* Sticky submit button */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-white via-white to-transparent pt-6 pb-6 px-4">
+      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-transparent pt-6 pb-6 px-4">
         <div className="max-w-md mx-auto">
           <Button
             type="submit"
