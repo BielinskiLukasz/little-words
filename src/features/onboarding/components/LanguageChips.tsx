@@ -38,10 +38,12 @@ export function LanguageChips<TFieldValues extends FieldValues>({
           } else {
             field.onChange([...value, label])
           }
+          field.onBlur()
         }
 
         const removeChip = (lang: string) => {
           field.onChange(value.filter((l) => l !== lang))
+          field.onBlur()
         }
 
         const addCustom = () => {
@@ -50,6 +52,7 @@ export function LanguageChips<TFieldValues extends FieldValues>({
             field.onChange([...value, trimmed])
           }
           setCustomInput('')
+          field.onBlur()
         }
 
         const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
