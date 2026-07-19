@@ -7,6 +7,13 @@ export async function saveChildProfile(
   return db.childProfile.add(profile) as Promise<number>
 }
 
+export async function updateChildProfile(
+  id: number,
+  profile: Omit<ChildProfile, 'id'>
+): Promise<void> {
+  await db.childProfile.put({ ...profile, id })
+}
+
 export async function getChildProfile(): Promise<ChildProfile | undefined> {
   return db.childProfile.toCollection().first()
 }

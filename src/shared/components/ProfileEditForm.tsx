@@ -83,16 +83,18 @@ export function ProfileEditForm({
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
       {/* Child Name */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+        <label htmlFor="profile-name" className="block text-sm font-medium text-foreground mb-1.5">
           {t('field.name')}
           <span className="text-red-500 ml-0.5">*</span>
         </label>
         <input
           {...register('name')}
+          id="profile-name"
           type="text"
+          autoComplete="name"
           placeholder={t('placeholder.name')}
-          className={`w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 ${
-            errors.name ? 'border-red-500' : 'border-gray-300'
+          className={`w-full px-4 py-2.5 border rounded-lg text-sm text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring ${
+            errors.name ? 'border-red-500' : 'border-input'
           }`}
         />
         {errors.name && (
@@ -102,15 +104,17 @@ export function ProfileEditForm({
 
       {/* Birth Date */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+        <label htmlFor="profile-birth-date" className="block text-sm font-medium text-foreground mb-1.5">
           {t('field.birthDate')}
           <span className="text-red-500 ml-0.5">*</span>
         </label>
         <input
           {...register('birthDate')}
+          id="profile-birth-date"
           type="date"
-          className={`w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 ${
-            errors.birthDate ? 'border-red-500' : 'border-gray-300'
+          autoComplete="bday"
+          className={`w-full px-4 py-2.5 border rounded-lg text-sm text-foreground bg-background focus:outline-none focus:ring-2 focus:ring-ring ${
+            errors.birthDate ? 'border-red-500' : 'border-input'
           }`}
         />
         {errors.birthDate && (
@@ -120,10 +124,10 @@ export function ProfileEditForm({
 
       {/* Languages */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+        <div id="profile-languages-label" className="block text-sm font-medium text-foreground mb-1.5">
           {t('field.languages')}
           <span className="text-red-500 ml-0.5">*</span>
-        </label>
+        </div>
         <LanguageChips control={control} name="languages" />
         {errors.languages && (
           <p className="text-red-600 text-xs mt-1">{t('error.languageRequired')}</p>
