@@ -15,11 +15,14 @@ export function MeaningInput({ row, onChange }: MeaningInputProps) {
     <div className="space-y-3 p-3 rounded-lg border border-border">
       {/* Meaning text input with autocomplete */}
       <div className="relative">
-        <label className="block text-sm font-medium text-foreground mb-1">
+        <label htmlFor={`meaning-text-${row.id}`} className="block text-sm font-medium text-foreground mb-1">
           {t('addWord.meaningLabel')}
         </label>
         <input
+          id={`meaning-text-${row.id}`}
+          name={`meaningText-${row.id}`}
           type="text"
+          autoComplete="off"
           value={row.text}
           onChange={(e) => onChange({ text: e.target.value })}
           className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -33,11 +36,14 @@ export function MeaningInput({ row, onChange }: MeaningInputProps) {
 
       {/* First use date */}
       <div>
-        <label className="block text-sm font-medium text-foreground mb-1">
+        <label htmlFor={`meaning-date-${row.id}`} className="block text-sm font-medium text-foreground mb-1">
           {t('addWord.dateLabel')}
         </label>
         <input
+          id={`meaning-date-${row.id}`}
+          name={`meaningDate-${row.id}`}
           type="date"
+          autoComplete="off"
           value={row.firstUseDate}
           onChange={(e) => onChange({ firstUseDate: e.target.value })}
           className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
