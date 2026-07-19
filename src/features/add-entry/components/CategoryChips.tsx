@@ -20,10 +20,10 @@ export function CategoryChips({ value, onChange }: CategoryChipsProps) {
   }
 
   return (
-    <div>
-      <label className="block text-sm font-medium text-foreground mb-1">
+    <div role="group" aria-labelledby="category-chips-label">
+      <span id="category-chips-label" className="block text-sm font-medium text-foreground mb-1">
         {t('addWord.categoriesLabel')}
-      </label>
+      </span>
       <div className="overflow-x-auto -mx-1 px-1">
         <div className="flex gap-2 flex-nowrap pb-1">
           {CATEGORIES.map((cat) => (
