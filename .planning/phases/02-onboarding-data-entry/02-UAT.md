@@ -8,43 +8,43 @@ updated: 2026-07-20T00:00:00Z
 
 ## Current Test
 
-number: 1
-name: Onboarding Wizard — fill and submit
+number: 6
+name: Add Entry — meaning autocomplete and existing-meanings preview
 expected: |
-  Open the app in a fresh private/incognito tab (so no profile exists yet).
-  You should see the Onboarding screen. Fill in:
-  - Child's name (any name)
-  - Birth date (pick any date from the calendar)
-  - At least one language chip (Polish or English should already be selectable)
-  Then tap "Get started" (or equivalent submit button).
+  Open the Add Entry sheet again. Type the same word form you just saved (e.g. "mama").
+  Wait ~0.5s — the existing-meanings preview should appear below the word input showing the meaning you saved.
   
-  Expected: A welcome screen appears with an animated checkmark. After about 2 seconds, the app automatically redirects to the Dashboard. The submit button should be disabled until the form is valid.
+  Then in the meaning text field, type the first letter(s) of the meaning you saved (e.g. "mo").
+  Expected: A dropdown of suggestions appears. Selecting one fills the meaning field.
 awaiting: user response
 
 ## Tests
 
 ### 1. Onboarding Wizard — fill and submit
 expected: Open the app in a fresh private/incognito tab (no profile). Fill in child name, pick a birth date, select at least one language chip, then tap "Get started". Expected: welcome screen with animated checkmark appears, then auto-redirects to Dashboard after ~2 seconds.
-result: issue
+result: pass (after fix)
 reported: "I cannot click get started until i click medical context (even without add any). I should click get started without clicking medical context."
-severity: major
 fixed: "Called field.onBlur() after each chip change in LanguageChips.tsx so that react-hook-form validates the languages field on chip selection (mode: 'onBlur' only validates on blur events; chips only fired onChange)"
 
 ### 2. Dashboard — child name greeting
 expected: After completing onboarding, the Dashboard shows a greeting that includes the child's name you entered. (Not a generic "coming soon" stub — a real greeting with the name.)
-result: [pending]
+result: pass
+note: "line below name is partially visible or read it too slowly — likely the WelcomeScreen subtitle flashing past in 2 seconds before redirect"
 
 ### 3. Add Entry FAB — visible and opens sheet
 expected: From the Dashboard (or any main tab), a floating action button (FAB) is visible at the bottom-right of the screen, above the bottom navigation bar. Tapping it opens a bottom sheet that slides up from the bottom, taking up roughly 90% of the screen height.
-result: [pending]
+result: pass
 
 ### 4. Add Entry — word form input with existing-meanings preview
 expected: In the Add Entry sheet, type a word in the "Word form" field (e.g. "mama"). After a brief pause (~0.5s), if that word was previously saved, a preview of its existing meanings should appear below the input. For a first entry there will be no preview — that is expected.
-result: [pending]
+result: pass
 
 ### 5. Add Entry — meaning autocomplete dropdown
 expected: After saving at least one entry (Test 4 above), open the Add Entry sheet again and start typing in the meaning text field. Type the first letter(s) of a meaning you previously saved. A dropdown of suggestions should appear below the field. Selecting a suggestion fills the meaning field.
-result: [pending]
+result: issue
+reported: "dropdown list have white color in dark mode so text isn't visible"
+severity: major
+fixed: "Replaced hardcoded bg-white/border-gray-200/hover:bg-gray-50 with bg-background/border-border/hover:bg-muted/text-foreground CSS variable utilities in MeaningAutocomplete.tsx"
 
 ### 6. Add Entry — category chips horizontal scroll
 expected: In the Add Entry sheet, the category chips row (below the meaning text field) shows multiple category badges. If there are more chips than fit on screen, you can scroll horizontally to see all 14 categories. Tapping a chip selects/deselects it (badge appearance changes).
@@ -52,7 +52,7 @@ result: [pending]
 
 ### 7. Add Entry — save entry successfully
 expected: Fill in the Add Entry sheet (word form + at least one meaning), then tap Save. The sheet closes. No error message appears. If you reopen the sheet and type the same word form, the existing-meanings preview should now show the meaning you just saved.
-result: [pending]
+result: pass
 
 ### 8. Settings — page shows 4 sections
 expected: Navigate to the Settings tab (the "More" tab in the bottom nav). The Settings page shows four distinct sections: Language, Profile, Data, and About. The Language section has PL/EN toggle buttons. The Profile section has an "Edit Profile" link. The Data section has disabled rows (Export JSON, Import JSON, Export CSV) marked as "Coming Soon". The About section shows the app name and a version number.
@@ -73,9 +73,9 @@ result: [pending]
 ## Summary
 
 total: 11
-passed: 0
-issues: 1
-pending: 10
+passed: 4
+issues: 2
+pending: 5
 skipped: 0
 blocked: 0
 

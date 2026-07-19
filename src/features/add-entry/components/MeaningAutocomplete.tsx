@@ -19,11 +19,11 @@ export function MeaningAutocomplete({ meaningText, onSelect }: MeaningAutocomple
   )
 
   return (
-    <ul className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50">
+    <ul className="absolute top-full left-0 right-0 bg-background border border-border rounded-lg shadow-lg max-h-48 overflow-y-auto z-50">
       {suggestions.map((suggestion) => (
         <li
           key={suggestion.id}
-          className="px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer"
+          className="px-3 py-2 text-sm text-foreground hover:bg-muted cursor-pointer"
           onClick={() => onSelect(suggestion.text, false)}
         >
           {suggestion.text}
@@ -31,7 +31,7 @@ export function MeaningAutocomplete({ meaningText, onSelect }: MeaningAutocomple
       ))}
       {!hasExactMatch && meaningText.length > 0 && (
         <li
-          className="px-3 py-2 text-sm text-primary hover:bg-gray-50 cursor-pointer border-t border-gray-100"
+          className="px-3 py-2 text-sm text-primary hover:bg-muted cursor-pointer border-t border-border"
           onClick={() => onSelect(meaningText, true)}
         >
           {t('addWord.createNew', { text: meaningText })}
