@@ -1,7 +1,7 @@
 ---
 phase: 03
 slug: browse-views
-status: draft
+status: approved
 shadcn_initialized: true
 preset: "default, neutral base, OKLCH warm theme, CSS variables"
 created: 2026-07-28
@@ -145,24 +145,52 @@ All copy must use `useTranslation('common')` from react-i18next. Keys should mat
 
 ## UI Considerations
 
-State coverage for Phase 3 list and detail views. Shape-rooted UI states (empty, populated, overflow, long-text, loading).
+State coverage for Phase 3 UI elements. Probe-driven (ui-consideration-probe, 2026-07-28). Elements: E1 Meanings list, E2 Word Forms list, E3 Categories view, E4 Timeline chart, E5 Dashboard hero card, E6 "Review these?" section, E7 Meaning detail page, E8 Word Form detail page.
 
 | Category | Element(s) | Status | Resolution |
 |----------|------------|--------|-----------|
-| **empty** | Meanings list, Word Forms list, Categories, Timeline | ✅ covered | Empty state message with actionable copy as per Copywriting Contract |
-| **populated** | Meanings list with 1+ items, Word Forms list with 1+ items | ✅ covered | List renders rows with sort toggle (Newest first/A–Z default); rows are tappable |
-| **overflow** | List view when >20 items (Meanings, Word Forms) | ✅ covered | Scrollable container; no pagination in v1; sort toggle helps navigation |
-| **long-text** | Meaning text on Meanings list, Word Form text on Word Forms list | ✅ covered | Body text (16px, 1.5 line-height); truncate at 2–3 lines with ellipsis if needed; full text visible on detail page |
-| **long-text** | Category name in Categories view | ✅ covered | Label text (14px); all category names fit in single line (max 25 chars in English/Polish) |
-| **long-text** | Dashboard hero card "Active Meanings" count | ✅ covered | Display size (28px, 1.1 line-height); number-only, no truncation needed |
-| **filtered** | Meanings list with category filter active | ✅ covered | Filter chip ("Filtering: [Category] ×") displayed; × clears filter; list re-renders filtered results |
-| **loading** | First Dashboard load (useLiveQuery warming up) | ✅ covered | App-level splash screen (established Phase 1) shown during DB startup; Dashboard renders immediately after |
-| **loading** | Timeline chart data aggregation | 🧪 backstop | Assume data aggregation is synchronous (Dexie query); no explicit loading spinner (verified in plan phase) |
-| **error** | Dexie query fails (list fetch fails) | ✅ covered | Generic error message rendered via ErrorBoundary; "Something went wrong. Try refreshing." |
-| **error** | Detail page record deleted while viewing | 🧪 backstop | Assume deletion prevents detail page access (navigation validation); if accessed, show "Record not found" error (verified in plan phase) |
-| **transition** | Meaning Active/Inactive toggle on detail page | ✅ covered | Switch component state change is immediate; no confirmation needed; `lastUseDate` update via date picker (separate action) |
-| **zero-one-many** | "Review these?" dashboard section (meanings unused 30+ days) | ✅ covered | Shows 0 items → positive empty message; 1–3 items → list rendered; >3 items → "See all [N]" link to Meanings list |
-| **zero-one-many** | Timeline chart data points | ✅ covered | 0 points → empty state; 1+ points → bar chart (Growth rate) + line chart (Total vocabulary); both views available via tab toggle |
+| **empty** | E1 Meanings list | ✅ covered | "No meanings yet. Add your first one with the + button." rendered when `meanings.length === 0` |
+| **empty** | E2 Word Forms list | ✅ covered | "No word forms yet. Add your first one with the + button." rendered when `wordForms.length === 0` |
+| **empty** | E3 Categories view | ✅ covered | "No meanings yet." when no meanings exist to categorize; uses same empty-state component as list views |
+| **empty** | E4 Timeline | ✅ covered | "No data yet. Log meanings to see growth." rendered when `timeline.length === 0` |
+| **empty** | E5 Dashboard hero card | — dismissed | 0 active meanings renders as "0"; no special empty state; count is always a valid numeric value |
+| **empty** | E6 "Review these?" section | ✅ covered | "All meanings used recently — great job!" when 0 meanings unused for 30+ days |
+| **empty** | E7 Meaning detail | ✅ covered | "No word forms linked yet." when no linked word forms on detail page |
+| **empty** | E8 Word Form detail | ✅ covered | "No meanings linked yet." when no linked meanings on detail page |
+| **populated** | E1 Meanings list | ✅ covered | List renders rows with sort toggle (Newest first / A–Z); rows are tappable and navigate to detail page |
+| **populated** | E2 Word Forms list | ✅ covered | Same as E1; rows navigate to Word Form detail page |
+| **populated** | E3 Categories view | ✅ covered | Category groups rendered with name and meaning count; tapping group filters Meanings list by category |
+| **populated** | E4 Timeline | ✅ covered | Bar chart (Growth rate) and line chart (Total vocabulary) available via tab toggle; date range selector (6m / 12m / all time) |
+| **populated** | E5 Dashboard hero card | ✅ covered | Active Meanings count rendered as Display typography (28px, weight-600, leading-1.1) with "Active meanings" label |
+| **populated** | E6 "Review these?" section | ✅ covered | 1–3 unused meanings rendered as list; >3 meanings shows "See all [N]" link to Meanings list |
+| **overflow** | E1 Meanings list | ✅ covered | Scrollable container; no pagination in v1; sort toggle aids navigation through large lists |
+| **overflow** | E2 Word Forms list | ✅ covered | Same as E1 |
+| **overflow** | E3 Categories view | ✅ covered | Scrollable list of category groups; no overflow truncation on category names (max ~25 chars) |
+| **overflow** | E4 Timeline | ✅ covered | Chart renders within viewport; date range selector limits data window to 6m / 12m / all time |
+| **overflow** | E5 Dashboard hero card | — dismissed | Single numeric value; Display typography slot cannot overflow |
+| **overflow** | E6 "Review these?" section | ✅ covered | Hard cap at 3 visible items + "See all [N]" link; overflow is structurally impossible |
+| **long-text** | E1 Meanings list | ✅ covered | Body text (16px, leading-1.5); truncate at 2–3 lines with ellipsis; full text visible on Meaning detail page |
+| **long-text** | E2 Word Forms list | ✅ covered | Same treatment as E1 |
+| **long-text** | E3 Categories view | ✅ covered | Label text (14px); category names fit single line (max ~25 chars in English/Polish) |
+| **long-text** | E4 Timeline | ✅ covered | Chart axis labels auto-truncated by Recharts; date range labels use Label (14px) scale |
+| **long-text** | E7 Meaning detail | ✅ covered | Full text displayed (no truncation on detail page); Body (16px, leading-1.5); Heading (20px) for meaning name |
+| **long-text** | E8 Word Form detail | ✅ covered | Same as E7; full word form text always displayed |
+| **zero-one-many** | E1 Meanings list | ✅ covered | 0 → empty state; 1+ → list rows; no count display |
+| **zero-one-many** | E2 Word Forms list | ✅ covered | Same as E1 |
+| **zero-one-many** | E3 Categories view | ✅ covered | 0 categories → empty state; 1 category → single group; many → scrollable list |
+| **zero-one-many** | E4 Timeline | ✅ covered | 0 data points → empty state; 1+ → chart renders; view toggle always available |
+| **zero-one-many** | E5 Dashboard hero card | — dismissed | Hero card shows count as Display number; no structural difference between 0, 1, or many |
+| **zero-one-many** | E6 "Review these?" section | ✅ covered | 0 → positive empty message; 1–3 → list; >3 → "See all [N]" link to full Meanings list |
+| **filtered** | E1 Meanings list | ✅ covered | Filter chip ("Filtering: [Category] ×") displayed when `?category=` query param active; × clears filter via `useSearchParams` |
+| **loading** | E1–E8 all views | 🧪 backstop | useLiveQuery is synchronous post-startup; app-level splash (Phase 1) covers startup gap; verify in plan phase that no inline spinner or skeleton is needed for individual views |
+| **loading** | E4 Timeline aggregation | 🧪 backstop | Assume `getVocabularyGrowthTimeline` Dexie query is synchronous; no explicit loading spinner for chart; verify in plan phase |
+| **error** | E1–E3 list fetch fails | ✅ covered | ErrorBoundary renders "Something went wrong. Try refreshing." for any Dexie query failure |
+| **error** | E4 Timeline fetch fails | ✅ covered | ErrorBoundary handles failed aggregation query; same generic error message |
+| **error** | E5–E6 dashboard queries fail | ✅ covered | ErrorBoundary at page level; dashboard sections degrade gracefully |
+| **error** | E7 Meaning detail — record not found | 🧪 backstop | Assume deletion prevents navigation to detail page; if record missing, render "Record not found" error; verify navigation guard in plan phase |
+| **error** | E8 Word Form detail — record not found | 🧪 backstop | Same as E7; verify navigation guard in plan phase |
+| **partial** | E1–E8 all elements | 🧪 backstop | Dexie useLiveQuery returns complete results (all-or-nothing); no partial loading expected; verify in plan phase that no streaming or incremental fetch occurs |
+| **transition** | E7 Meaning detail — Active/Inactive toggle | ✅ covered | Switch component state change is immediate; no confirmation needed; `lastUseDate` update via date picker is a separate, independent action |
 
 ---
 
@@ -222,14 +250,14 @@ All components installed directly into `src/components/ui/` as TypeScript/JSX so
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 — Copywriting: All empty/error/CTA strings defined per contract
-- [ ] Dimension 2 — Visuals: Component install list complete; 4 new shadcn components specified
-- [ ] Dimension 3 — Color: 60/30/10 split confirmed; accent usage explicitly listed
-- [ ] Dimension 4 — Typography: 4 sizes (Body/Label/Heading/Display) with weights and line-heights specified
-- [ ] Dimension 5 — Spacing: 8-point scale with no exceptions; sensible defaults documented
-- [ ] Dimension 6 — Registry Safety: shadcn official registry only; 4 new blocks listed; no third-party registries
+- [x] Dimension 1 — Copywriting: All empty/error/CTA strings defined per contract (FLAG: date picker copy + "Cancel" label — non-blocking)
+- [x] Dimension 2 — Visuals: Component install list complete; 4 new shadcn components specified (FLAG: no explicit focal point section; filter icon a11y label — non-blocking)
+- [x] Dimension 3 — Color: 60/30/10 split confirmed; accent usage explicitly listed
+- [x] Dimension 4 — Typography: 4 sizes (Body/Label/Heading/Display) with weights and line-heights specified
+- [x] Dimension 5 — Spacing: 8-point scale with no exceptions; sensible defaults documented
+- [x] Dimension 6 — Registry Safety: shadcn official registry only; 4 new blocks listed; no third-party registries
 
-**Approval:** pending (awaiting gsd-ui-checker validation)
+**Approval:** APPROVED — gsd-ui-checker verified 2026-07-28 (4 PASS, 2 FLAG non-blocking)
 
 ---
 
