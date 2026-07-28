@@ -90,7 +90,16 @@ Plans:
   4. The Categories view shows each default category with its meaning count; tapping a category filters to that category's meanings
   5. The Timeline view displays monthly vocabulary growth as both a chart and a data table
 
-**Plans**: TBD
+**Plans**: 4 plans
+Plans:
+**Wave 1**
+- [ ] 03-01-PLAN.md — Tracer: Dashboard with metrics cards, install Shadcn components (switch, alert-dialog, chart, table), service layer extensions
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 03-02-PLAN.md — Meanings list and detail pages with sort toggle, category filter, Active/Inactive toggle, lastUseDate picker
+- [ ] 03-03-PLAN.md — Word Forms list and detail pages with sort toggle, delete confirmation
+- [ ] 03-04-PLAN.md — Categories view and Timeline view with bar/line charts, date range selector, aggregation queries
+
 **UI hint**: yes
 
 ### Phase 4: Doctor Report & Data Management
