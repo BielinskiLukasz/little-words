@@ -124,6 +124,26 @@
       "description": "Spowoduje to usunięcie formy słowa, ale powiązane znaczenia pozostaną. Kontynuować?"
     }
   },
+  "categories": {
+    "title": "Kategorie",
+    "empty": "Brak znaczeń. Dodaj pierwsze za pomocą przycisku +.",
+    "meaningCount": "znaczeń",
+    "meaningCountSingular": "znaczenie",
+    "inactive": "nieaktywne"
+  },
+  "timeline": {
+    "title": "Oś czasu",
+    "empty": "Brak danych. Dodaj znaczenia, aby zobaczyć wzrost.",
+    "noDataInRange": "Brak danych w wybranym przedziale czasowym.",
+    "growthRate": "Tempo wzrostu",
+    "totalVocabulary": "Całkowity słownik",
+    "last6Months": "Ostatnie 6 miesięcy",
+    "last12Months": "Ostatnie 12 miesięcy",
+    "allTime": "Cały czas",
+    "month": "Miesiąc",
+    "newMeanings": "Nowe znaczenia",
+    "cumulativeTotal": "Łączna suma"
+  },
   "ios": {
     "title": "Chroń swoje dane",
     "step1": "Dotknij ikonę Udostępnij u dołu przeglądarki",
