@@ -69,6 +69,7 @@
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete",
+    "back": "Back",
     "saving": "Saving...",
     "deleting": "Deleting...",
     "loading": "Loading..."
@@ -88,6 +89,21 @@
     "Emotions": "Emotions",
     "Places": "Places",
     "Other": "Other"
+  },
+  "meanings": {
+    "sortNewest": "Newest first",
+    "sortAlpha": "A–Z",
+    "filtering": "Filtering:",
+    "empty": "No meanings yet. Add your first one with the + button."
+  },
+  "meaning": {
+    "isActive": "Active",
+    "text": "Meaning",
+    "categories": "Categories",
+    "firstUseDate": "First observed",
+    "lastUseDate": "Last used",
+    "linkedWordForms": "Word forms",
+    "noLinkedWordForms": "No word forms linked yet."
   },
   "ios": {
     "title": "Protect your data",

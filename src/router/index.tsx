@@ -5,6 +5,7 @@ import { db } from '../db/db';
 import { RootLayout } from '../shared/components/RootLayout';
 import { DashboardPage } from '../pages/DashboardPage';
 import { MeaningsPage } from '../pages/MeaningsPage';
+import { MeaningDetailPage } from '../pages/MeaningDetailPage';
 import { WordFormsPage } from '../pages/WordFormsPage';
 import { MorePage } from '../pages/MorePage';
 import { CategoriesPage } from '../pages/CategoriesPage';
@@ -41,6 +42,7 @@ export const router = createHashRouter([
       { index: true, element: <Navigate to="/dashboard" replace /> },
       { path: 'dashboard', element: <DashboardPage /> },
       { path: 'meanings', element: <MeaningsPage /> },
+      { path: 'meanings/:id', element: <MeaningDetailPage /> },
       { path: 'word-forms', element: <WordFormsPage /> },
       { path: 'more', element: <MorePage /> },
       { path: 'categories', element: <CategoriesPage /> },

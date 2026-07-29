@@ -71,6 +71,7 @@
     "save": "Zapisz",
     "cancel": "Anuluj",
     "delete": "Usuń",
+    "back": "Wstecz",
     "saving": "Zapisuję...",
     "deleting": "Usuwam...",
     "loading": "Ładowanie..."
@@ -90,6 +91,21 @@
     "Emotions": "Emocje",
     "Places": "Miejsca",
     "Other": "Inne"
+  },
+  "meanings": {
+    "sortNewest": "Najnowsze najpierw",
+    "sortAlpha": "A–Z",
+    "filtering": "Filtrowanie:",
+    "empty": "Brak znaczeń. Dodaj pierwsze za pomocą przycisku +."
+  },
+  "meaning": {
+    "isActive": "Aktywne",
+    "text": "Znaczenie",
+    "categories": "Kategorie",
+    "firstUseDate": "Pierwsza obserwacja",
+    "lastUseDate": "Ostatnio użyte",
+    "linkedWordForms": "Formy słów",
+    "noLinkedWordForms": "Żadne formy słów nie są jeszcze powiązane."
   },
   "ios": {
     "title": "Chroń swoje dane",
