@@ -44,3 +44,27 @@ export async function findOrCreateWordForm(formText: string): Promise<number> {
     })) as number
   })
 }
+
+/**
+ * Fetch a single word form by ID
+ */
+export async function getWordFormById(id: number): Promise<WordForm | undefined> {
+  return db.wordForms.get(id)
+}
+
+/**
+ * Fetch a word form with a count of linked meanings
+ */
+export async function getWordFormWithMeaningCount(
+  id: number
+): Promise<(WordForm & { meaningCount: number }) | undefined> {
+  const form = await db.wordForms.get(id)
+  if (!form || !form.id) return form as undefined
+
+  const meaningCount = await db.wordFormMeanings
+    .where('wordFormId')
+    .equals(form.id)
+    .count()
+
+  return { ...form, meaningCount }
+}

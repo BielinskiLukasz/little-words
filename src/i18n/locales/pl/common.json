@@ -98,6 +98,11 @@
     "filtering": "Filtrowanie:",
     "empty": "Brak znaczeń. Dodaj pierwsze za pomocą przycisku +."
   },
+  "wordForms": {
+    "sortNewest": "Najnowsze najpierw",
+    "sortAlpha": "A–Z",
+    "empty": "Brak form słów. Dodaj pierwszą za pomocą przycisku +."
+  },
   "meaning": {
     "isActive": "Aktywne",
     "text": "Znaczenie",
@@ -106,6 +111,18 @@
     "lastUseDate": "Ostatnio użyte",
     "linkedWordForms": "Formy słów",
     "noLinkedWordForms": "Żadne formy słów nie są jeszcze powiązane."
+  },
+  "wordForm": {
+    "text": "Forma słowa",
+    "firstUseDate": "Pierwsza obserwacja",
+    "lastUseDate": "Ostatnio użyte",
+    "linkedMeanings": "Znaczenia",
+    "noLinkedMeanings": "Żadne znaczenia nie są jeszcze powiązane.",
+    "delete": "Usuń",
+    "deleteConfirm": {
+      "title": "Usunąć formę słowa?",
+      "description": "Spowoduje to usunięcie formy słowa, ale powiązane znaczenia pozostaną. Kontynuować?"
+    }
   },
   "ios": {
     "title": "Chroń swoje dane",

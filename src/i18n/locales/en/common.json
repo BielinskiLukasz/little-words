@@ -96,6 +96,11 @@
     "filtering": "Filtering:",
     "empty": "No meanings yet. Add your first one with the + button."
   },
+  "wordForms": {
+    "sortNewest": "Newest first",
+    "sortAlpha": "A–Z",
+    "empty": "No word forms yet. Add your first one with the + button."
+  },
   "meaning": {
     "isActive": "Active",
     "text": "Meaning",
@@ -104,6 +109,18 @@
     "lastUseDate": "Last used",
     "linkedWordForms": "Word forms",
     "noLinkedWordForms": "No word forms linked yet."
+  },
+  "wordForm": {
+    "text": "Word form",
+    "firstUseDate": "First observed",
+    "lastUseDate": "Last used",
+    "linkedMeanings": "Meanings",
+    "noLinkedMeanings": "No meanings linked yet.",
+    "delete": "Delete",
+    "deleteConfirm": {
+      "title": "Delete word form?",
+      "description": "This will remove the word form, but linked meanings will stay. Continue?"
+    }
   },
   "ios": {
     "title": "Protect your data",

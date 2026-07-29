@@ -7,6 +7,7 @@ import { DashboardPage } from '../pages/DashboardPage';
 import { MeaningsPage } from '../pages/MeaningsPage';
 import { MeaningDetailPage } from '../pages/MeaningDetailPage';
 import { WordFormsPage } from '../pages/WordFormsPage';
+import { WordFormDetailPage } from '../pages/WordFormDetailPage';
 import { MorePage } from '../pages/MorePage';
 import { CategoriesPage } from '../pages/CategoriesPage';
 import { TimelinePage } from '../pages/TimelinePage';
@@ -44,6 +45,7 @@ export const router = createHashRouter([
       { path: 'meanings', element: <MeaningsPage /> },
       { path: 'meanings/:id', element: <MeaningDetailPage /> },
       { path: 'word-forms', element: <WordFormsPage /> },
+      { path: 'word-forms/:id', element: <WordFormDetailPage /> },
       { path: 'more', element: <MorePage /> },
       { path: 'categories', element: <CategoriesPage /> },
       { path: 'timeline', element: <TimelinePage /> },
