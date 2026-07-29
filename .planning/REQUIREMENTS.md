@@ -27,16 +27,16 @@
 
 ### Dashboard
 
-- [ ] **DASH-01**: Dashboard displays Active Meanings count as a large, prominent primary card — this is the most important number in the app
-- [ ] **DASH-02**: Dashboard displays Active Word Forms count and New Meanings This Month count as secondary metric cards
-- [ ] **DASH-03**: Dashboard displays a "Review these?" section listing meanings whose last-use date is 30+ days ago, with a one-tap shortcut to the meaning detail page
+- [x] **DASH-01**: Dashboard displays Active Meanings count as a large, prominent primary card — this is the most important number in the app
+- [x] **DASH-02**: Dashboard displays Active Word Forms count and New Meanings This Month count as secondary metric cards
+- [x] **DASH-03**: Dashboard displays a "Review these?" section listing meanings whose last-use date is 30+ days ago, with a one-tap shortcut to the meaning detail page
 
 ### Browse Views
 
-- [ ] **BROWSE-01**: Meanings view shows a scrollable list of all meanings; tapping a meaning opens a detail page showing its word forms, categories, first/last use dates, and an Active/Inactive toggle
-- [ ] **BROWSE-02**: Word Forms view shows a scrollable list of all word forms; tapping a word form opens a detail page showing all linked meanings
-- [ ] **BROWSE-03**: Categories view shows all default categories with a count of meanings in each category; tapping a category filters to that category's meanings
-- [ ] **BROWSE-04**: Timeline view shows monthly vocabulary growth as both a line/bar chart (Recharts via Shadcn chart) and a data table below it
+- [x] **BROWSE-01**: Meanings view shows a scrollable list of all meanings; tapping a meaning opens a detail page showing its word forms, categories, first/last use dates, and an Active/Inactive toggle
+- [x] **BROWSE-02**: Word Forms view shows a scrollable list of all word forms; tapping a word form opens a detail page showing all linked meanings
+- [x] **BROWSE-03**: Categories view shows all default categories with a count of meanings in each category; tapping a category filters to that category's meanings
+- [x] **BROWSE-04**: Timeline view shows monthly vocabulary growth as both a line/bar chart (Recharts via Shadcn chart) and a data table below it
 
 ### Doctor Report
 
@@ -115,13 +115,13 @@
 | ENTRY-01 | Phase 2 | Complete |
 | ENTRY-02 | Phase 2 | Complete |
 | ENTRY-03 | Phase 2 | Complete |
-| DASH-01 | Phase 3 | Pending |
-| DASH-02 | Phase 3 | Pending |
-| DASH-03 | Phase 3 | Pending |
-| BROWSE-01 | Phase 3 | Pending |
-| BROWSE-02 | Phase 3 | Pending |
-| BROWSE-03 | Phase 3 | Pending |
-| BROWSE-04 | Phase 3 | Pending |
+| DASH-01 | Phase 3 | Complete |
+| DASH-02 | Phase 3 | Complete |
+| DASH-03 | Phase 3 | Complete |
+| BROWSE-01 | Phase 3 | Complete |
+| BROWSE-02 | Phase 3 | Complete |
+| BROWSE-03 | Phase 3 | Complete |
+| BROWSE-04 | Phase 3 | Complete |
 | REPORT-01 | Phase 4 | Pending |
 | REPORT-02 | Phase 4 | Pending |
 | DATA-01 | Phase 4 | Pending |
