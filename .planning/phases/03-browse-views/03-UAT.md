@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 03-browse-views
 source: 03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md
 started: 2026-07-29T00:00:00Z
@@ -113,8 +113,13 @@ blocked: 0
   reason: "User reported: category names is always english even if its polish language selected; filter chip also shows English label in Polish mode (confirmed tests 6 and 13)"
   severity: major
   test: 5
-  artifacts: []
-  missing: []
+  root_cause: "MeaningsPage.tsx renders category names directly from the constant without translation — uses raw `cat` and `categoryFilter` instead of t(`category.${cat}`). CategoriesPage and CategoryChips already use the correct pattern."
+  artifacts:
+    - path: "src/pages/MeaningsPage.tsx"
+      issue: "Line 73 filter chip uses raw categoryFilter; line 104 badges use raw cat — both need t(`category.${...}`)"
+  missing:
+    - "Line 73: change {categoryFilter} to {t(`category.${categoryFilter}`)}"
+    - "Line 104: change {cat} to {t(`category.${cat}`)}"
 
 - gap_id: G-03-7
   truth: "Dates are formatted using the active language locale (Polish dates in Polish mode)"
@@ -122,8 +127,15 @@ blocked: 0
   reason: "User reported: date is english even when selecting language is polish"
   severity: major
   test: 7
-  artifacts: []
-  missing: []
+  root_cause: "formatDate() in MeaningDetailPage and WordFormDetailPage hardcodes 'en-US' locale instead of reading i18n.language from the useTranslation hook"
+  artifacts:
+    - path: "src/pages/MeaningDetailPage.tsx"
+      issue: "Line 77-84: formatDate uses hardcoded 'en-US' locale"
+    - path: "src/pages/WordFormDetailPage.tsx"
+      issue: "Line 55-62: formatDate uses hardcoded 'en-US' locale"
+  missing:
+    - "Destructure i18n from useTranslation() in both files"
+    - "Pass i18n.language instead of 'en-US' to toLocaleDateString"
 
 - gap_id: G-03-9
   truth: "Selecting a date in the calendar popover closes the popover automatically"
@@ -131,8 +143,14 @@ blocked: 0
   reason: "User reported: partialy, it updates date but dont closes the popover"
   severity: minor
   test: 9
-  artifacts: []
-  missing: []
+  root_cause: "Popover is uncontrolled — Calendar.onSelect saves the date but has no open state wired to close the Popover Root after selection"
+  artifacts:
+    - path: "src/pages/MeaningDetailPage.tsx"
+      issue: "Lines 152-172: Popover has no open prop or onOpenChange handler"
+  missing:
+    - "Add popoverOpen state (useState(false))"
+    - "Add open={popoverOpen} and onOpenChange={setPopoverOpen} to Popover Root"
+    - "Call setPopoverOpen(false) in handleUpdateDate success path after save"
 
 - gap_id: G-03-10
   truth: "Word forms with no active meanings are visually distinguished or filterable in the list"
@@ -140,8 +158,15 @@ blocked: 0
   reason: "User reported: word form without active meaning still shows normally in list — no indication it's no longer in active use"
   severity: minor
   test: 10
-  artifacts: []
-  missing: []
+  root_cause: "WordFormsPage queries only word forms with no join to meanings — getWordFormWithMeaningCount() counts all linked meanings without filtering by isActive, so the page has no data to drive visual distinction"
+  artifacts:
+    - path: "src/pages/WordFormsPage.tsx"
+      issue: "Lines 14-27: queries only word forms, no active meaning count available for rendering"
+    - path: "src/db/services/wordForm.service.ts"
+      issue: "Lines 58-70: getWordFormWithMeaningCount() does not filter for isActive=true meanings"
+  missing:
+    - "New service function returning word forms with active meaning count (join wordForms → wordFormMeanings → meanings where isActive=true)"
+    - "WordFormsPage uses enriched query and renders greyed-out row or badge when activeMeaningCount === 0"
 
 - gap_id: G-03-11
   truth: "Creating a word without entering a meaning is either prevented or handled gracefully (no empty-string meaning saved)"
@@ -149,8 +174,14 @@ blocked: 0
   reason: "User reported: when creating new word and not paste any meaning this creates word with meaning \"\" which is empty string"
   severity: major
   test: 11
-  artifacts: []
-  missing: []
+  root_cause: "addWordEntry() in wordEntry.service.ts iterates all meaning rows and saves them without checking if text is empty; useAddEntry hook passes all meaningRows including blank ones to the service"
+  artifacts:
+    - path: "src/db/services/wordEntry.service.ts"
+      issue: "Lines 50-59: saves all meanings without filtering out empty text"
+    - path: "src/features/add-entry/hooks/useAddEntry.ts"
+      issue: "Lines 47-65: handleSave() sends meaningRows with text=\"\" to service without validation"
+  missing:
+    - "Filter out meanings where text.trim().length === 0 in addWordEntry() before the save loop (or equivalently in handleSave before calling the service)"
 
 - gap_id: G-03-5b
   truth: "A parent can delete a meaning they entered by mistake"
@@ -158,5 +189,13 @@ blocked: 0
   reason: "User reported: when I select 1 meaning I cannot delete it (for example if added by mistake)"
   severity: major
   test: 5
-  artifacts: []
-  missing: []
+  root_cause: "MeaningDetailPage.tsx has no delete button or handler, and meaning.service.ts has no deleteMeaning() function — the full pattern present in WordFormDetailPage needs to be ported"
+  artifacts:
+    - path: "src/pages/MeaningDetailPage.tsx"
+      issue: "Missing AlertDialog delete button, isDeleting state, and handleDelete handler"
+    - path: "src/db/services/meaning.service.ts"
+      issue: "Missing deleteMeaning(id) function with cascade delete of wordFormMeanings junction rows"
+  missing:
+    - "Add deleteMeaning(id) to meaning.service.ts (cascade-delete junction rows then meaning record)"
+    - "Add AlertDialog delete pattern to MeaningDetailPage (mirror WordFormDetailPage lines 144-173)"
+    - "Navigate to /meanings after successful delete"
