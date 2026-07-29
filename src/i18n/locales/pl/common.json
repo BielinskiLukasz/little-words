@@ -59,7 +59,21 @@
   },
   "dashboard": {
     "greeting": "Cześć, {{name}}!",
-    "tracking": "Dziennik rozwoju mowy"
+    "tracking": "Dziennik rozwoju mowy",
+    "activeMeanings": "Aktywne znaczenia",
+    "activeWordForms": "Aktywne formy słów",
+    "newThisMonth": "Nowych w tym miesiącu",
+    "reviewSection": "Do przejrzenia?",
+    "reviewEmpty": "Wszystkie znaczenia używane ostatnio — świetnie!",
+    "seeAllReview": "Pokaż wszystkie"
+  },
+  "common": {
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "saving": "Zapisuję...",
+    "deleting": "Usuwam...",
+    "loading": "Ładowanie..."
   },
   "category": {
     "Nouns": "Rzeczowniki",

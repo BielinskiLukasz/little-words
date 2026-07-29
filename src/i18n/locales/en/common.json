@@ -57,7 +57,21 @@
   },
   "dashboard": {
     "greeting": "Hello, {{name}}!",
-    "tracking": "Speech development journal"
+    "tracking": "Speech development journal",
+    "activeMeanings": "Active meanings",
+    "activeWordForms": "Active Word Forms",
+    "newThisMonth": "New This Month",
+    "reviewSection": "Review these?",
+    "reviewEmpty": "All meanings used recently — great job!",
+    "seeAllReview": "See all"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "saving": "Saving...",
+    "deleting": "Deleting...",
+    "loading": "Loading..."
   },
   "category": {
     "Nouns": "Nouns",
