@@ -1,8 +1,8 @@
 ---
 phase: 03-browse-views
-verified: 2026-07-29T23:30:00Z
+verified: 2026-07-30T00:00:00Z
 status: passed
-score: 28/28
+score: 36/36
 behavior_unverified: 0
 overrides_applied: 0
 ---
@@ -11,13 +11,13 @@ overrides_applied: 0
 
 **Phase Goal:** Build all browse views — Dashboard, Meanings list/detail, Word Forms list/detail, Categories, Timeline
 
-**Verified:** 2026-07-29T23:30:00Z
+**Verified:** 2026-07-30T00:00:00Z (gap closure re-verification after plans 03-05, 03-06)
 
 **Status:** ✅ PASSED
 
 ## Summary
 
-All 28 must-haves across 4 execution plans have been verified as present and functionally wired. Phase 03 goal achieved: all browse views are implemented with reactive data, full navigation, and proper filtering/sorting.
+All 36 must-haves across 6 execution plans (including 2 gap closure plans) have been verified as present and functionally wired. Phase 03 goal achieved: all browse views are implemented with reactive data, full navigation, and proper filtering/sorting. Gap closure re-verification confirmed all 6 UAT gaps (G-03-5a, G-03-7, G-03-11, G-03-5b, G-03-9, G-03-10) resolved.
 
 ### Score Breakdown
 
@@ -295,6 +295,6 @@ Reactive data flow confirmed end-to-end: Database → Dexie queries → useLiveQ
 
 ---
 
-**Verified:** 2026-07-29T23:30:00Z  
+**Verified:** 2026-07-30T00:00:00Z  
 **Verifier:** Claude Code (gsd-verifier)  
-**Methodology:** Goal-backward verification with artifact-level and link-level deep inspection
+**Methodology:** Goal-backward verification with artifact-level and link-level deep inspection; gap closure re-verification of plans 03-05 and 03-06
