@@ -90,8 +90,12 @@ Plans:
   4. The Categories view shows each default category with its meaning count; tapping a category filters to that category's meanings
   5. The Timeline view displays monthly vocabulary growth as both a chart and a data table
 
-**Plans**: 4/4 plans executed
+**Plans**: 6/6 plans executed
 Plans:
+
+- [x] 03-05-PLAN.md
+- [x] 03-06-PLAN.md
+
 **Wave 1**
 
 - [x] 03-01-PLAN.md — Tracer: Dashboard with metrics cards, install Shadcn components (switch, alert-dialog, chart, table), service layer extensions
@@ -143,6 +147,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 5/5 | Complete | 2026-06-30 |
 | 2. Onboarding & Data Entry | 5/5 | Complete   | 2026-07-01 |
-| 3. Browse Views | 4/4 | Complete    | 2026-07-29 |
+| 3. Browse Views | 6/6 | In Progress|  |
 | 4. Doctor Report & Data Management | 0/TBD | Not started | - |
 | 5. PWA Polish | 0/TBD | Not started | - |
