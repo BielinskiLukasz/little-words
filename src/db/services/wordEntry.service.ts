@@ -45,9 +45,16 @@ export async function addWordEntry(
 
   const wordFormId = await findOrCreateWordForm(data.wordForm)
 
+  // Filter out empty meanings before save
+  const validMeanings = data.meanings.filter(m => m.text.trim().length > 0)
+
+  if (validMeanings.length === 0) {
+    throw new Error('At least one non-empty meaning is required')
+  }
+
   const meaningIds: number[] = []
 
-  for (const meaning of data.meanings) {
+  for (const meaning of validMeanings) {
     const isoDate = meaning.firstUseDate ?? new Date().toISOString().slice(0, 10)
     const meaningId = await addMeaning({
       text: meaning.text,
