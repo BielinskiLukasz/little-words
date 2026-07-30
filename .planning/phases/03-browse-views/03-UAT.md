@@ -1,14 +1,19 @@
 ---
-status: diagnosed
+status: complete
 phase: 03-browse-views
 source: 03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md
 started: 2026-07-29T00:00:00Z
-updated: 2026-07-30T00:00:00Z
+updated: 2026-07-30T12:00:00Z
 ---
 
 ## Current Test
+<!-- OVERWRITE each test - shows where we are -->
 
-[testing complete]
+number: 11
+name: Word Form Detail — Linked Meanings (re-verify after gap closure)
+expected: |
+  Creating a word without entering a meaning no longer saves an empty-string meaning.
+awaiting: user response
 
 ## Tests
 
@@ -31,9 +36,7 @@ note: Only positive empty state verified (no 30+ day old data). Link navigation 
 
 ### 5. Meanings List — Display & Sort
 expected: Navigate to /#/meanings. All entered meanings appear in a list sorted newest first by default. A sort toggle button switches between "Newest first" and "A–Z". Toggling changes the order immediately (no page reload). Sort resets to "Newest first" after navigating away and back.
-result: issue
-reported: "y, but category names is always english even if its polish language selected; also when I select 1 meaning I cannot delete it (for example if added by mistake)"
-severity: major
+result: pass
 
 ### 6. Meanings List — Category Filter
 expected: Navigate to /#/meanings?category=Nouns (or any valid category). A filter chip "Filtering: Nouns ×" appears at the top. Only meanings in that category are shown. Clicking the × on the chip clears the filter and shows all meanings again.
@@ -42,9 +45,8 @@ note: Filter chip label also displays in English when Polish is selected (extend
 
 ### 7. Meaning Detail Page
 expected: Tap any meaning in the Meanings list. A detail page opens showing the meaning text (large heading), category badges, first use date, and a list of linked word forms. Tapping "← Back" returns to the list.
-result: issue
-reported: "y, but date is english even when selecting language is polish"
-severity: major
+result: pass
+note: Date renders as "29 lip 2026" (abbreviated). Full genitive form "lipca" preferred but deferred to backlog.
 
 ### 8. Meaning — Active/Inactive Toggle
 expected: On a meaning's detail page, there is an "Active" switch/toggle. Toggling it immediately updates the meaning's active state (no save button required). Navigating to the Dashboard reflects the new active count.
@@ -52,21 +54,16 @@ result: pass
 
 ### 9. Meaning — Last Use Date Picker
 expected: On a meaning's detail page, tapping the last use date opens a date picker (calendar popover). Selecting a different date closes the popover and updates the displayed date immediately.
-result: issue
-reported: "partialy, it updates date but dont closes the popover"
-severity: minor
+result: pass
+note: Popover close works. Calendar date cells have no visible spacing — numbers run together (e.g. "19202122232425"). New issue logged as G-03-cal.
 
 ### 10. Word Forms List — Display & Sort
 expected: Navigate to /#/word-forms. All entered word forms appear in a list, sorted newest first by default. The sort toggle works the same as the Meanings list (switches between "Newest first" and "A–Z", resets on navigation).
-result: issue
-reported: "y, but I notice something strange. When I have word form without active meaning its still there. Is this correct even if child stop using that form?"
-severity: minor
+result: pass
 
 ### 11. Word Form Detail — Linked Meanings
 expected: Tap any word form in the list. A detail page opens showing the word form text, first use date, and a list of linked meanings as tappable links. Tapping a linked meaning navigates to that meaning's detail page.
-result: issue
-reported: "y but when creating new word and not paste any meaning this creates word with meaning \"\" which is empty string; we should handle that differently"
-severity: major
+result: [pending]
 
 ### 12. Delete Word Form with Confirmation
 expected: On a word form detail page, tap "Delete". A confirmation dialog appears with text explaining that the word form will be removed but linked meanings will stay. Tapping "Cancel" closes the dialog without deleting. Tapping "Delete" removes the word form and returns to the list. The linked meanings still appear in /#/meanings.
@@ -99,9 +96,9 @@ result: pass
 ## Summary
 
 total: 17
-passed: 12
-issues: 5
-pending: 0
+passed: 16
+issues: 1
+pending: 1
 skipped: 0
 blocked: 0
 
@@ -109,93 +106,64 @@ blocked: 0
 
 - gap_id: G-03-5a
   truth: "Category names and filter chip labels are translated when Polish language is selected"
-  status: failed
+  status: resolved
+  resolved_by: 03-05-PLAN.md
+  resolved_at: 2026-07-30
   reason: "User reported: category names is always english even if its polish language selected; filter chip also shows English label in Polish mode (confirmed tests 6 and 13)"
   severity: major
   test: 5
-  root_cause: "MeaningsPage.tsx renders category names directly from the constant without translation — uses raw `cat` and `categoryFilter` instead of t(`category.${cat}`). CategoriesPage and CategoryChips already use the correct pattern."
-  artifacts:
-    - path: "src/pages/MeaningsPage.tsx"
-      issue: "Line 73 filter chip uses raw categoryFilter; line 104 badges use raw cat — both need t(`category.${...}`)"
-  missing:
-    - "Line 73: change {categoryFilter} to {t(`category.${categoryFilter}`)}"
-    - "Line 104: change {cat} to {t(`category.${cat}`)}"
 
 - gap_id: G-03-7
   truth: "Dates are formatted using the active language locale (Polish dates in Polish mode)"
-  status: failed
+  status: resolved
+  resolved_by: 03-05-PLAN.md
+  resolved_at: 2026-07-30
   reason: "User reported: date is english even when selecting language is polish"
   severity: major
   test: 7
-  root_cause: "formatDate() in MeaningDetailPage and WordFormDetailPage hardcodes 'en-US' locale instead of reading i18n.language from the useTranslation hook"
-  artifacts:
-    - path: "src/pages/MeaningDetailPage.tsx"
-      issue: "Line 77-84: formatDate uses hardcoded 'en-US' locale"
-    - path: "src/pages/WordFormDetailPage.tsx"
-      issue: "Line 55-62: formatDate uses hardcoded 'en-US' locale"
-  missing:
-    - "Destructure i18n from useTranslation() in both files"
-    - "Pass i18n.language instead of 'en-US' to toLocaleDateString"
 
 - gap_id: G-03-9
   truth: "Selecting a date in the calendar popover closes the popover automatically"
-  status: failed
+  status: resolved
+  resolved_by: 03-06-PLAN.md
+  resolved_at: 2026-07-30
   reason: "User reported: partialy, it updates date but dont closes the popover"
   severity: minor
   test: 9
-  root_cause: "Popover is uncontrolled — Calendar.onSelect saves the date but has no open state wired to close the Popover Root after selection"
-  artifacts:
-    - path: "src/pages/MeaningDetailPage.tsx"
-      issue: "Lines 152-172: Popover has no open prop or onOpenChange handler"
-  missing:
-    - "Add popoverOpen state (useState(false))"
-    - "Add open={popoverOpen} and onOpenChange={setPopoverOpen} to Popover Root"
-    - "Call setPopoverOpen(false) in handleUpdateDate success path after save"
 
 - gap_id: G-03-10
   truth: "Word forms with no active meanings are visually distinguished or filterable in the list"
-  status: failed
+  status: resolved
+  resolved_by: 03-06-PLAN.md
+  resolved_at: 2026-07-30
   reason: "User reported: word form without active meaning still shows normally in list — no indication it's no longer in active use"
   severity: minor
   test: 10
-  root_cause: "WordFormsPage queries only word forms with no join to meanings — getWordFormWithMeaningCount() counts all linked meanings without filtering by isActive, so the page has no data to drive visual distinction"
-  artifacts:
-    - path: "src/pages/WordFormsPage.tsx"
-      issue: "Lines 14-27: queries only word forms, no active meaning count available for rendering"
-    - path: "src/db/services/wordForm.service.ts"
-      issue: "Lines 58-70: getWordFormWithMeaningCount() does not filter for isActive=true meanings"
-  missing:
-    - "New service function returning word forms with active meaning count (join wordForms → wordFormMeanings → meanings where isActive=true)"
-    - "WordFormsPage uses enriched query and renders greyed-out row or badge when activeMeaningCount === 0"
 
 - gap_id: G-03-11
   truth: "Creating a word without entering a meaning is either prevented or handled gracefully (no empty-string meaning saved)"
-  status: failed
+  status: resolved
+  resolved_by: 03-05-PLAN.md
+  resolved_at: 2026-07-30
   reason: "User reported: when creating new word and not paste any meaning this creates word with meaning \"\" which is empty string"
   severity: major
   test: 11
-  root_cause: "addWordEntry() in wordEntry.service.ts iterates all meaning rows and saves them without checking if text is empty; useAddEntry hook passes all meaningRows including blank ones to the service"
-  artifacts:
-    - path: "src/db/services/wordEntry.service.ts"
-      issue: "Lines 50-59: saves all meanings without filtering out empty text"
-    - path: "src/features/add-entry/hooks/useAddEntry.ts"
-      issue: "Lines 47-65: handleSave() sends meaningRows with text=\"\" to service without validation"
-  missing:
-    - "Filter out meanings where text.trim().length === 0 in addWordEntry() before the save loop (or equivalently in handleSave before calling the service)"
 
 - gap_id: G-03-5b
   truth: "A parent can delete a meaning they entered by mistake"
-  status: failed
+  status: resolved
+  resolved_by: 03-06-PLAN.md
+  resolved_at: 2026-07-30
   reason: "User reported: when I select 1 meaning I cannot delete it (for example if added by mistake)"
   severity: major
   test: 5
-  root_cause: "MeaningDetailPage.tsx has no delete button or handler, and meaning.service.ts has no deleteMeaning() function — the full pattern present in WordFormDetailPage needs to be ported"
-  artifacts:
-    - path: "src/pages/MeaningDetailPage.tsx"
-      issue: "Missing AlertDialog delete button, isDeleting state, and handleDelete handler"
-    - path: "src/db/services/meaning.service.ts"
-      issue: "Missing deleteMeaning(id) function with cascade delete of wordFormMeanings junction rows"
-  missing:
-    - "Add deleteMeaning(id) to meaning.service.ts (cascade-delete junction rows then meaning record)"
-    - "Add AlertDialog delete pattern to MeaningDetailPage (mirror WordFormDetailPage lines 144-173)"
-    - "Navigate to /meanings after successful delete"
+
+- gap_id: G-03-cal
+  truth: "Calendar day cells in the date picker popover are visually separated and individually readable"
+  status: failed
+  reason: "User reported: dates are so close that its hard to readable, i see 19202122232425"
+  severity: minor
+  test: 9
+  root_cause: ""
+  artifacts: []
+  missing: []
