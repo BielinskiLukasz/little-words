@@ -3,16 +3,18 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { useNavigate } from 'react-router'
 import { useTranslation } from 'react-i18next'
 import { db } from '@/db/db'
+import { getWordFormsWithActiveMeaningCount } from '@/db/services/wordForm.service'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 export function WordFormsPage() {
   const { t } = useTranslation('common')
   const navigate = useNavigate()
   const [sortOrder, setSortOrder] = useState<'newest' | 'alpha'>('newest')
 
-  // Load word forms from database
+  // Load word forms from database with active meaning count
   const wordForms = useLiveQuery(async () => {
-    return db.wordForms.toCollection().toArray()
+    return getWordFormsWithActiveMeaningCount()
   })
 
   // Sort word forms in-memory based on sortOrder
@@ -67,9 +69,18 @@ export function WordFormsPage() {
             <button
               key={wordForm.id}
               onClick={() => navigate(`/word-forms/${wordForm.id}`)}
-              className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4 text-left transition-colors hover:bg-accent hover:text-accent-foreground"
+              className={`flex flex-col gap-2 rounded-lg border border-border bg-card p-4 text-left transition-colors hover:bg-accent hover:text-accent-foreground ${
+                wordForm.activeMeaningCount === 0 ? 'opacity-50' : ''
+              }`}
             >
-              <p className="font-medium text-foreground">{wordForm.form}</p>
+              <div className="flex items-center justify-between">
+                <p className="font-medium text-foreground">{wordForm.form}</p>
+                {wordForm.activeMeaningCount === 0 && (
+                  <Badge variant="outline" className="text-gray-400 bg-gray-100">
+                    Inactive
+                  </Badge>
+                )}
+              </div>
             </button>
           ))}
         </div>

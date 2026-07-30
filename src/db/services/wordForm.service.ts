@@ -68,3 +68,35 @@ export async function getWordFormWithMeaningCount(
 
   return { ...form, meaningCount }
 }
+
+/**
+ * Fetch all word forms with a count of their active linked meanings
+ * A meaning is active if isActive === true
+ * Returns word forms enriched with activeMeaningCount field
+ */
+export async function getWordFormsWithActiveMeaningCount(): Promise<
+  Array<WordForm & { activeMeaningCount: number }>
+> {
+  const wordForms = await db.wordForms.toArray()
+  return Promise.all(
+    wordForms.map(async (wf) => {
+      // Get all links for this word form
+      const links = await db.wordFormMeanings
+        .where('wordFormId')
+        .equals(wf.id!)
+        .toArray()
+
+      // Get all meanings and count the active ones
+      const meaningIds = links.map((l) => l.meaningId)
+      const meanings = meaningIds.length > 0
+        ? await db.meanings.bulkGet(meaningIds)
+        : []
+
+      const activeMeaningCount = meanings.filter(
+        (m): m is typeof meanings[0] => m !== undefined && m.isActive === true
+      ).length
+
+      return { ...wf, activeMeaningCount }
+    })
+  )
+}
