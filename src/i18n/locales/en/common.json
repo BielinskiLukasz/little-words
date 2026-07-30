@@ -121,6 +121,7 @@
     "lastUseDate": "Last used",
     "linkedMeanings": "Meanings",
     "noLinkedMeanings": "No meanings linked yet.",
+    "inactive": "Inactive",
     "delete": "Delete",
     "deleteConfirm": {
       "title": "Delete word form?",

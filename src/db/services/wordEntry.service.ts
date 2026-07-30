@@ -55,7 +55,7 @@ export async function addWordEntry(
   const meaningIds: number[] = []
 
   for (const meaning of validMeanings) {
-    const isoDate = meaning.firstUseDate ?? new Date().toISOString().slice(0, 10)
+    const isoDate = meaning.firstUseDate ?? new Date().toISOString()
     const meaningId = await addMeaning({
       text: meaning.text,
       categories: meaning.categories,

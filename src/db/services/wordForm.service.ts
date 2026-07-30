@@ -59,7 +59,7 @@ export async function getWordFormWithMeaningCount(
   id: number
 ): Promise<(WordForm & { meaningCount: number }) | undefined> {
   const form = await db.wordForms.get(id)
-  if (!form || !form.id) return form as undefined
+  if (!form || !form.id) return undefined
 
   const meaningCount = await db.wordFormMeanings
     .where('wordFormId')

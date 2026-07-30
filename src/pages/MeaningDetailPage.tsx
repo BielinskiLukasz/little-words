@@ -94,6 +94,7 @@ export function MeaningDetailPage() {
       navigate('/meanings')
     } catch (error) {
       console.error('Failed to delete meaning:', error)
+    } finally {
       setIsDeleting(false)
     }
   }
@@ -239,9 +240,9 @@ export function MeaningDetailPage() {
       <AlertDialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete meaning?</AlertDialogTitle>
+            <AlertDialogTitle>{t('meaning.deleteConfirm.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will remove the meaning, but linked word forms will remain.
+              {t('meaning.deleteConfirm.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="flex gap-3">
@@ -253,7 +254,7 @@ export function MeaningDetailPage() {
               className="bg-red-600 hover:bg-red-700"
               disabled={isDeleting}
             >
-              {isDeleting ? 'Deleting...' : t('common.delete')}
+              {isDeleting ? t('common.deleting') : t('common.delete')}
             </AlertDialogAction>
           </div>
         </AlertDialogContent>

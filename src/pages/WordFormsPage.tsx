@@ -75,8 +75,8 @@ export function WordFormsPage() {
               <div className="flex items-center justify-between">
                 <p className="font-medium text-foreground">{wordForm.form}</p>
                 {wordForm.activeMeaningCount === 0 && (
-                  <Badge variant="outline" className="text-gray-400 bg-gray-100">
-                    Inactive
+                  <Badge variant="outline" className="text-muted-foreground">
+                    {t('wordForm.inactive')}
                   </Badge>
                 )}
               </div>

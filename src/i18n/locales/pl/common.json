@@ -123,6 +123,7 @@
     "lastUseDate": "Ostatnio użyte",
     "linkedMeanings": "Znaczenia",
     "noLinkedMeanings": "Żadne znaczenia nie są jeszcze powiązane.",
+    "inactive": "Nieaktywne",
     "delete": "Usuń",
     "deleteConfirm": {
       "title": "Usunąć formę słowa?",
