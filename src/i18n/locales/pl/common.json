@@ -110,7 +110,12 @@
     "firstUseDate": "Pierwsza obserwacja",
     "lastUseDate": "Ostatnio użyte",
     "linkedWordForms": "Formy słów",
-    "noLinkedWordForms": "Żadne formy słów nie są jeszcze powiązane."
+    "noLinkedWordForms": "Żadne formy słów nie są jeszcze powiązane.",
+    "delete": "Usuń",
+    "deleteConfirm": {
+      "title": "Usunąć znaczenie?",
+      "description": "Spowoduje to usunięcie znaczenia, ale powiązane formy słów pozostaną. Kontynuować?"
+    }
   },
   "wordForm": {
     "text": "Forma słowa",

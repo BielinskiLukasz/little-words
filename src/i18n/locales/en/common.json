@@ -108,7 +108,12 @@
     "firstUseDate": "First observed",
     "lastUseDate": "Last used",
     "linkedWordForms": "Word forms",
-    "noLinkedWordForms": "No word forms linked yet."
+    "noLinkedWordForms": "No word forms linked yet.",
+    "delete": "Delete",
+    "deleteConfirm": {
+      "title": "Delete meaning?",
+      "description": "This will remove the meaning, but linked word forms will remain. Continue?"
+    }
   },
   "wordForm": {
     "text": "Word form",
