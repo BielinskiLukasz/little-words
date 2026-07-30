@@ -11,7 +11,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 export function MeaningDetailPage() {
-  const { t } = useTranslation('common')
+  const { t, i18n } = useTranslation('common')
   const navigate = useNavigate()
   const { id } = useParams()
   const [isSaving, setIsSaving] = useState(false)
@@ -76,7 +76,7 @@ export function MeaningDetailPage() {
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
-    return date.toLocaleDateString('en-US', {
+    return date.toLocaleDateString(i18n.language, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
