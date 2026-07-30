@@ -2,8 +2,8 @@
 
 Ideas and scope items captured outside the active roadmap. Anything here is *not* in v1 — it has either been deferred by explicit decision, surfaced during UAT, or earmarked for a later milestone. Items graduate to a `ROADMAP.md` phase when picked up (`/gsd-review-backlog` to promote, `/gsd-phase add` to materialize).
 
-Last updated: 2026-07-13 (create backlog template)
-Last assigned ID: **B-001** — next new item must be **B-002**
+Last updated: 2026-07-30 (UAT phase 03)
+Last assigned ID: **B-002** — next new item must be **B-003**
 
 ---
 
@@ -20,6 +20,22 @@ Last assigned ID: **B-001** — next new item must be **B-002**
 - `milestones/v1.0-REQUIREMENTS.md` — v1.0 archived requirements (all 51 complete)
 - `PROJECT.md` — core constraints (single subject v1, no build step, no frameworks)
 - `CLAUDE.md` — v1/v2 split rules
+
+---
+
+### B-002 · Use full genitive month name in Polish date formatting
+
+**Status:** backlog
+**Earliest sensible slot:** v1.1 — no prerequisites
+
+**What:** Polish dates currently render as "29 lip 2026" (abbreviated month). The preferred form is "29 lipca 2026" (full genitive). Requires passing `{ month: 'long' }` to `toLocaleDateString` (or equivalent Intl.DateTimeFormat option) in the shared date formatter used by Meaning and Word Form detail pages.
+
+**Why:** Surfaced during Phase 03 UAT. The abbreviated form is readable but feels informal for a medical-adjacent tracking app. Polish grammar expects the genitive case for months in date expressions.
+
+**Implementation notes:**
+
+- The formatter lives in `MeaningDetailPage.tsx` and `WordFormDetailPage.tsx` (or a shared `formatDate` utility if one is extracted). Change `month: 'short'` → `month: 'long'` (or add the option if not currently set).
+- Verify that English dates still render correctly with the same change.
 
 ---
 
