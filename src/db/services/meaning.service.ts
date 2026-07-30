@@ -16,6 +16,19 @@ export async function toggleMeaningActive(
 }
 
 /**
+ * Delete a meaning and all its linked junction rows
+ * Cascade delete ensures that deleting a meaning removes all wordFormMeanings links
+ */
+export async function deleteMeaning(meaningId: number): Promise<void> {
+  await db.transaction('rw', [db.wordFormMeanings, db.meanings], async () => {
+    // Cascade: delete all wordFormMeanings junction rows referencing this meaning
+    await db.wordFormMeanings.where('meaningId').equals(meaningId).delete()
+    // Then delete the meaning record itself
+    await db.meanings.delete(meaningId)
+  })
+}
+
+/**
  * Search meanings by case-insensitive prefix match on the text field.
  * Returns up to 10 results. Returns an empty array for empty prefix.
  */

@@ -3,18 +3,30 @@ import { useNavigate, useParams } from 'react-router'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useTranslation } from 'react-i18next'
 import { db } from '@/db/db'
-import { toggleMeaningActive, updateLastUseDate } from '@/db/services/meaning.service'
+import { toggleMeaningActive, updateLastUseDate, deleteMeaning } from '@/db/services/meaning.service'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Switch } from '@/components/ui/switch'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 
 export function MeaningDetailPage() {
   const { t, i18n } = useTranslation('common')
   const navigate = useNavigate()
   const { id } = useParams()
   const [isSaving, setIsSaving] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [popoverOpen, setPopoverOpen] = useState(false)
 
   // Load meaning by ID
   const meaning = useLiveQuery(async () => {
@@ -67,10 +79,22 @@ export function MeaningDetailPage() {
     setIsSaving(true)
     try {
       await updateLastUseDate(meaning.id!, newDate.toISOString())
+      setPopoverOpen(false)
     } catch (err) {
       console.error('Failed to update date:', err)
     } finally {
       setIsSaving(false)
+    }
+  }
+
+  const handleDelete = async () => {
+    setIsDeleting(true)
+    try {
+      await deleteMeaning(meaning.id!)
+      navigate('/meanings')
+    } catch (error) {
+      console.error('Failed to delete meaning:', error)
+      setIsDeleting(false)
     }
   }
 
@@ -149,7 +173,7 @@ export function MeaningDetailPage() {
           {t('meaning.lastUseDate')}
         </label>
         <div className="pt-2">
-          <Popover>
+          <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline">
                 {formatDate(meaning.lastUseDate)}
@@ -200,6 +224,40 @@ export function MeaningDetailPage() {
           </div>
         )}
       </div>
+
+      {/* Delete Button with Confirmation */}
+      <div>
+        <Button
+          variant="destructive"
+          onClick={() => setShowDeleteConfirm(true)}
+          className="self-start"
+        >
+          {t('meaning.delete')}
+        </Button>
+      </div>
+
+      <AlertDialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete meaning?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will remove the meaning, but linked word forms will remain.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="flex gap-3">
+            <AlertDialogCancel>
+              {t('common.cancel')}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-red-600 hover:bg-red-700"
+              disabled={isDeleting}
+            >
+              {isDeleting ? 'Deleting...' : t('common.delete')}
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
