@@ -70,7 +70,7 @@ export function MeaningsPage() {
       {categoryFilter && (
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="inline-flex items-center gap-2">
-            {t('meanings.filtering')} {categoryFilter}
+            {t('meanings.filtering')} {t(`category.${categoryFilter}`)}
             <button
               onClick={() => setSearchParams({})}
               className="ml-1 text-sm font-bold"
@@ -101,7 +101,7 @@ export function MeaningsPage() {
                 <div className="flex flex-wrap gap-1">
                   {meaning.categories.map(cat => (
                     <Badge key={cat} variant="outline" className="text-xs">
-                      {cat}
+                      {t(`category.${cat}`)}
                     </Badge>
                   ))}
                 </div>
