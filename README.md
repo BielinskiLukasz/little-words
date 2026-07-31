@@ -2,7 +2,7 @@
 
 [![Deploy to GitHub Pages](https://github.com/BielinskiLukasz/little-words/actions/workflows/deploy.yml/badge.svg)](https://github.com/BielinskiLukasz/little-words/actions/workflows/deploy.yml)
 ![Status](https://img.shields.io/badge/status-early_development-orange)
-![Version](https://img.shields.io/badge/version-0.0.0-blue)
+![Version](https://img.shields.io/badge/version-0.2.0-blue)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
 ![PWA](https://img.shields.io/badge/PWA-offline--capable-5A0FC8?logo=pwa&logoColor=white)
@@ -49,19 +49,21 @@ The primary metric is **active meanings**, not word count — one spoken form ca
 ### Built
 
 - **Child profile** — name, birth date, home languages, optional clinical flags (prematurity, speech therapy, neurological care)
-- **Onboarding wizard** — guided first-run setup
-- **Dashboard** — Active Meanings count as the primary metric; secondary cards for Word Forms, New This Month, and "Review these?" (meanings unused 30+ days); personalised greeting
-- **Settings** — language switcher (English / Polish), profile edit link, data management placeholder, about section
+- **Onboarding wizard** — guided first-run setup with guard: no main screen until profile is complete
+- **Word form logging** — FAB → bottom sheet entry with meaning autocomplete and 14 clinical categories; atomically links word forms to meanings (many-to-many)
+- **Dashboard** — Active Meanings count as the primary metric; secondary cards for Active Word Forms, New This Month, and "Review these?" (meanings unused 30+ days); personalised greeting
+- **Meanings list & detail** — scrollable, sortable; filter by category; toggle Active/Inactive; set last-use date; view all linked word forms
+- **Word Forms list & detail** — scrollable, sortable; view linked meanings; delete word form (link removed, meaning preserved)
+- **Categories view** — each of the 14 categories with meaning count; tap to filter meanings by category
+- **Timeline view** — monthly vocabulary growth as bar + line chart and data table
+- **Settings** — language switcher (English / Polish), profile edit, data management placeholder, about section
 - **iOS install prompt** — Add to Home Screen guidance for Safari users
-- **Hash routing** — full navigation shell: Dashboard, Meanings, Word Forms, Categories, Timeline, Doctor Report, Settings
 
 ### Planned (v1)
 
-- **Word form logging** — FAB → bottom sheet entry with meaning autocomplete; 14 clinical categories
-- **Browse views** — scrollable Meanings, Word Forms, Categories, and Timeline lists with detail pages
 - **Doctor Report** — one-tap generation of a structured plain-text summary; copies to clipboard
 - **Data portability** — JSON export/import for backup and device migration; CSV export for spreadsheet analysis
-- **Full PWA** — offline after first load; new-version notification toast
+- **Full PWA** — offline after first load; new-version notification toast; verified Android/iOS installability
 
 ---
 
@@ -215,8 +217,8 @@ To trigger a manual deploy, use **Actions → Deploy to GitHub Pages → Run wor
 | Phase | What ships | Status |
 |-------|------------|--------|
 | 1 — Foundation | Vite scaffold, Dexie schema v2, i18n, hash router shell | Done |
-| 2 — Onboarding & Data Entry | Child profile wizard, FAB → bottom sheet word logging | In progress |
-| 3 — Browse Views | Meanings, Word Forms, Categories, Timeline detail pages | Not started |
+| 2 — Onboarding & Data Entry | Child profile wizard, FAB → bottom sheet word logging | Done |
+| 3 — Browse Views | Meanings, Word Forms, Categories, Timeline list and detail pages | Done |
 | 4 — Doctor Report & Data Management | Report generation, JSON/CSV export & import | Not started |
 | 5 — PWA Polish | Full offline support, update prompt, installability testing | Not started |
 
