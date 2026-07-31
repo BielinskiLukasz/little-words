@@ -1,3 +1,16 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Commands
+
+- `npm run dev` — Vite dev server (localhost:5173)
+- `npm run build` — TypeScript check + Vite bundle → `dist/`
+- `npm run lint` — ESLint with typescript-eslint
+- `npm run test` — Vitest single run
+- `npm run test:watch` — Vitest in watch mode
+- `npx vitest run src/path/to/file.test.ts` — run a single test file
+
 <!-- GSD:project-start source:PROJECT.md -->
 
 ## Project
@@ -249,14 +262,43 @@ Little Words is a privacy-first, offline-capable Progressive Web App that helps 
 
 ## Conventions
 
-Conventions not yet established. Will populate as patterns emerge during development.
+**File naming**
+- Pages: `*Page.tsx` in `src/pages/`
+- Hooks: `use*.ts` (e.g., `useAddEntry.ts`)
+- Services: `*.service.ts` in `src/db/services/`
+- Components: PascalCase (e.g., `AddEntrySheet.tsx`)
+
+**Path alias**: `@/*` maps to `src/*` — always use it for imports within `src/`.
+
+**State split**
+- Persisted data → `useLiveQuery` from dexie-react-hooks (reactive, auto-synced with IndexedDB)
+- Ephemeral UI state → Zustand store in `src/stores/ui.store.ts`
+
+**Database access**: always go through the service layer in `src/db/services/`; never call Dexie tables directly from components or pages.
+
+**i18n**: all user-visible strings must go through `useTranslation`. Translation keys live in `src/i18n/locales/{en,pl}/{common,onboarding}.json`. Default language is Polish (`pl`).
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
 
 ## Architecture
 
-Architecture not yet mapped. Follow existing patterns found in the codebase.
+**Entry point**: `src/main.tsx` → `src/App.tsx` (ErrorBoundary wrapping RouterProvider)
+
+**Routing** (`src/router/index.tsx`): `createHashRouter` (hash-mode, required for GitHub Pages). An `AuthGuard` component checks whether `childProfile` table is empty; if so, it redirects to `/onboarding`. All main routes share `RootLayout` (bottom nav + FAB).
+
+**Database** (`src/db/`):
+- `db.ts` — `AppDB` class, Dexie schema v2
+- `schema.ts` — TypeScript interfaces + `CATEGORIES` constant
+- `services/` — one file per entity; all DB reads/writes go here
+
+Schema: `childProfile`, `wordForms`, `meanings`, `wordFormMeanings` (junction, compound key `[wordFormId+meaningId]`)
+
+**Feature modules** (`src/features/`): self-contained by domain — `add-entry/`, `onboarding/`, `settings/`, `ios-install/`, `welcome/`. Each feature owns its components and hooks.
+
+**Shared UI**: Shadcn/UI component copies live in `src/components/ui/`; layout shell in `src/shared/components/` (`RootLayout`, `BottomNav`, `ErrorBoundary`).
+
+**i18n** (`src/i18n/`): initialized once in `index.ts`, persists language choice in `localStorage` under key `little-words-lang`.
 <!-- GSD:architecture-end -->
 
 <!-- GSD:skills-start source:skills/ -->
