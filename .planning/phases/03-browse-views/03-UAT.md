@@ -3,17 +3,13 @@ status: complete
 phase: 03-browse-views
 source: 03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md
 started: 2026-07-29T00:00:00Z
-updated: 2026-07-30T12:00:00Z
+updated: 2026-08-25T00:00:00Z
 ---
 
 ## Current Test
 <!-- OVERWRITE each test - shows where we are -->
 
-number: 11
-name: Word Form Detail — Linked Meanings (re-verify after gap closure)
-expected: |
-  Creating a word without entering a meaning no longer saves an empty-string meaning.
-awaiting: user response
+[testing complete]
 
 ## Tests
 
@@ -63,7 +59,8 @@ result: pass
 
 ### 11. Word Form Detail — Linked Meanings
 expected: Tap any word form in the list. A detail page opens showing the word form text, first use date, and a list of linked meanings as tappable links. Tapping a linked meaning navigates to that meaning's detail page.
-result: [pending]
+result: pass
+note: Empty-string meaning fix confirmed. New issue found: popup stays open after saving when no meaning entered (see G-03-popup).
 
 ### 12. Delete Word Form with Confirmation
 expected: On a word form detail page, tap "Delete". A confirmation dialog appears with text explaining that the word form will be removed but linked meanings will stay. Tapping "Cancel" closes the dialog without deleting. Tapping "Delete" removes the word form and returns to the list. The linked meanings still appear in /#/meanings.
@@ -96,9 +93,9 @@ result: pass
 ## Summary
 
 total: 17
-passed: 16
-issues: 1
-pending: 1
+passed: 17
+issues: 0
+pending: 0
 skipped: 0
 blocked: 0
 
@@ -164,6 +161,16 @@ blocked: 0
   reason: "User reported: dates are so close that its hard to readable, i see 19202122232425"
   severity: minor
   test: 9
+  root_cause: ""
+  artifacts: []
+  missing: []
+
+- gap_id: G-03-popup
+  truth: "Add-entry sheet/popup closes after a successful save regardless of whether a meaning was entered"
+  status: failed
+  reason: "User reported: popup is still visible after creation when no meaning provided; closes correctly when meaning is provided"
+  severity: major
+  test: 11
   root_cause: ""
   artifacts: []
   missing: []
