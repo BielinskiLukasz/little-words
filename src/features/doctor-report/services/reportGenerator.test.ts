@@ -141,3 +141,149 @@ describe('generateReport', () => {
     expect(result).toContain('pl, en')
   })
 })
+
+describe('generateReport — edge cases', () => {
+  // Fixed reference point for deterministic date math
+  const now = new Date('2026-01-01T00:00:00.000Z')
+
+  it('child aged 0 years (11 months) → uses month count not year count', () => {
+    const profile: ChildProfile = { ...baseProfile, birthDate: '2025-02-01' }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    // t('report.ageMonths', {count: N}) returns N as string
+    // t('report.ageYears', ...) returns 'report.ageYears' — should NOT appear as age
+    expect(result).not.toContain('report.ageYears')
+    // The age line should contain a number (months count), not 'report.ageYears'
+    const ageLineMatch = result.match(/report\.age: (.+)/)
+    expect(ageLineMatch).not.toBeNull()
+    const ageValue = ageLineMatch![1]
+    // Should be a numeric string (months), not the ageYears key
+    expect(Number.isNaN(Number(ageValue))).toBe(false)
+  })
+
+  it('child aged exactly 2 years → uses year count', () => {
+    const profile: ChildProfile = { ...baseProfile, birthDate: '2024-01-01' }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    // t('report.ageYears', {count: 2}) returns '2'
+    expect(result).toContain('report.age: 2')
+  })
+
+  it('child aged 3 years → uses year count', () => {
+    const profile: ChildProfile = { ...baseProfile, birthDate: '2023-01-01' }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.age: 3')
+  })
+
+  it('all meanings inactive → active=0, inactive=total', () => {
+    const meanings = [
+      inactiveMeaning({ id: 1 }),
+      inactiveMeaning({ id: 2 }),
+      inactiveMeaning({ id: 3 }),
+    ]
+    const result = generateReport({ profile: baseProfile, meanings, wordForms: [], t, now })
+    expect(result).toContain('report.activeMeanings: 0')
+    expect(result).toContain('report.inactiveMeanings: 3')
+  })
+
+  it('zero meanings → all counts 0', () => {
+    const result = generateReport({ profile: baseProfile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.activeMeanings: 0')
+    expect(result).toContain('report.inactiveMeanings: 0')
+    expect(result).toContain('report.newInLast3Months: 0')
+  })
+
+  it('meaning with firstUseDate exactly 91 days before now and isActive → NOT counted', () => {
+    const firstUseDate = new Date(now.getTime() - 91 * 24 * 60 * 60 * 1000).toISOString()
+    const meanings = [activeMeaning({ id: 1, firstUseDate })]
+    const result = generateReport({ profile: baseProfile, meanings, wordForms: [], t, now })
+    expect(result).toContain('report.newInLast3Months: 0')
+  })
+
+  it('meaning with firstUseDate exactly 89 days before now and isActive → IS counted', () => {
+    const firstUseDate = new Date(now.getTime() - 89 * 24 * 60 * 60 * 1000).toISOString()
+    const meanings = [activeMeaning({ id: 1, firstUseDate })]
+    const result = generateReport({ profile: baseProfile, meanings, wordForms: [], t, now })
+    expect(result).toContain('report.newInLast3Months: 1')
+  })
+
+  it('inactive meaning within 90 days → NOT counted in newInLast3Months', () => {
+    const firstUseDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString()
+    const meanings = [inactiveMeaning({ id: 1, firstUseDate })]
+    const result = generateReport({ profile: baseProfile, meanings, wordForms: [], t, now })
+    expect(result).toContain('report.newInLast3Months: 0')
+  })
+
+  it('only 2 categories have active meanings → topCategories contains exactly 2 entries', () => {
+    const meanings: Meaning[] = [
+      activeMeaning({ id: 1, categories: ['Nouns'] }),
+      activeMeaning({ id: 2, categories: ['Verbs'] }),
+    ]
+    const result = generateReport({ profile: baseProfile, meanings, wordForms: [], t, now })
+    expect(result).toContain('Nouns: 1')
+    expect(result).toContain('Verbs: 1')
+    // No 3rd category line (other categories have 0)
+    const lines = result.split('\n').filter((l) => /^  \w.+: \d+$/.test(l))
+    expect(lines.length).toBe(2)
+  })
+
+  it('zero categories have active meanings → topCategories section is empty', () => {
+    const result = generateReport({ profile: baseProfile, meanings: [], wordForms: [], t, now })
+    // No category count lines
+    const lines = result.split('\n').filter((l) => /^  \w.+: \d+$/.test(l))
+    expect(lines.length).toBe(0)
+  })
+
+  it('tie at rank 3 → all tied categories appear; total is 3', () => {
+    const meanings: Meaning[] = [
+      // Nouns: 3, Verbs: 2, Adjectives: 1, People: 1 (tie for 3rd)
+      activeMeaning({ id: 1, categories: ['Nouns'] }),
+      activeMeaning({ id: 2, categories: ['Nouns'] }),
+      activeMeaning({ id: 3, categories: ['Nouns'] }),
+      activeMeaning({ id: 4, categories: ['Verbs'] }),
+      activeMeaning({ id: 5, categories: ['Verbs'] }),
+      activeMeaning({ id: 6, categories: ['Adjectives'] }),
+      activeMeaning({ id: 7, categories: ['People'] }),
+    ]
+    const result = generateReport({ profile: baseProfile, meanings, wordForms: [], t, now })
+    // Top 3: Nouns(3), Verbs(2), Adjectives(1) — People(1) is 4th by CATEGORIES order
+    const catLines = result.split('\n').filter((l) => /^  \w.+: \d+$/.test(l))
+    expect(catLines.length).toBe(3)
+    expect(result).toContain('Nouns: 3')
+    expect(result).toContain('Verbs: 2')
+  })
+
+  it('prematureBirth=undefined → output contains report.no', () => {
+    const profile: ChildProfile = { ...baseProfile, prematureBirth: undefined }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.prematureBirth: report.no')
+  })
+
+  it('speechTherapy=false → output contains report.no', () => {
+    const profile: ChildProfile = { ...baseProfile, speechTherapy: false }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.speechTherapy: report.no')
+  })
+
+  it('neurologicalCare=true → output contains report.yes', () => {
+    const profile: ChildProfile = { ...baseProfile, neurologicalCare: true }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.neurologicalCare: report.yes')
+  })
+
+  it('parentNotes=undefined → does not throw; contains parentNotes label', () => {
+    const profile: ChildProfile = { ...baseProfile, parentNotes: undefined }
+    expect(() => generateReport({ profile, meanings: [], wordForms: [], t, now })).not.toThrow()
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.parentNotes:')
+  })
+
+  it("parentNotes='' → contains parentNotes label", () => {
+    const profile: ChildProfile = { ...baseProfile, parentNotes: '' }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.parentNotes:')
+  })
+
+  it("languages=['pl', 'en'] → output contains 'pl, en'", () => {
+    const result = generateReport({ profile: baseProfile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('pl, en')
+  })
+})
