@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 03-browse-views
 source: 03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md
 started: 2026-07-29T00:00:00Z
@@ -161,9 +161,14 @@ blocked: 0
   reason: "User reported: dates are so close that its hard to readable, i see 19202122232425"
   severity: minor
   test: 9
-  root_cause: ""
-  artifacts: []
-  missing: []
+  root_cause: "calendar.tsx day classname uses w-full without flex-1; in Tailwind v4 table/flex hybrid cells collapse to minimum content size (~16px), making numbers run together; weekday header correctly uses flex-1"
+  artifacts:
+    - path: "src/components/ui/calendar.tsx"
+      issue: "day classname (line ~101) has w-full but no flex-1; weekday classname (line ~88) has flex-1 — inconsistent sizing strategy breaks day cell distribution"
+  missing:
+    - "Replace h-full w-full with flex-1 in day classname to match weekday pattern"
+    - "Optionally add gap utility to week row classname for additional spacing"
+  debug_session: .planning/debug/cal-spacing.md
 
 - gap_id: G-03-popup
   truth: "Add-entry sheet/popup closes after a successful save regardless of whether a meaning was entered"
@@ -171,6 +176,13 @@ blocked: 0
   reason: "User reported: popup is still visible after creation when no meaning provided; closes correctly when meaning is provided"
   severity: major
   test: 11
-  root_cause: ""
-  artifacts: []
-  missing: []
+  root_cause: "G-03-11 fix added a throw in wordEntry.service.ts when validMeanings is empty; useAddEntry.handleSave() places setAddWordSheetOpen(false) inside try block after the await — the throw bypasses it; catch block only sets error state, never closes the sheet"
+  artifacts:
+    - path: "src/db/services/wordEntry.service.ts"
+      issue: "throws 'At least one non-empty meaning is required' when no meaning entered — but UAT truth says saving without meaning should succeed and close sheet"
+    - path: "src/features/add-entry/hooks/useAddEntry.ts"
+      issue: "setAddWordSheetOpen(false) and reset() placed inside try block (line ~58), not finally — any service throw leaves sheet open and form dirty"
+  missing:
+    - "Move setAddWordSheetOpen(false) and reset() to finally block in handleSave()"
+    - "Remove the throw from wordEntry.service.ts when validMeanings is empty (allow word form save with no meanings)"
+  debug_session: .planning/debug/popup-no-close.md
