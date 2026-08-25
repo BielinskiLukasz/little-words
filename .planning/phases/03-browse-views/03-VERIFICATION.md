@@ -1,8 +1,8 @@
 ---
 phase: 03-browse-views
-verified: 2026-07-30T00:00:00Z
+verified: "2026-08-25T00:00:00Z"
 status: passed
-score: 36/36
+score: 38/38
 behavior_unverified: 0
 overrides_applied: 0
 ---
@@ -11,17 +11,17 @@ overrides_applied: 0
 
 **Phase Goal:** Build all browse views — Dashboard, Meanings list/detail, Word Forms list/detail, Categories, Timeline
 
-**Verified:** 2026-07-30T00:00:00Z (gap closure re-verification after plans 03-05, 03-06)
+**Verified:** 2026-08-25T00:00:00Z (gap closure re-verification after plans 03-05, 03-06, 03-07)
 
 **Status:** ✅ PASSED
 
 ## Summary
 
-All 36 must-haves across 6 execution plans (including 2 gap closure plans) have been verified as present and functionally wired. Phase 03 goal achieved: all browse views are implemented with reactive data, full navigation, and proper filtering/sorting. Gap closure re-verification confirmed all 6 UAT gaps (G-03-5a, G-03-7, G-03-11, G-03-5b, G-03-9, G-03-10) resolved.
+All 38 must-haves across 7 execution plans (including 3 gap closure plans) have been verified as present and functionally wired. Phase 03 goal achieved: all browse views are implemented with reactive data, full navigation, and proper filtering/sorting. Gap closure re-verification confirmed all 8 UAT gaps (G-03-5a, G-03-7, G-03-11, G-03-5b, G-03-9, G-03-10, G-03-cal, G-03-popup) resolved.
 
 ### Score Breakdown
 
-- **Verified truths:** 28 / 28 (100%)
+- **Verified truths:** 38 / 38 (100%)
 - **Missing artifacts:** 0
 - **Broken links:** 0
 - **Behavioral tests:** All passed (via useLiveQuery reactivity + manual verification)
@@ -71,7 +71,10 @@ All 36 must-haves across 6 execution plans (including 2 gap closure plans) have 
 | 35 | Dashboard metrics reactive to DB changes | ✓ VERIFIED | All metric cards use `useLiveQuery()` with reactive count queries; confirmed no caching |
 | 36 | Service functions exported and used | ✓ VERIFIED | `src/db/services/meaning.service.ts` exports: `getMeaningById`, `getMeaningsUnused30Days`, `updateLastUseDate`, `getMeaningsGroupedByCategory`, `getMeaningsByMonth`, `getCumulativeMeaningsByMonth` |
 
-**All 36 observable truths verified as present and functionally correct.**
+| 37 | Calendar day cells are visually separated (G-03-cal) | ✓ VERIFIED | `src/components/ui/calendar.tsx`: day classname contains `flex-1` (not `w-full`), matching weekday header distribution — confirmed commit 7d6a9b5 |
+| 38 | Add-entry sheet closes after save regardless of whether a meaning was entered (G-03-popup) | ✓ VERIFIED | `src/features/add-entry/hooks/useAddEntry.ts`: `setAddWordSheetOpen(false)` and `reset()` in `finally` block — confirmed commit b2794f0; `wordEntry.service.ts`: `validMeanings.length === 0` guard absent |
+
+**All 38 observable truths verified as present and functionally correct.**
 
 ---
 
@@ -115,7 +118,11 @@ All 36 must-haves across 6 execution plans (including 2 gap closure plans) have 
 | `src/i18n/locales/en/common.json` | i18n | ✓ VERIFIED | Keys added for all pages (dashboard, meanings, wordForm, categories, timeline) |
 | `src/i18n/locales/pl/common.json` | i18n | ✓ VERIFIED | Polish translations for all pages |
 
-**All 18 artifacts present and substantive (not stubs).**
+| `src/components/ui/calendar.tsx` | Shadcn Component | ✓ VERIFIED | `flex-1` on day classname; commit 7d6a9b5 (G-03-cal fix) |
+| `src/db/services/wordEntry.service.ts` | Service Layer | ✓ VERIFIED | `validMeanings.length === 0` guard absent; commit b2794f0 (G-03-popup fix) |
+| `src/features/add-entry/hooks/useAddEntry.ts` | Hook | ✓ VERIFIED | `setAddWordSheetOpen(false)` and `reset()` in `finally` block; commit b2794f0 (G-03-popup fix) |
+
+**All 21 artifacts present and substantive (not stubs).**
 
 ---
 
@@ -256,6 +263,7 @@ Searched all modified files (`src/pages/Dashboard*.tsx`, `src/pages/Meanings*.ts
 ## Human Verification Items
 
 None — all behavior is either:
+
 1. Statically verifiable (file existence, import wiring, UI structure)
 2. Dynamically verifiable via useLiveQuery reactivity (no state transition invariants that require runtime state inspection)
 3. Tested via automated build verification (TypeScript strict mode, module resolution)
@@ -277,8 +285,8 @@ None — all behavior is either:
 
 ### No Gaps Found
 
-✅ All 36 observable truths verified  
-✅ All 18 artifacts present and substantive  
+✅ All 38 observable truths verified (includes 2 gap closure verifications from plan 03-07)  
+✅ All 21 artifacts present and substantive (includes 3 files from plan 03-07)  
 ✅ All 14 critical links wired correctly  
 ✅ All 11 prohibitions respected  
 ✅ All 7 requirements fulfilled  
@@ -295,6 +303,6 @@ Reactive data flow confirmed end-to-end: Database → Dexie queries → useLiveQ
 
 ---
 
-**Verified:** 2026-07-30T00:00:00Z  
+**Verified:** 2026-08-25T00:00:00Z  
 **Verifier:** Claude Code (gsd-verifier)  
-**Methodology:** Goal-backward verification with artifact-level and link-level deep inspection; gap closure re-verification of plans 03-05 and 03-06
+**Methodology:** Goal-backward verification with artifact-level and link-level deep inspection; gap closure re-verification of plans 03-05, 03-06, and 03-07
