@@ -1,5 +1,5 @@
 ---
-status: diagnosed
+status: complete
 phase: 03-browse-views
 source: 03-01-SUMMARY.md, 03-02-SUMMARY.md, 03-03-SUMMARY.md, 03-04-SUMMARY.md
 started: 2026-07-29T00:00:00Z
@@ -157,7 +157,9 @@ blocked: 0
 
 - gap_id: G-03-cal
   truth: "Calendar day cells in the date picker popover are visually separated and individually readable"
-  status: failed
+  status: resolved
+  resolved_by: 03-07-PLAN.md
+  resolved_at: 2026-08-25
   reason: "User reported: dates are so close that its hard to readable, i see 19202122232425"
   severity: minor
   test: 9
@@ -172,7 +174,9 @@ blocked: 0
 
 - gap_id: G-03-popup
   truth: "Add-entry sheet/popup closes after a successful save regardless of whether a meaning was entered"
-  status: failed
+  status: resolved
+  resolved_by: 03-07-PLAN.md
+  resolved_at: 2026-08-25
   reason: "User reported: popup is still visible after creation when no meaning provided; closes correctly when meaning is provided"
   severity: major
   test: 11
