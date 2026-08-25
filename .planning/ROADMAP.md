@@ -124,7 +124,10 @@ Plans:
   4. From Settings → Data, the parent can import a previously exported JSON file; a warning is shown that existing data will be replaced; data is fully restored after import
   5. From Settings → Data, the parent can export all meanings as a CSV with meaning label, categories, first/last use dates, active status, and linked word forms
 
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 04-01-PLAN.md — Doctor Report end-to-end tracer: Sonner toast, reportGenerator (TDD), DoctorReportPage wired
+- [ ] 04-02-PLAN.md — Settings Data Management: JSON export/import (with AlertDialog + validation), CSV export, DataSection replaces DataPlaceholder
 
 ### Phase 5: PWA Polish
 
