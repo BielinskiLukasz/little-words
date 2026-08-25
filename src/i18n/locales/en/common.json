@@ -47,7 +47,17 @@
     "importJson": "Import JSON",
     "exportCsv": "Export CSV",
     "comingSoon": "Coming soon",
-    "version": "Version {{version}}"
+    "version": "Version {{version}}",
+    "exportJsonDesc": "Back up all your data",
+    "importJsonDesc": "Restore from a backup file",
+    "exportCsvDesc": "Export meanings to a spreadsheet",
+    "importConfirmTitle": "Replace your data?",
+    "importConfirmDescription": "This will permanently delete all current data and replace it with the contents of the selected file. This cannot be undone.",
+    "importConfirmButton": "Yes, replace my data",
+    "importErrorTitle": "Cannot read file",
+    "importErrorDescriptionCorrupt": "This file doesn't appear to be a Little Words backup.",
+    "importErrorDescriptionVersion": "This backup is from a newer version of the app and cannot be imported.",
+    "importSuccess": "Data imported successfully"
   },
   "profile": {
     "edit": {

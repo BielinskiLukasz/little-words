@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { LanguageSwitcher } from '@/features/settings/components/LanguageSwitcher'
 import { ProfileEditLink } from '@/features/settings/components/ProfileEditLink'
-import { DataPlaceholder } from '@/features/settings/components/DataPlaceholder'
+import { DataSection } from '@/features/settings/components/DataSection'
 import { AboutSection } from '@/features/settings/components/AboutSection'
 
 export function SettingsPage() {
@@ -29,7 +29,7 @@ export function SettingsPage() {
         <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
           {t('settings.data')}
         </h2>
-        <DataPlaceholder />
+        <DataSection />
       </div>
 
       <div className="space-y-2">

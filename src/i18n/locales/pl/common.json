@@ -49,7 +49,17 @@
     "importJson": "Importuj JSON",
     "exportCsv": "Eksportuj CSV",
     "comingSoon": "Wkrótce",
-    "version": "Wersja {{version}}"
+    "version": "Wersja {{version}}",
+    "exportJsonDesc": "Utwórz kopię zapasową wszystkich danych",
+    "importJsonDesc": "Przywróć dane z kopii zapasowej",
+    "exportCsvDesc": "Eksportuj znaczenia do arkusza kalkulacyjnego",
+    "importConfirmTitle": "Zastąpić dane?",
+    "importConfirmDescription": "Spowoduje to trwałe usunięcie wszystkich bieżących danych i zastąpienie ich zawartością wybranego pliku. Tej operacji nie można cofnąć.",
+    "importConfirmButton": "Tak, zastąp moje dane",
+    "importErrorTitle": "Nie można wczytać pliku",
+    "importErrorDescriptionCorrupt": "Ten plik wygląda na uszkodzony lub nie jest kopią zapasową aplikacji Słówko.",
+    "importErrorDescriptionVersion": "Ta kopia zapasowa pochodzi z nowszej wersji aplikacji i nie może zostać wczytana.",
+    "importSuccess": "Dane zaimportowane pomyślnie"
   },
   "profile": {
     "edit": {
