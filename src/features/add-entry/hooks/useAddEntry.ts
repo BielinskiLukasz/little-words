@@ -55,12 +55,12 @@ export function useAddEntry() {
       }))
       await addWordEntry({ wordForm, meanings })
       setIosInstallPromptSeen(true)
-      setAddWordSheetOpen(false)
-      reset()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error')
     } finally {
       setIsLoading(false)
+      setAddWordSheetOpen(false)
+      reset()
     }
   }
 

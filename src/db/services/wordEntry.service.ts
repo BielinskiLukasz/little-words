@@ -48,10 +48,6 @@ export async function addWordEntry(
   // Filter out empty meanings before save
   const validMeanings = data.meanings.filter(m => m.text.trim().length > 0)
 
-  if (validMeanings.length === 0) {
-    throw new Error('At least one non-empty meaning is required')
-  }
-
   const meaningIds: number[] = []
 
   for (const meaning of validMeanings) {
