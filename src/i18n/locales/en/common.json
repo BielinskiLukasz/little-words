@@ -154,5 +154,29 @@
     "step2": "Scroll down and tap 'Add to Home Screen'",
     "step3": "Tap 'Add' — your data stays safe on your device",
     "dismiss": "Got it"
+  },
+  "report": {
+    "title": "Doctor Report",
+    "date": "Report date",
+    "child": "Child",
+    "age": "Age",
+    "ageYears": "{{count}} years",
+    "ageMonths": "{{count}} months",
+    "activeMeanings": "Active meanings",
+    "inactiveMeanings": "Inactive meanings",
+    "newInLast3Months": "New in last 3 months",
+    "activeWordForms": "Active word forms",
+    "topCategories": "Top 3 categories",
+    "languages": "Home languages",
+    "medicalContext": "Medical context",
+    "prematureBirth": "Premature birth",
+    "speechTherapy": "Speech therapy",
+    "neurologicalCare": "Neurological care",
+    "yes": "Yes",
+    "no": "No",
+    "parentNotes": "Parent notes",
+    "parentNotesPlaceholder": "Add notes for the doctor...",
+    "copyButton": "Copy report",
+    "copied": "Report copied!"
   }
 }

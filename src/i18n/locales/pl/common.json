@@ -156,5 +156,29 @@
     "step2": "Przewiń i dotknij 'Dodaj do ekranu głównego'",
     "step3": "Dotknij 'Dodaj' — Twoje dane pozostają bezpieczne na urządzeniu",
     "dismiss": "Rozumiem"
+  },
+  "report": {
+    "title": "Raport dla lekarza",
+    "date": "Data raportu",
+    "child": "Dziecko",
+    "age": "Wiek",
+    "ageYears": "{{count}} lat",
+    "ageMonths": "{{count}} miesięcy",
+    "activeMeanings": "Aktywne znaczenia",
+    "inactiveMeanings": "Nieaktywne znaczenia",
+    "newInLast3Months": "Nowe w ostatnich 3 miesiącach",
+    "activeWordForms": "Aktywne formy słów",
+    "topCategories": "Top 3 kategorie",
+    "languages": "Języki w domu",
+    "medicalContext": "Kontekst medyczny",
+    "prematureBirth": "Przedwczesne urodzenie",
+    "speechTherapy": "Terapia logopedyczna",
+    "neurologicalCare": "Opieka neurologiczna",
+    "yes": "Tak",
+    "no": "Nie",
+    "parentNotes": "Notatki dla lekarza",
+    "parentNotesPlaceholder": "Dodaj notatki dla lekarza...",
+    "copyButton": "Kopiuj raport",
+    "copied": "Raport skopiowany!"
   }
 }
