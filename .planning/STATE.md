@@ -5,40 +5,40 @@ milestone_name: milestone
 current_phase: 4
 current_phase_name: Doctor Report & Data Management
 status: planning
-stopped_at: Phase 3 context gathered
-last_updated: "2026-07-29T20:23:22.613Z"
-last_activity: 2026-07-30
-last_activity_desc: Phase 03 gap closure complete — all 6 UAT gaps resolved, verification 36/36
+stopped_at: Phase 3 complete, ready to plan Phase 4
+last_updated: "2026-08-25T20:32:58.718Z"
+last_activity: 2026-08-25
+last_activity_desc: Phase 3 complete, transitioned to Phase 4
 progress:
   total_phases: 3
   completed_phases: 3
-  total_plans: 14
-  completed_plans: 14
+  total_plans: 17
+  completed_plans: 17
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-30)
+See: .planning/PROJECT.md (updated 2026-08-25)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Phase 03 — browse-views
+**Current focus:** Phase 4 — Doctor Report & Data Management
 
 ## Current Position
 
 Phase: 4 — Doctor Report & Data Management
 Plan: Not started
 Status: Ready to plan
-Last activity: 2026-07-29 — Phase 03 complete, transitioned to Phase 4
+Last activity: 2026-08-25 — Phase 3 complete, transitioned to Phase 4
 
-Progress: [██████████] 100%
+Progress: [████████████████████] 17/17 plans (100%)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 4
+- Total plans completed: 7
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -46,7 +46,7 @@ Progress: [██████████] 100%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 03 | 4 | - | - |
+| 3 | 7 | - | - |
 
 **Recent Trend:**
 
@@ -93,6 +93,10 @@ Recent decisions affecting current work:
 - [Phase ?]: iOSInstallPrompt named with lowercase i (iOS branding) but imported as IOSInstallPrompt alias in JSX to satisfy React component capitalization requirement
 - [Phase ?]: useSettings uses LANG_KEY constant from @/i18n as single source of truth for localStorage key
 - [Phase ?]: iOS prompt three-layer guard: UIStore trigger (ephemeral) + localStorage flag (permanent) + UA check (platform gate)
+- Phase 3: flex-1 on calendar day cells — w-full collapses in Tailwind v4 flex context; applies to any DayPicker use
+- Phase 3: Word form save without meanings is valid — empty meanings array handled gracefully (for-of loop is a no-op)
+- Phase 3: Sheet close + reset in finally block — UI state resets unconditionally regardless of save outcome
+- Phase 3: Category names and dates must be i18n'd — both rendered in English in Polish mode until fixed in gap closure plans
 
 ### Pending Todos
 
@@ -110,6 +114,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-07-28T22:45:19.509Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-browse-views/03-CONTEXT.md
+Last session: 2026-08-25
+Stopped at: Phase 3 complete, ready to plan Phase 4
+Resume file: None

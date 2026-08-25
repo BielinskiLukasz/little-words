@@ -12,29 +12,29 @@ A parent can walk into a specialist consultation and present objective, structur
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Parent can create a child profile (name, birth date, languages at home) during a required onboarding wizard — Phase 2
+- ✓ Parent can add a word form with one or more meanings via a FAB → bottom sheet flow — Phase 2
+- ✓ Meanings autocomplete from existing entries; new meanings can be created inline — Phase 2
+- ✓ Each meaning can be tagged with one or more default categories (Nouns, Verbs, Food, Animals, etc.) — Phase 2
+- ✓ Each meaning tracks first-use date and last-use date (not every occurrence) — Phase 2
+- ✓ UI supports Polish and English with a language switcher in Settings — Phase 2
+- ✓ Parent can mark a meaning as Active or Inactive from its detail page — Phase 3
+- ✓ Dashboard shows Active Meanings as the primary metric, plus Active Word Forms, New Meanings This Month, and a "Review these?" card for meanings not used in 30+ days — Phase 3
+- ✓ Meanings view and Word Forms view are browsable lists (no search in MVP) — Phase 3
+- ✓ Categories view shows all default categories with their meaning counts — Phase 3
+- ✓ Timeline view shows monthly vocabulary growth as both a chart and a data table — Phase 3
+- ✓ Parent can tap a word form detail page to see linked meanings; deleting a word form removes the link — meanings survive as independent entities — Phase 3
 
 ### Active
 
-- [ ] Parent can create a child profile (name, birth date, languages at home) during a required onboarding wizard
-- [ ] Parent can add a word form with one or more meanings via a FAB → bottom sheet flow
-- [ ] Meanings autocomplete from existing entries; new meanings can be created inline
-- [ ] Each meaning can be tagged with one or more default categories (Nouns, Verbs, Food, Animals, etc.)
 - [ ] Each meaning records whether its first use was Spontaneous or Repeated
-- [ ] Each meaning tracks first-use date and last-use date (not every occurrence)
-- [ ] Parent can mark a meaning as Active or Inactive from its detail page
-- [ ] Dashboard shows Active Meanings as the primary metric, plus Active Word Forms, New Meanings This Month, Recently Added, Top Categories, and a "Review these?" card for meanings not used in 30+ days
-- [ ] Meanings view and Word Forms view are browsable lists (no search in MVP)
-- [ ] Categories view shows all default categories with their meaning counts
-- [ ] Timeline view shows monthly vocabulary growth as both a chart and a data table
 - [ ] Parent can record gestures (description, first/last observed date)
-- [ ] Parent can tap any entry to open a detail page and edit it; deleting a word form removes only the link — meanings survive as independent entities
+- [ ] Parent can edit meaning details (categories, dates) from the detail page
 - [ ] Doctor Report generates a structured text summary (active/inactive counts, top categories, gestures, profile medical context, parent notes) and copies it to clipboard
 - [ ] Parent notes for the doctor report are a persistent field on the child profile
 - [ ] JSON export and import (backup and device migration) available in Settings → Data
 - [ ] CSV export available in Settings → Data
 - [ ] App works fully offline; installable as a PWA on mobile
-- [ ] UI supports Polish and English with a language switcher in Settings (translation scope TBD during UI planning)
 
 ### Out of Scope
 
@@ -82,6 +82,10 @@ A parent can walk into a specialist consultation and present objective, structur
 | Single child profile | Current design target; multi-child support explicitly deferred to v2 | — Pending |
 | Import/Export in Settings → Data | Infrequent action; does not belong in primary navigation | — Pending |
 | Active/Inactive toggled from detail page only | Prevents accidental toggles from list views; explicit intent required | — Pending |
+| flex-1 on calendar day cells (Tailwind v4) | `w-full` collapses flex children to minimum width in Tailwind v4; `flex-1` distributes evenly — applies to any DayPicker usage | — Phase 3 |
+| Word form save without meanings is valid | Empty meanings array is handled gracefully by service; parents may log a sound before assigning meaning | — Phase 3 |
+| Sheet cleanup in `finally` block | `close()` + `reset()` in `finally` ensures UI state resets regardless of save outcome; never leave sheet open after an error | — Phase 3 |
+| Category names and dates must be i18n'd | UAT confirmed both were rendering in English in Polish mode; locale-aware display is a hard requirement for Polish users | — Phase 3 |
 
 ## Evolution
 
@@ -101,4 +105,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-07-29 — Phase 3 complete (browse-views: Dashboard, Meanings, Word Forms, Categories, Timeline)*
+*Last updated: 2026-08-25 — Phase 3 complete (browse-views: Dashboard, Meanings, Word Forms, Categories, Timeline; 8 UAT gaps resolved; verification 38/38)*

@@ -149,6 +149,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 5/5 | Complete | 2026-06-30 |
 | 2. Onboarding & Data Entry | 5/5 | Complete   | 2026-07-01 |
-| 3. Browse Views | 7/7 | In Progress|  |
+| 3. Browse Views | 7/7 | Complete    | 2026-08-25 |
 | 4. Doctor Report & Data Management | 0/TBD | Not started | - |
 | 5. PWA Polish | 0/TBD | Not started | - |
