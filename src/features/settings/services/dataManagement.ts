@@ -28,6 +28,41 @@ export function buildBackupData(
   }
 }
 
+function isValidChildProfile(item: unknown): boolean {
+  if (typeof item !== 'object' || item === null) return false
+  const p = item as Record<string, unknown>
+  return (
+    typeof p.name === 'string' &&
+    typeof p.birthDate === 'string' &&
+    Array.isArray(p.languages) &&
+    typeof p.createdAt === 'string'
+  )
+}
+
+function isValidWordForm(item: unknown): boolean {
+  if (typeof item !== 'object' || item === null) return false
+  const wf = item as Record<string, unknown>
+  return typeof wf.form === 'string' && typeof wf.createdAt === 'string'
+}
+
+function isValidMeaning(item: unknown): boolean {
+  if (typeof item !== 'object' || item === null) return false
+  const m = item as Record<string, unknown>
+  return (
+    typeof m.text === 'string' &&
+    Array.isArray(m.categories) &&
+    typeof m.isActive === 'boolean' &&
+    typeof m.firstUseDate === 'string' &&
+    typeof m.lastUseDate === 'string'
+  )
+}
+
+function isValidWordFormMeaning(item: unknown): boolean {
+  if (typeof item !== 'object' || item === null) return false
+  const wfm = item as Record<string, unknown>
+  return typeof wfm.wordFormId === 'number' && typeof wfm.meaningId === 'number'
+}
+
 // Type guard — validates that data is a well-formed BackupData with schemaVersion=2
 export function validateBackupData(data: unknown): data is BackupData {
   if (typeof data !== 'object' || data === null) return false
@@ -37,6 +72,10 @@ export function validateBackupData(data: unknown): data is BackupData {
   if (!Array.isArray(d.wordForms)) return false
   if (!Array.isArray(d.meanings)) return false
   if (!Array.isArray(d.wordFormMeanings)) return false
+  if (!d.childProfile.every(isValidChildProfile)) return false
+  if (!d.wordForms.every(isValidWordForm)) return false
+  if (!d.meanings.every(isValidMeaning)) return false
+  if (!d.wordFormMeanings.every(isValidWordFormMeaning)) return false
   return true
 }
 
