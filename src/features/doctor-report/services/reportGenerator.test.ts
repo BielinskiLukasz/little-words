@@ -212,6 +212,14 @@ describe('generateReport — edge cases', () => {
     expect(result).toContain('report.newInLast3Months: 0')
   })
 
+  it('meaning with date-only firstUseDate exactly at cutoff day (90 days) → IS counted', () => {
+    // now = 2026-01-01; cutoff = 2025-10-03 (date-only after WR-04 fix)
+    // string comparison '2025-10-03' >= '2025-10-03' must be true
+    const meanings = [activeMeaning({ id: 1, firstUseDate: '2025-10-03' })]
+    const result = generateReport({ profile: baseProfile, meanings, wordForms: [], t, now })
+    expect(result).toContain('report.newInLast3Months: 1')
+  })
+
   it('only 2 categories have active meanings → topCategories contains exactly 2 entries', () => {
     const meanings: Meaning[] = [
       activeMeaning({ id: 1, categories: ['Nouns'] }),
