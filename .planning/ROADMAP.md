@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Immutable scaffold: Vite base path, Dexie schema v1, i18n, hash router shell
 - [x] **Phase 2: Onboarding & Data Entry** - App becomes usable: child profile wizard and FAB → bottom sheet word entry (completed 2026-07-01)
 - [x] **Phase 3: Browse Views** - Read-only aggregations validating the data model across all list and detail views (completed 2026-07-29)
-- [ ] **Phase 4: Doctor Report & Data Management** - Primary value delivery: report to clipboard, JSON/CSV export and import
+- [x] **Phase 4: Doctor Report & Data Management** - Primary value delivery: report to clipboard, JSON/CSV export and import (completed 2026-08-27)
 - [ ] **Phase 5: PWA Polish** - Full offline capability, installability, service worker update prompt, manifest verification
 
 ## Phase Details
