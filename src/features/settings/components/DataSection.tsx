@@ -47,10 +47,6 @@ export function DataSection() {
     try {
       await importData(file)
       toast(t('settings.importSuccess'))
-      // Reset so the same file can be re-imported if needed
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ''
-      }
     } catch (err) {
       const message = err instanceof Error ? err.message : ''
       if (message.includes('wrong-schema-version')) {
@@ -61,6 +57,10 @@ export function DataSection() {
       setImportErrorOpen(true)
     } finally {
       setIsImporting(false)
+      // Reset so the same file can be re-selected on the next attempt
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
     }
   }
 
