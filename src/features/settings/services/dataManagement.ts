@@ -40,9 +40,13 @@ export function validateBackupData(data: unknown): data is BackupData {
   return true
 }
 
-// Wraps a CSV cell value in double-quotes if it contains a comma
+// RFC 4180: wrap if the value contains commas, double-quotes, or newlines;
+// escape internal double-quotes by doubling them.
 function escapeCSVCell(value: string): string {
-  return value.includes(',') ? `"${value}"` : value
+  if (value.includes(',') || value.includes('"') || value.includes('\n') || value.includes('\r')) {
+    return '"' + value.replace(/"/g, '""') + '"'
+  }
+  return value
 }
 
 // Pure function — builds a CSV string from meanings + join data (no DB access)
