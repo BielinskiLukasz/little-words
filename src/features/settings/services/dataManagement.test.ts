@@ -126,29 +126,29 @@ describe('dataManagement - buildMeaningsCSV', () => {
   it('returns a string starting with the header line', async () => {
     const { buildMeaningsCSV } = await import('./dataManagement')
     const result = buildMeaningsCSV([], [], [])
-    expect(result.split('\n')[0]).toBe('label,categories,firstUseDate,lastUseDate,active,wordForms')
+    expect(result.split('\n')[0]).toBe('wordForms,label,categories,firstUseDate,lastUseDate,active')
   })
 
   it('returns only the header row for an empty meanings array', async () => {
     const { buildMeaningsCSV } = await import('./dataManagement')
     const result = buildMeaningsCSV([], [], [])
-    expect(result).toBe('label,categories,firstUseDate,lastUseDate,active,wordForms')
+    expect(result).toBe('wordForms,label,categories,firstUseDate,lastUseDate,active')
   })
 
-  it('has the meaning text as the first column in each row', async () => {
+  it('has the meaning text as the second column in each row', async () => {
     const { buildMeaningsCSV } = await import('./dataManagement')
     const meanings = [{ id: 1, text: 'mama', categories: ['People' as const], isActive: true, firstUseDate: '2024-01-01', lastUseDate: '2024-06-01' }]
     const result = buildMeaningsCSV(meanings, [], [])
     const rows = result.split('\n')
-    expect(rows[1]).toMatch(/^mama,/)
+    expect(rows[1]).toMatch(/^,mama,/)
   })
 
-  it('joins categories with semicolons in the second column', async () => {
+  it('joins categories with semicolons in the third column', async () => {
     const { buildMeaningsCSV } = await import('./dataManagement')
     const meanings = [{ id: 1, text: 'woda', categories: ['Food' as const, 'Nouns' as const], isActive: true, firstUseDate: '2024-01-01', lastUseDate: '2024-06-01' }]
     const result = buildMeaningsCSV(meanings, [], [])
     const row = result.split('\n')[1]
-    expect(row.split(',')[1]).toBe('Food;Nouns')
+    expect(row.split(',')[2]).toBe('Food;Nouns')
   })
 
   it('active column is "true" for isActive=true', async () => {
@@ -157,7 +157,7 @@ describe('dataManagement - buildMeaningsCSV', () => {
     const result = buildMeaningsCSV(meanings, [], [])
     const row = result.split('\n')[1]
     const cols = row.split(',')
-    expect(cols[4]).toBe('true')
+    expect(cols[5]).toBe('true')
   })
 
   it('active column is "false" for isActive=false', async () => {
@@ -166,7 +166,7 @@ describe('dataManagement - buildMeaningsCSV', () => {
     const result = buildMeaningsCSV(meanings, [], [])
     const row = result.split('\n')[1]
     const cols = row.split(',')
-    expect(cols[4]).toBe('false')
+    expect(cols[5]).toBe('false')
   })
 
   it('has empty wordForms column for a meaning with no linked forms', async () => {
@@ -175,7 +175,7 @@ describe('dataManagement - buildMeaningsCSV', () => {
     const result = buildMeaningsCSV(meanings, [], [])
     const row = result.split('\n')[1]
     const cols = row.split(',')
-    expect(cols[5]).toBe('')
+    expect(cols[0]).toBe('')
   })
 
   it('lists multiple linked word forms separated by semicolons', async () => {
@@ -192,7 +192,7 @@ describe('dataManagement - buildMeaningsCSV', () => {
     const result = buildMeaningsCSV(meanings, wordFormMeanings, wordForms)
     const row = result.split('\n')[1]
     const cols = row.split(',')
-    expect(cols[5]).toBe('je;jedzenie')
+    expect(cols[0]).toBe('je;jedzenie')
   })
 
   it('wraps cell values containing commas in double-quotes', async () => {
@@ -200,7 +200,7 @@ describe('dataManagement - buildMeaningsCSV', () => {
     const meanings = [{ id: 1, text: 'hello, world', categories: ['Social Communication' as const], isActive: true, firstUseDate: '2024-01-01', lastUseDate: '2024-06-01' }]
     const result = buildMeaningsCSV(meanings, [], [])
     const row = result.split('\n')[1]
-    expect(row).toMatch(/^"hello, world"/)
+    expect(row).toMatch(/^,"hello, world"/)
   })
 })
 

@@ -94,7 +94,7 @@ export function buildMeaningsCSV(
   wordFormMeanings: WordFormMeaning[],
   wordForms: WordForm[],
 ): string {
-  const header = 'label,categories,firstUseDate,lastUseDate,active,wordForms'
+  const header = 'wordForms,label,categories,firstUseDate,lastUseDate,active'
   const rows = meanings.map((meaning) => {
     const linkedForms = wordFormMeanings
       .filter((wfm) => wfm.meaningId === meaning.id)
@@ -102,12 +102,12 @@ export function buildMeaningsCSV(
       .filter(Boolean)
       .join(';')
     const cells = [
+      linkedForms,
       meaning.text,
       meaning.categories.join(';'),
       meaning.firstUseDate,
       meaning.lastUseDate,
       String(meaning.isActive),
-      linkedForms,
     ]
     return cells.map(escapeCSVCell).join(',')
   })
