@@ -38,10 +38,13 @@ export function DoctorReportPage() {
     now: new Date(),
   })
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(reportText).then(() => {
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(reportText)
       toast(t('report.copied'))
-    })
+    } catch {
+      toast(t('errors.somethingWentWrong'))
+    }
   }
 
   const handleNotesBlur = () => {
