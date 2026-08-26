@@ -124,11 +124,11 @@ Plans:
   4. From Settings → Data, the parent can import a previously exported JSON file; a warning is shown that existing data will be replaced; data is fully restored after import
   5. From Settings → Data, the parent can export all meanings as a CSV with meaning label, categories, first/last use dates, active status, and linked word forms
 
-**Plans**: 1/2 plans executed
+**Plans**: 2/2 plans executed
 Plans:
 
 - [x] 04-01-PLAN.md — Doctor Report end-to-end tracer: Sonner toast, reportGenerator (TDD), DoctorReportPage wired
-- [ ] 04-02-PLAN.md — Settings Data Management: JSON export/import (with AlertDialog + validation), CSV export, DataSection replaces DataPlaceholder
+- [x] 04-02-PLAN.md — Settings Data Management: JSON export/import (with AlertDialog + validation), CSV export, DataSection replaces DataPlaceholder
 
 ### Phase 5: PWA Polish
 
@@ -154,5 +154,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation | 5/5 | Complete | 2026-06-30 |
 | 2. Onboarding & Data Entry | 5/5 | Complete   | 2026-07-01 |
 | 3. Browse Views | 7/7 | Complete    | 2026-08-25 |
-| 4. Doctor Report & Data Management | 1/2 | In Progress|  |
+| 4. Doctor Report & Data Management | 2/2 | In Progress|  |
 | 5. PWA Polish | 0/TBD | Not started | - |
