@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Download, Upload, FileText } from 'lucide-react'
-import { exportData } from '@/features/settings/services/dataManagement'
+import { toast } from 'sonner'
+import { exportData, importData, exportMeaningsCSV } from '@/features/settings/services/dataManagement'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,7 +16,12 @@ import {
 
 export function DataSection() {
   const { t } = useTranslation()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   const [importConfirmOpen, setImportConfirmOpen] = useState(false)
+  const [importErrorOpen, setImportErrorOpen] = useState(false)
+  const [importErrorMessage, setImportErrorMessage] = useState('')
+  const [isImporting, setIsImporting] = useState(false)
 
   const handleExportJson = async () => {
     try {
@@ -23,6 +29,44 @@ export function DataSection() {
     } catch (err) {
       console.error('Export JSON failed:', err)
     }
+  }
+
+  const handleExportCsv = async () => {
+    try {
+      await exportMeaningsCSV()
+    } catch (err) {
+      console.error('Export CSV failed:', err)
+    }
+  }
+
+  const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setIsImporting(true)
+    try {
+      await importData(file)
+      toast(t('settings.importSuccess'))
+      // Reset so the same file can be re-imported if needed
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+    } catch (err) {
+      const message = err instanceof Error ? err.message : ''
+      if (message.includes('wrong-schema-version')) {
+        setImportErrorMessage(t('settings.importErrorDescriptionVersion'))
+      } else {
+        setImportErrorMessage(t('settings.importErrorDescriptionCorrupt'))
+      }
+      setImportErrorOpen(true)
+    } finally {
+      setIsImporting(false)
+    }
+  }
+
+  const handleImportConfirm = () => {
+    setImportConfirmOpen(false)
+    fileInputRef.current?.click()
   }
 
   return (
@@ -42,8 +86,9 @@ export function DataSection() {
 
       {/* Import JSON row */}
       <button
-        className="flex items-center gap-3 w-full py-3 px-4 rounded-lg hover:bg-muted text-left"
+        className="flex items-center gap-3 w-full py-3 px-4 rounded-lg hover:bg-muted text-left disabled:opacity-50"
         onClick={() => setImportConfirmOpen(true)}
+        disabled={isImporting}
       >
         <Upload size={18} />
         <div className="flex-1">
@@ -56,9 +101,7 @@ export function DataSection() {
       {/* Export CSV row */}
       <button
         className="flex items-center gap-3 w-full py-3 px-4 rounded-lg hover:bg-muted text-left"
-        onClick={() => {
-          // Stub — wired in Task 3 when exportMeaningsCSV is implemented
-        }}
+        onClick={handleExportCsv}
       >
         <FileText size={18} />
         <div className="flex-1">
@@ -67,6 +110,15 @@ export function DataSection() {
         </div>
         <FileText size={16} className="text-muted-foreground" />
       </button>
+
+      {/* Hidden file input for import */}
+      <input
+        type="file"
+        accept=".json"
+        ref={fileInputRef}
+        className="hidden"
+        onChange={handleFileSelected}
+      />
 
       {/* Import confirmation dialog */}
       <AlertDialog open={importConfirmOpen} onOpenChange={setImportConfirmOpen}>
@@ -77,9 +129,22 @@ export function DataSection() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-            <AlertDialogAction onClick={() => setImportConfirmOpen(false)}>
+            <AlertDialogAction onClick={handleImportConfirm}>
               {t('settings.importConfirmButton')}
             </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Import error dialog */}
+      <AlertDialog open={importErrorOpen} onOpenChange={setImportErrorOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('settings.importErrorTitle')}</AlertDialogTitle>
+            <AlertDialogDescription>{importErrorMessage}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('common.back')}</AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
