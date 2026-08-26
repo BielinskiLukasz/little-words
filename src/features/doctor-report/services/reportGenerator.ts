@@ -40,7 +40,9 @@ export function generateReport(input: ReportInput): string {
     .sort((a, b) => b.count - a.count)
     .slice(0, 3)
 
-  const topCategoriesLines = categoryCounts.map((entry) => `  ${entry.cat}: ${entry.count}`)
+  const topCategoriesLines = categoryCounts.map(
+    (entry) => `  ${t(`category.${entry.cat}`)}: ${entry.count}`
+  )
 
   // Medical flags — always show all three
   const flagLine = (key: string, value: boolean | undefined) =>
