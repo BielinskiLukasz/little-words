@@ -50,8 +50,9 @@ export function generateReport(input: ReportInput): string {
     `${t(key)}: ${value ? t('report.yes') : t('report.no')}`
 
   // Build report lines
+  const reportDate = now.toISOString().split('T')[0]
   const lines: string[] = [
-    `${t('report.date')}: ${now.toLocaleDateString()}`,
+    `${t('report.date')}: ${reportDate}`,
     `${t('report.child')}: ${profile.name}`,
     `${t('report.age')}: ${ageStr}`,
     `${t('report.activeMeanings')}: ${activeMeanings.length}`,
