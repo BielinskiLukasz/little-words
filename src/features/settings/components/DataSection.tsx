@@ -28,6 +28,7 @@ export function DataSection() {
       await exportData()
     } catch (err) {
       console.error('Export JSON failed:', err)
+      toast(t('errors.somethingWentWrong'))
     }
   }
 
@@ -36,6 +37,7 @@ export function DataSection() {
       await exportMeaningsCSV()
     } catch (err) {
       console.error('Export CSV failed:', err)
+      toast(t('errors.somethingWentWrong'))
     }
   }
 
