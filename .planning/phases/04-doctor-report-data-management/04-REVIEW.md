@@ -2,57 +2,80 @@
 phase: 04-doctor-report-data-management
 reviewed: 2026-08-26T00:00:00Z
 depth: standard
-files_reviewed: 13
+files_reviewed: 24
 files_reviewed_list:
   - src/App.tsx
   - src/components/ui/sonner.tsx
-  - src/features/doctor-report/services/reportGenerator.ts
   - src/features/doctor-report/services/reportGenerator.test.ts
+  - src/features/doctor-report/services/reportGenerator.ts
   - src/features/settings/components/DataSection.tsx
-  - src/features/settings/services/dataManagement.ts
   - src/features/settings/services/dataManagement.test.ts
+  - src/features/settings/services/dataManagement.ts
   - src/i18n/locales/en/common.json
   - src/i18n/locales/pl/common.json
   - src/pages/DoctorReportPage.tsx
   - src/pages/SettingsPage.tsx
   - src/test-setup.ts
+  - .claude/hooks/lib/cursor-workspace.js
+  - .claude/hooks/lib/injection-patterns.js
+  - .claude/hooks/lib/isolation-deny-reason.js
+  - .claude/hooks/lib/isolation-sentinel.js
+  - .claude/hooks/managed-hooks-registry.cjs
+  - .claude/hooks/package.json
+  - .claude/scripts/changeset/lint.cjs
+  - .claude/scripts/changeset/serialize.cjs
+  - .claude/scripts/gen-capability-registry.cjs
+  - .claude/scripts/gen-loop-host-contract.cjs
+  - .claude/scripts/lib/alias-drift-families.cjs
+  - .claude/scripts/lib/drift-scan.cjs
   - package.json
 findings:
-  critical: 1
+  critical: 3
   warning: 6
   info: 2
-  total: 9
+  total: 11
 status: issues_found
 ---
 
 # Phase 04: Code Review Report
 
-**Reviewed:** 2026-08-26
+**Reviewed:** 2026-08-26T00:00:00Z
 **Depth:** standard
-**Files Reviewed:** 13
+**Files Reviewed:** 24
 **Status:** issues_found
 
 ## Summary
 
-This phase delivers two features: a doctor-report generator and a JSON/CSV data-management panel (export, import, CSV export). The architecture is sound — pure functions are correctly separated from DB-access functions, the Dexie transaction in `importData` is properly scoped, and the test coverage is broad. However, one blocker-level correctness defect (malformed CSV output), one silent boundary logic error in the report generator, and several unhandled failure paths are present that must be addressed before shipping.
+This phase delivered two features: a doctor report page (read-only text summary with clipboard copy) and a data management section (JSON export/import, CSV export). The application source files (`src/`) contain three blockers and six warnings. The `.claude/` infrastructure files (hooks, scripts) are tooling for the GSD workflow system; they are well-structured and contain no actionable defects within this project's scope.
+
+The three blockers are: (1) the CSV exporter produces malformed output for values containing double-quotes or newlines; (2) report category names are never translated, so Polish-locale users always see English category names; and (3) the file input is not reset on import failure, making it impossible to retry importing the same file after an error.
 
 ---
 
+## Narrative Findings (AI reviewer)
+
 ## Critical Issues
 
-### CR-01: `escapeCSVCell` produces malformed CSV for cells containing double-quote characters
+### CR-01: CSV exporter produces malformed output and allows row injection
 
 **File:** `src/features/settings/services/dataManagement.ts:44-46`
 
-**Issue:** The CSV escape helper only wraps the cell in double-quotes when a comma is present. It does not escape embedded double-quote characters (`"`) by doubling them (RFC 4180 requirement), and it does not handle embedded newlines (`\n`/`\r`). A meaning text such as `I said "mama"` produces the output `"I said "mama""`, which is invalid CSV — the second `"` terminates the field prematurely. Any spreadsheet parser (Excel, Google Sheets, LibreOffice) will misparse all subsequent columns in that row. Meanings containing a newline will silently inject an extra row into the CSV.
+**Issue:** `escapeCSVCell` only wraps values that contain a comma. It does not escape embedded double-quote characters, and it does not wrap or escape values that contain newlines. Per RFC 4180, all three of these characters require the cell to be wrapped in double-quotes AND internal double-quotes must be doubled.
+
+Concrete failures:
+
+- A meaning text of `"hello", world` (contains a double-quote and a comma) is serialized as `""hello", world"`. The leading `""` is parsed as an empty field followed by a bare `hello`, world`, which is malformed.
+- A meaning text of `"hello"` (double-quote only, no comma) is not wrapped at all, so the double-quotes land in the output naked. Any RFC 4180-compliant CSV parser will misinterpret the field boundaries.
+- A meaning text of `first line\nsecond line` (newline, no comma) is not wrapped. The newline terminates the current CSV row, and `second line,...` appears to parsers as a new row — this is row injection via user-entered data.
 
 **Fix:**
-```ts
+
+```typescript
 function escapeCSVCell(value: string): string {
-  // Wrap in quotes whenever the value contains a comma, double-quote, or newline.
-  // Per RFC 4180, any embedded double-quote must be doubled.
+  // RFC 4180: wrap if the value contains commas, double-quotes, or newlines;
+  // escape internal double-quotes by doubling them.
   if (value.includes(',') || value.includes('"') || value.includes('\n') || value.includes('\r')) {
-    return `"${value.replace(/"/g, '""')}"`
+    return '"' + value.replace(/"/g, '""') + '"'
   }
   return value
 }
@@ -60,93 +83,85 @@ function escapeCSVCell(value: string): string {
 
 ---
 
-## Warnings
-
-### WR-01: Date format mismatch makes `newInLast3Months` boundary comparison incorrect
-
-**File:** `src/features/doctor-report/services/reportGenerator.ts:28-29`
-
-**Issue:** `cutoff` is constructed as a full ISO-8601 timestamp (`"2025-10-03T00:00:00.000Z"`) via `subDays(now, 90).toISOString()`. But `meaning.firstUseDate` is stored as a `YYYY-MM-DD` date string (confirmed by the schema type, the default test fixture `'2025-10-01'`, and the fact that the UI uses a date picker). JavaScript string comparison of `"2025-10-03" >= "2025-10-03T00:00:00.000Z"` evaluates to `false` (the shorter string sorts below the longer one when all shared characters match). As a result, any meaning whose `firstUseDate` falls on the exact cutoff date is incorrectly excluded from the count.
-
-The edge-case tests in `reportGenerator.test.ts` (lines 195 and 202) avoid exposing this by constructing `firstUseDate` via `.toISOString()` rather than the `YYYY-MM-DD` format that production data actually uses. The tests therefore pass while the bug is present.
-
-**Fix:**
-```ts
-// Use a date-only cutoff to match the YYYY-MM-DD format stored in the DB.
-const cutoff = subDays(now, 90).toISOString().split('T')[0]
-const newInLast3Months = activeMeanings.filter((m) => m.firstUseDate >= cutoff).length
-```
-
-The companion edge-case tests should also be updated to use `YYYY-MM-DD` format for `firstUseDate` so they reflect production data format:
-```ts
-const firstUseDate = new Date(now.getTime() - 91 * 24 * 60 * 60 * 1000)
-  .toISOString().split('T')[0]
-```
-
-### WR-02: Category names in the doctor report are never translated
+### CR-02: Report category names are never translated
 
 **File:** `src/features/doctor-report/services/reportGenerator.ts:43`
 
-**Issue:** The top-categories section writes raw `CATEGORIES` constant values (`'Nouns'`, `'Body Parts'`, etc.) directly into the report output. The `t` function is available and both locale files already contain `category.*` translations (e.g., `"Nouns": "Rzeczowniki"` in Polish). A Polish user sharing the report with a Polish doctor will see English category names embedded in an otherwise fully-translated report.
+**Issue:** The top-categories lines are built using the raw category key (`entry.cat`), which is always the English string from the `CATEGORIES` constant (e.g., `'Nouns'`, `'Body Parts'`). The `t` function is available in `generateReport` but is never called for these labels. When the app is in Polish, the report header, field labels, and yes/no values are all translated, but the category lines remain in English (`Nouns: 3` instead of `Rzeczowniki: 3`). This is a localization bug on the only feature that is explicitly presented to a doctor.
 
 **Fix:**
-```ts
+
+```typescript
+// line 43 — replace entry.cat with its translation
 const topCategoriesLines = categoryCounts.map(
   (entry) => `  ${t(`category.${entry.cat}`)}: ${entry.count}`
 )
 ```
 
-### WR-03: Unhandled rejection when clipboard write fails in `handleCopy`
+Both `en/common.json` and `pl/common.json` already declare all category translations under the `category.*` namespace, so no translation strings need to be added.
 
-**File:** `src/pages/DoctorReportPage.tsx:41-45`
+---
 
-**Issue:** `navigator.clipboard.writeText` returns a Promise. The code chains `.then()` but has no `.catch()`. If the clipboard API is unavailable (non-HTTPS context in development, browser permission denied, or Safari quirks), the promise rejects and the rejection is unhandled. The user receives no feedback that the copy failed.
+### CR-03: File input not reset on import error — same file cannot be retried
 
-**Fix:**
-```ts
-const handleCopy = () => {
-  navigator.clipboard.writeText(reportText).then(() => {
-    toast(t('report.copied'))
-  }).catch(() => {
-    toast.error(t('errors.somethingWentWrong'))
-  })
-}
-```
+**File:** `src/features/settings/components/DataSection.tsx:50-63`
 
-### WR-04: `updateChildProfile` promise is discarded in `handleNotesBlur`
+**Issue:** `fileInputRef.current.value = ''` is inside the `try` block and only executes on a successful import. When `importData(file)` throws, the `catch` block shows the error dialog but does not reset the file input. After the user dismisses the error dialog and tries again (clicks "Import JSON" → confirms → file picker → selects the same file), the browser's `change` event does not fire because the input's `value` has not changed. The user is stuck: they must first select a different file to reset state, or they must close and reopen the browser tab.
 
-**File:** `src/pages/DoctorReportPage.tsx:47-51`
+**Fix:** Move the reset into the `finally` block so it executes regardless of success or failure:
 
-**Issue:** `handleNotesBlur` calls `updateChildProfile(...)` — an async function returning a Promise — but neither awaits it nor attaches an error handler. If the IndexedDB write fails (storage quota exceeded, DB version conflict), the failure is silently dropped and the user's notes appear saved when they are not. This is a floating promise / fire-and-forget bug.
-
-**Fix:** Convert `handleNotesBlur` to async and add error handling:
-```ts
-const handleNotesBlur = async () => {
-  if (profile.id !== undefined) {
-    const { id: _id, ...rest } = profile
-    try {
-      await updateChildProfile(profile.id, { ...rest, parentNotes: notesValue })
-    } catch {
-      toast.error(t('errors.somethingWentWrong'))
-    }
+```typescript
+} finally {
+  setIsImporting(false)
+  // Reset so the same file can be re-selected on the next attempt
+  if (fileInputRef.current) {
+    fileInputRef.current.value = ''
   }
 }
 ```
 
-### WR-05: Export failures are silently swallowed — no user feedback
+Remove the reset call from the `try` block.
+
+---
+
+## Warnings
+
+### WR-01: Clipboard copy has no error handler — failure is silent
+
+**File:** `src/pages/DoctorReportPage.tsx:41-45`
+
+**Issue:** `navigator.clipboard.writeText(reportText).then(...)` has no `.catch()`. The Clipboard API can fail when the browser denies clipboard permission, when the page is not focused, or in certain embedded/PWA contexts. If it fails, the user receives no feedback — the button appears to do nothing. Given that copying is the primary action on this page, silent failure is a significant UX problem.
+
+**Fix:**
+
+```typescript
+const handleCopy = async () => {
+  try {
+    await navigator.clipboard.writeText(reportText)
+    toast(t('report.copied'))
+  } catch {
+    toast(t('errors.somethingWentWrong'))
+  }
+}
+```
+
+---
+
+### WR-02: Export errors are silently discarded — user receives no feedback
 
 **File:** `src/features/settings/components/DataSection.tsx:26-39`
 
-**Issue:** Both `handleExportJson` and `handleExportCsv` catch errors with `console.error` only. The `toast` function is already imported and used elsewhere in the same file for import success/failure. A user who triggers export while IndexedDB is unavailable (e.g., private browsing on Firefox, which blocks IndexedDB in some configurations) will receive no indication that their backup was not created.
+**Issue:** Both `handleExportJson` and `handleExportCsv` catch errors and call `console.error` only. `exportData` and `exportMeaningsCSV` both interact with IndexedDB and the DOM (creating Blob URLs and anchor elements); either can throw. When they do, the user sees nothing — the button looks like it succeeded. A `toast` call in the catch blocks is the minimal fix.
 
 **Fix:**
-```ts
+
+```typescript
 const handleExportJson = async () => {
   try {
     await exportData()
   } catch (err) {
     console.error('Export JSON failed:', err)
-    toast.error(t('errors.somethingWentWrong'))
+    toast(t('errors.somethingWentWrong'))
   }
 }
 
@@ -155,24 +170,25 @@ const handleExportCsv = async () => {
     await exportMeaningsCSV()
   } catch (err) {
     console.error('Export CSV failed:', err)
-    toast.error(t('errors.somethingWentWrong'))
+    toast(t('errors.somethingWentWrong'))
   }
 }
 ```
 
-### WR-06: `importData` does not validate the shape of individual records before `bulkAdd`
+---
 
-**File:** `src/features/settings/services/dataManagement.ts:142-157`
+### WR-03: `validateBackupData` does not validate array item shapes
 
-**Issue:** `validateBackupData` confirms that the four top-level arrays exist but does not validate the shape of individual array elements. A maliciously crafted (or hand-edited) backup file can inject records with missing required fields (e.g., a `Meaning` missing `isActive` or `categories`), unknown extra fields that corrupt downstream filtering, or type mismatches (e.g., `isActive: "yes"` instead of `boolean`). These records get written directly to IndexedDB via `bulkAdd` and will produce unpredictable behavior in every component that reads them.
+**File:** `src/features/settings/services/dataManagement.ts:32-41`
 
-This is not a remote-attacker security issue (the app is entirely local), but it IS a data-integrity failure path that can leave the database in a permanently broken state.
+**Issue:** The type guard confirms that `childProfile`, `wordForms`, `meanings`, and `wordFormMeanings` are arrays, but it does not inspect individual items. A backup file where, for example, `meanings` is `[null]` or `[{ id: "bad", text: 123 }]` passes validation and is handed directly to `db.meanings.bulkAdd()`. Dexie's `bulkAdd` does not validate item shape against the TypeScript interface; it inserts whatever is provided. This can silently corrupt the IndexedDB store.
 
-**Fix:** At minimum, add per-record guards for the fields that drive application logic:
-```ts
-function isMeaning(x: unknown): x is Meaning {
-  if (typeof x !== 'object' || x === null) return false
-  const m = x as Record<string, unknown>
+**Fix:** Add minimum shape checks for each item type. At minimum, assert that required fields are present and have the correct primitive types:
+
+```typescript
+function isValidMeaning(item: unknown): boolean {
+  if (typeof item !== 'object' || item === null) return false
+  const m = item as Record<string, unknown>
   return (
     typeof m.text === 'string' &&
     Array.isArray(m.categories) &&
@@ -181,45 +197,98 @@ function isMeaning(x: unknown): x is Meaning {
     typeof m.lastUseDate === 'string'
   )
 }
-// ... similar guards for ChildProfile, WordForm, WordFormMeaning
+// Apply equivalent guards for childProfile, wordForms, and wordFormMeanings items
+// before accepting them as valid BackupData.
+```
 
-export function validateBackupData(data: unknown): data is BackupData {
-  // ... existing array checks ...
-  const d = data as Record<string, unknown>
-  if (!(d.meanings as unknown[]).every(isMeaning)) return false
-  // etc.
-  return true
-}
+---
+
+### WR-04: Date string type mismatch in 3-month cutoff comparison
+
+**File:** `src/features/doctor-report/services/reportGenerator.ts:28-29`
+
+**Issue:** `cutoff` is computed as a full ISO timestamp string (`'2025-10-03T00:00:00.000Z'`) via `subDays(now, 90).toISOString()`. `firstUseDate` values in the schema are stored as date-only strings (`'2025-10-03'`). JavaScript string comparison is lexicographic. The comparison `'2025-10-03' >= '2025-10-03T00:00:00.000Z'` evaluates to `false` because the shorter string is always "less than" a longer string that shares the same prefix. A meaning added on exactly the cutoff day is therefore excluded from the `newInLast3Months` count even though it should be included (it was added within the 3-month window).
+
+This causes a silent off-by-one-day error at the boundary. The tests happen to avoid this exact case: the boundary tests create `firstUseDate` from `new Date(...).toISOString()`, so both sides are full ISO timestamps. Real app data uses date-only strings.
+
+**Fix:** Convert `cutoff` to a date-only string before comparison, or compare `firstUseDate` as a date:
+
+```typescript
+// date-only cutoff — safe for string comparison against date-only firstUseDate
+const cutoff = subDays(now, 90).toISOString().split('T')[0]
+const newInLast3Months = activeMeanings.filter((m) => m.firstUseDate >= cutoff).length
+```
+
+---
+
+### WR-05: `useTheme` from next-themes used without a ThemeProvider
+
+**File:** `src/components/ui/sonner.tsx:8,14`
+
+**Issue:** `useTheme` is imported from `next-themes` and used to supply the `theme` prop to the Sonner toaster. `next-themes`' `useTheme` hook reads from a React context that is only populated when the app is wrapped in a `ThemeProvider`. `App.tsx` does not render a `ThemeProvider`. Without it, `useTheme()` returns context defaults — the destructuring fallback `theme = "system"` is always used. The Sonner component always receives `theme="system"` and respects `prefers-color-scheme`, which is functionally reasonable, but the theme can never be overridden programmatically from within the app. If a theme toggle is added later, it will have no effect on toasts.
+
+**Fix:** Either wrap the app in `<ThemeProvider>` from `next-themes`, or simplify `Toaster` to not depend on the hook:
+
+```typescript
+// Option A — add ThemeProvider in App.tsx:
+import { ThemeProvider } from 'next-themes'
+// wrap: <ThemeProvider attribute="class" defaultTheme="system">...</ThemeProvider>
+
+// Option B — remove the next-themes dependency from sonner.tsx if theme control is not needed:
+const Toaster = ({ ...props }: ToasterProps) => (
+  <Sonner theme="system" className="toaster group" ... {...props} />
+)
+```
+
+---
+
+### WR-06: Report date uses locale-dependent `toLocaleDateString()`
+
+**File:** `src/features/doctor-report/services/reportGenerator.ts:51`
+
+**Issue:** The first line of the report reads `Report date: <date>` where the date is produced by `now.toLocaleDateString()`. The output format is browser- and locale-dependent: it produces `8/26/2026` in US English, `26.08.2026` in Polish/German, and `2026/8/26` in Japanese locale settings. For a document intended to be handed to a medical specialist, an inconsistent date format between devices is unprofessional and potentially confusing.
+
+**Fix:** Use a fixed ISO date format:
+
+```typescript
+const reportDate = now.toISOString().split('T')[0]  // "2026-08-26"
+// replace the line in the report:
+`${t('report.date')}: ${reportDate}`,
 ```
 
 ---
 
 ## Info
 
-### IN-01: `useEffect` dependency array omits `profile?.parentNotes`
+### IN-01: Duplicate trailing icon in DataSection buttons is decorative redundancy
 
-**File:** `src/pages/DoctorReportPage.tsx:19-23`
+**File:** `src/features/settings/components/DataSection.tsx:79-85, 92-99, 104-111`
 
-**Issue:** The effect reads `profile?.parentNotes` to initialise `notesValue` but lists only `profile?.id` as a dependency. The intent is to set `notesValue` once when the profile first loads and not overwrite in-progress user edits on subsequent renders — that intent is reasonable. However, it technically violates the `react-hooks/exhaustive-deps` rule and would cause the ESLint check to fail. If a future change makes multiple profiles possible, the stale closure would also not reset notes when parentNotes changes on the same profile id.
+**Issue:** Each action button renders the same icon twice — once as a leading `size={18}` icon and again as a trailing `size={16} className="text-muted-foreground"` icon. This pattern appears intentional but produces two visually identical icons with different sizes in the same row. The trailing icon conveys no additional information that the leading icon does not already convey. If the trailing icon is meant to signal an external-link or chevron affordance, a more specific icon (e.g., `ChevronRight`) would communicate that more clearly.
 
-**Fix:** If the intent is truly "only reset on profile load", document it explicitly and suppress with a comment; or restructure using an initialisation ref:
-```ts
-// Intentionally only re-sync notes when the profile identity changes, not on every DB update,
-// to avoid overwriting in-progress user edits.
-// eslint-disable-next-line react-hooks/exhaustive-deps
-}, [profile?.id])
-```
-
-### IN-02: `next-themes` `ThemeProvider` is not mounted — `useTheme` always returns the default
-
-**File:** `src/components/ui/sonner.tsx:8,14` / `src/App.tsx`
-
-**Issue:** `sonner.tsx` imports and calls `useTheme` from `next-themes`, which requires a `ThemeProvider` ancestor. No `ThemeProvider` is rendered in `App.tsx` or anywhere in the tree. `useTheme` outside a provider returns a context with `theme` as `undefined`, which the code safely defaults to `"system"`. The Sonner toaster therefore always uses the OS-level dark/light preference — which is probably acceptable — but the `next-themes` dependency is loaded for no functional benefit. If theme switching is ever added, the provider wiring will be missing and the feature will appear to work locally (OS matches) but fail to respond to app-level theme toggles.
-
-**Fix:** Either add `ThemeProvider` from `next-themes` to `App.tsx` if a dark-mode toggle is planned, or replace the `useTheme` call with a hardcoded `"system"` string and remove the `next-themes` import to eliminate the unused dependency.
+**Fix:** Either remove the trailing icon or replace it with a directional affordance icon (`ChevronRight`) to distinguish the two roles visually.
 
 ---
 
-_Reviewed: 2026-08-26_
+### IN-02: Test boundary cases for `newInLast3Months` use full ISO timestamps, masking the WR-04 bug
+
+**File:** `src/features/doctor-report/services/reportGenerator.test.ts:194-212`
+
+**Issue:** The boundary tests at lines 194-212 construct `firstUseDate` via `new Date(...).toISOString()`, producing full ISO timestamps like `'2025-10-03T00:00:00.000Z'`. The cutoff is also a full ISO timestamp, so the comparison works correctly in the tests. However, the default `activeMeaning` fixture and the normal tests (lines 70-82) use date-only strings like `'2025-10-01'`, which is how real app data is stored. As a result, the tests do not catch the off-by-one boundary described in WR-04.
+
+**Fix:** Add a boundary test that uses date-only `firstUseDate` values (matching the production schema format) for the exactly-90-days case:
+
+```typescript
+it('meaning with date-only firstUseDate exactly at cutoff day → IS counted', () => {
+  // now = 2026-01-01; cutoff day = 2025-10-03 (after WR-04 fix uses date-only cutoff)
+  const meanings = [activeMeaning({ id: 1, firstUseDate: '2025-10-03' })]
+  const result = generateReport({ profile: baseProfile, meanings, wordForms: [], t, now })
+  expect(result).toContain('report.newInLast3Months: 1')
+})
+```
+
+---
+
+_Reviewed: 2026-08-26T00:00:00Z_
 _Reviewer: Claude (gsd-code-reviewer)_
 _Depth: standard_
