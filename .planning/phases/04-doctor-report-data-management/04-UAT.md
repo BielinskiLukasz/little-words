@@ -3,7 +3,7 @@ status: complete
 phase: 04-doctor-report-data-management
 source: [04-01-SUMMARY.md, 04-02-SUMMARY.md]
 started: 2026-08-26T00:00:00Z
-updated: 2026-08-26T00:01:00Z
+updated: 2026-08-27T00:00:00Z
 ---
 
 ## Current Test
@@ -38,13 +38,13 @@ result: pass
 
 ### 7. Export CSV Meanings
 expected: In Settings → Data section, click "Export CSV". The browser downloads a file named little-words-meanings.csv. Opening it shows a header row (label, categories, firstUseDate, lastUseDate, active, wordForms) followed by one row per meaning. Multiple categories or word forms for a single meaning are separated by semicolons within the cell.
-result: [pending]
+result: pass
 
 ## Summary
 
 total: 7
-passed: 6
-issues: 1
+passed: 7
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
@@ -53,12 +53,18 @@ blocked: 0
 
 - gap_id: G-04-7
   truth: "CSV export column order has wordForms as 1st or 2nd column for readability"
-  status: failed
+  status: resolved
+  resolved_by: 04-03-PLAN.md
+  resolved_at: 2026-08-27
   reason: "User reported: correct but move wordForms on the beggining (1st or 2nd column)"
   severity: minor
   test: 7
-  artifacts: []
-  missing: []
+  root_cause: "buildMeaningsCSV in dataManagement.ts:97 defines header as 'label,categories,firstUseDate,lastUseDate,active,wordForms' with wordForms last; row cells follow the same order at lines 106-111"
+  artifacts:
+    - path: "src/features/settings/services/dataManagement.ts"
+      issue: "header string and row cell array both place wordForms in last position (line 97, 101-112)"
+  missing:
+    - "Reorder header to 'wordForms,label,categories,firstUseDate,lastUseDate,active' and move the wordForms cell to first position in the row array"
 
 ## Deferred Follow-Ups
 
