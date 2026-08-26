@@ -25,7 +25,8 @@ export function generateReport(input: ReportInput): string {
   // Meaning counts
   const activeMeanings = meanings.filter((m) => m.isActive)
   const inactiveMeanings = meanings.filter((m) => !m.isActive)
-  const cutoff = subDays(now, 90).toISOString()
+  // date-only cutoff — safe for string comparison against date-only firstUseDate values
+  const cutoff = subDays(now, 90).toISOString().split('T')[0]
   const newInLast3Months = activeMeanings.filter((m) => m.firstUseDate >= cutoff).length
 
   // Word form count
