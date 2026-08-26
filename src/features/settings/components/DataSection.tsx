@@ -83,7 +83,6 @@ export function DataSection() {
           <span className="block text-sm font-medium">{t('settings.exportJson')}</span>
           <span className="block text-xs text-muted-foreground">{t('settings.exportJsonDesc')}</span>
         </div>
-        <Download size={16} className="text-muted-foreground" />
       </button>
 
       {/* Import JSON row */}
@@ -97,7 +96,6 @@ export function DataSection() {
           <span className="block text-sm font-medium">{t('settings.importJson')}</span>
           <span className="block text-xs text-muted-foreground">{t('settings.importJsonDesc')}</span>
         </div>
-        <Upload size={16} className="text-muted-foreground" />
       </button>
 
       {/* Export CSV row */}
@@ -110,7 +108,6 @@ export function DataSection() {
           <span className="block text-sm font-medium">{t('settings.exportCsv')}</span>
           <span className="block text-xs text-muted-foreground">{t('settings.exportCsvDesc')}</span>
         </div>
-        <FileText size={16} className="text-muted-foreground" />
       </button>
 
       {/* Hidden file input for import */}
