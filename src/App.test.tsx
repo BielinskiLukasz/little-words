@@ -1,6 +1,14 @@
 import { vi, describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 
+vi.mock('virtual:pwa-register/react', () => ({
+  useRegisterSW: vi.fn(() => ({
+    needRefresh: [false, vi.fn()],
+    offlineReady: [false, vi.fn()],
+    updateServiceWorker: vi.fn(),
+  })),
+}))
+
 vi.mock('dexie-react-hooks', () => ({
   useLiveQuery: vi.fn(),
 }))

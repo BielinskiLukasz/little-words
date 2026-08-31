@@ -1,4 +1,4 @@
-import { differenceInYears, differenceInMonths, parseISO, subDays } from 'date-fns'
+import { differenceInYears, differenceInMonths, parseISO } from 'date-fns'
 import type { ChildProfile, Meaning, WordForm } from '@/db/schema'
 import { CATEGORIES } from '@/db/schema'
 
@@ -25,9 +25,9 @@ export function generateReport(input: ReportInput): string {
   // Meaning counts
   const activeMeanings = meanings.filter((m) => m.isActive)
   const inactiveMeanings = meanings.filter((m) => !m.isActive)
-  // date-only cutoff — safe for string comparison against date-only firstUseDate values
-  const cutoff = subDays(now, 90).toISOString().split('T')[0]
-  const newInLast3Months = activeMeanings.filter((m) => m.firstUseDate >= cutoff).length
+  // UTC arithmetic avoids date-fns local-time drift when timezone != UTC
+  const cutoff = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+  const newInLast3Months = activeMeanings.filter((m) => m.firstUseDate.slice(0, 10) >= cutoff).length
 
   // Word form count
   const activeWordForms = wordForms.length
