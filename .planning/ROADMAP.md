@@ -144,11 +144,11 @@ Plans:
   2. On Android, the browser offers an "Add to Home Screen" / install prompt; on iOS, the app can be added via Share → Add to Home Screen and launches in standalone mode
   3. When a new version of the app is deployed, a toast notification appears prompting the parent to refresh; tapping it reloads to the new version
 
-**Plans**: 2/3 plans executed
+**Plans**: 3/3 plans executed
 Plans:
 
 - [x] 05-01-PLAN.md — PWA core tracer: registerType 'prompt', manifest branding, i18n keys, useRegisterSW update toast
-- [ ] 05-02-PLAN.md — App icons: SVG source, PNG generation, vite.config.ts icons array
+- [x] 05-02-PLAN.md — App icons: SVG source, PNG generation, vite.config.ts icons array
 - [x] 05-03-PLAN.md — CI/CD: GitHub Actions deploy.yml lint → test → build → gh-pages; .nojekyll
 
 ## Progress
@@ -162,4 +162,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Onboarding & Data Entry | 5/5 | Complete   | 2026-07-01 |
 | 3. Browse Views | 7/7 | Complete    | 2026-08-25 |
 | 4. Doctor Report & Data Management | 3/3 | In Progress|  |
-| 5. PWA Polish | 2/3 | In Progress|  |
+| 5. PWA Polish | 3/3 | In Progress|  |

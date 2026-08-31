@@ -4,16 +4,16 @@ milestone: v1.0
 current_phase: 05
 current_phase_name: PWA Polish
 status: executing
-stopped_at: Completed 05-pwa-polish/05-03-PLAN.md
-last_updated: "2026-08-31T16:26:46.526Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-08-31T18:01:44.223Z"
 last_activity: 2026-08-31
 last_activity_desc: Phase 05 execution started
-state_head: 53b4d5aeb76d10b0ce68148a6f4368b6821c6332
+state_head: af9d19af11067c7310704856cf27789efa80cbfe
 progress:
   total_phases: 5
   completed_phases: 1
   total_plans: 23
-  completed_plans: 22
+  completed_plans: 23
 milestone_name: milestone
 ---
 
@@ -70,6 +70,7 @@ Progress: [████████████████████] 17/17 p
 | Phase 03 P03-04 | 60 | 2 tasks | 5 files |
 | Phase 05-pwa-polish P01 | 20 | 2 tasks | 4 files |
 | Phase 05-pwa-polish P03 | 8 | 2 tasks | 2 files |
+| Phase 05-pwa-polish P02 | 25 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -103,6 +104,8 @@ Recent decisions affecting current work:
 - [Phase 05]: registerType: 'prompt' chosen for explicit user-controlled SW update flow (D-04)
 - [Phase 05]: useRegisterSW mounted at App() top level; onNeedRefresh fires persistent Sonner toast with updateServiceWorker(true) action (D-05, D-06)
 - [Phase 05]: D-08/D-09: deploy.yml triggers on push to main only with lint+test gate; peaceiris/actions-gh-pages@v4 pushes dist/ to gh-pages; keep_files: false
+- [Phase 05]: ESM import syntax in generate-icons.js — package.json is type:module, CJS require() invalid for .js files
+- [Phase 05]: Separate manifest.icons entries for purpose:any and purpose:maskable on 512x512 — W3C spec disallows combining on one entry
 
 ### Pending Todos
 
@@ -120,6 +123,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-31T16:26:41.279Z
-Stopped at: Completed 05-pwa-polish/05-03-PLAN.md
+Last session: 2026-08-31T18:01:41.748Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
