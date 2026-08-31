@@ -28,7 +28,7 @@ export default defineConfig({
         theme_color: '#0D9488',
         background_color: '#0D9488',
         display: 'standalone',
-        start_url: '/little-words/#/',
+        start_url: '/little-words/',
         scope: '/little-words/',
         icons: [
           {
