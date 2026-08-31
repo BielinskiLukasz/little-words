@@ -144,7 +144,11 @@ Plans:
   2. On Android, the browser offers an "Add to Home Screen" / install prompt; on iOS, the app can be added via Share → Add to Home Screen and launches in standalone mode
   3. When a new version of the app is deployed, a toast notification appears prompting the parent to refresh; tapping it reloads to the new version
 
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 05-01-PLAN.md — PWA core tracer: registerType 'prompt', manifest branding, i18n keys, useRegisterSW update toast
+- [ ] 05-02-PLAN.md — App icons: SVG source, PNG generation, vite.config.ts icons array
+- [ ] 05-03-PLAN.md — CI/CD: GitHub Actions deploy.yml lint → test → build → gh-pages; .nojekyll
 
 ## Progress
 
