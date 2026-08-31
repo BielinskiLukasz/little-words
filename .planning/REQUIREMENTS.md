@@ -51,9 +51,9 @@
 
 ### PWA
 
-- [ ] **PWA-01**: App works fully offline after first load; vite-plugin-pwa generates a Workbox service worker that precaches all assets; `navigateFallback` is null (hash routing handles all navigation)
-- [ ] **PWA-02**: PWA manifest is correctly configured with app name "Little Words", theme color, icons at required sizes, `start_url: '/#/'`, and `display: 'standalone'`; app is installable on Android and iOS
-- [ ] **PWA-03**: When a new service worker version is available, a toast notification prompts the user to refresh; the `onNeedRefresh` Workbox hook triggers this prompt
+- [x] **PWA-01**: App works fully offline after first load; vite-plugin-pwa generates a Workbox service worker that precaches all assets; `navigateFallback` is null (hash routing handles all navigation)
+- [x] **PWA-02**: PWA manifest is correctly configured with app name "Little Words", theme color, icons at required sizes, `start_url: '/#/'`, and `display: 'standalone'`; app is installable on Android and iOS
+- [x] **PWA-03**: When a new service worker version is available, a toast notification prompts the user to refresh; the `onNeedRefresh` Workbox hook triggers this prompt
 
 ## v2 Requirements
 
@@ -127,9 +127,9 @@
 | DATA-01 | Phase 4 | Pending |
 | DATA-02 | Phase 4 | Pending |
 | DATA-03 | Phase 4 | Pending |
-| PWA-01 | Phase 5 | Pending |
-| PWA-02 | Phase 5 | Pending |
-| PWA-03 | Phase 5 | Pending |
+| PWA-01 | Phase 5 | Complete |
+| PWA-02 | Phase 5 | Complete |
+| PWA-03 | Phase 5 | Complete |
 
 **Coverage:**
 

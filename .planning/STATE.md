@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.0
 current_phase: 05
-current_phase_name: UAT verified 2026-08-27
-status: ready
-stopped_at: Phase 5 context gathered
-last_updated: "2026-08-31T15:32:49.328Z"
-last_activity: 2026-08-27
-last_activity_desc: Phase 04 UAT complete, advancing to Phase 05
-state_head: 6a24a362ede69ae5c06c7dca0f91b917dd64c657
+current_phase_name: PWA Polish
+status: executing
+stopped_at: Completed 05-pwa-polish/05-01-PLAN.md
+last_updated: "2026-08-31T16:04:35.246Z"
+last_activity: 2026-08-31
+last_activity_desc: Phase 05 execution started
+state_head: bbc9d878143af05374957c0104afa6e77836d0be
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 20
-  completed_plans: 20
+  total_plans: 23
+  completed_plans: 21
 milestone_name: milestone
 ---
 
@@ -24,14 +24,14 @@ milestone_name: milestone
 See: .planning/PROJECT.md (updated 2026-08-25)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Phase 04 — doctor-report-data-management
+**Current focus:** Phase 05 — PWA Polish
 
 ## Current Position
 
-Phase: 04 — COMPLETE (UAT verified 2026-08-27)
+Phase: 05 (PWA Polish) — EXECUTING
 Next: Phase 05 — PWA Polish
-Status: Phase 04 complete, ready for Phase 05
-Last activity: 2026-08-27 — Phase 04 UAT complete (7/7 passed)
+Status: Executing Phase 05
+Last activity: 2026-08-31 — Phase 05 execution started
 
 Progress: [████████████████████] 17/17 plans (100%)
 
@@ -68,6 +68,7 @@ Progress: [████████████████████] 17/17 p
 | Phase 03 P03-02 | 45 | 3 tasks | 5 files |
 | Phase 03 P03-03 | 30 | 3 tasks | 6 files |
 | Phase 03 P03-04 | 60 | 2 tasks | 5 files |
+| Phase 05-pwa-polish P01 | 20 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -98,6 +99,8 @@ Recent decisions affecting current work:
 - Phase 3: Word form save without meanings is valid — empty meanings array handled gracefully (for-of loop is a no-op)
 - Phase 3: Sheet close + reset in finally block — UI state resets unconditionally regardless of save outcome
 - Phase 3: Category names and dates must be i18n'd — both rendered in English in Polish mode until fixed in gap closure plans
+- [Phase 05]: registerType: 'prompt' chosen for explicit user-controlled SW update flow (D-04)
+- [Phase 05]: useRegisterSW mounted at App() top level; onNeedRefresh fires persistent Sonner toast with updateServiceWorker(true) action (D-05, D-06)
 
 ### Pending Todos
 
@@ -115,6 +118,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-08-31T15:32:44.625Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-pwa-polish/05-CONTEXT.md
+Last session: 2026-08-31T16:04:11.565Z
+Stopped at: Completed 05-pwa-polish/05-01-PLAN.md
+Resume file: None
