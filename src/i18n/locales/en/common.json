@@ -165,6 +165,10 @@
     "step3": "Tap 'Add' — your data stays safe on your device",
     "dismiss": "Got it"
   },
+  "pwa": {
+    "updateAvailable": "New version available",
+    "refresh": "Refresh"
+  },
   "report": {
     "title": "Doctor Report",
     "date": "Report date",

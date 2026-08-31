@@ -14,7 +14,7 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
       injectRegister: 'auto',
       workbox: {
         globPatterns: ['**/*.{js,css,html,webmanifest,ico,png,svg,woff,woff2}'],
@@ -23,10 +23,10 @@ export default defineConfig({
       includeAssets: ['**/*.{ico,png,svg}'],
       manifest: {
         name: 'Little Words',
-        short_name: 'LittleWords',
-        description: "Track your child's vocabulary development",
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
+        short_name: 'Little Words',
+        description: "Privacy-first app for parents to track their child's speech and communication development.",
+        theme_color: '#0D9488',
+        background_color: '#0D9488',
         display: 'standalone',
         start_url: '/little-words/#/',
         scope: '/little-words/',

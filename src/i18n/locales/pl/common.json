@@ -167,6 +167,10 @@
     "step3": "Dotknij 'Dodaj' — Twoje dane pozostają bezpieczne na urządzeniu",
     "dismiss": "Rozumiem"
   },
+  "pwa": {
+    "updateAvailable": "Nowa wersja dostępna",
+    "refresh": "Odśwież"
+  },
   "report": {
     "title": "Raport dla lekarza",
     "date": "Data raportu",
