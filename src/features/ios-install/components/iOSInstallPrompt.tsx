@@ -6,11 +6,11 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
-import { useiOSInstallPrompt } from '../hooks/useiOSInstallPrompt'
+import { useIOSInstallPrompt } from '../hooks/useiOSInstallPrompt'
 
-export function iOSInstallPrompt() {
+export function IOSInstallPrompt() {
   const { t } = useTranslation()
-  const { shouldShow, dismiss } = useiOSInstallPrompt()
+  const { shouldShow, dismiss } = useIOSInstallPrompt()
 
   return (
     <Sheet open={shouldShow} onOpenChange={(open) => { if (!open) dismiss() }}>

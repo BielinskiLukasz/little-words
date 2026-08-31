@@ -16,6 +16,7 @@ import { SettingsPage } from '../pages/SettingsPage';
 import { OnboardingPage } from '../pages/OnboardingPage';
 import { ProfileEditPage } from '../pages/ProfileEditPage';
 
+// eslint-disable-next-line react-refresh/only-export-components
 function AuthGuard() {
   const { t } = useTranslation('common')
   const profileCount = useLiveQuery(() => db.childProfile.count())

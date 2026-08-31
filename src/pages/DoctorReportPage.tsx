@@ -20,7 +20,7 @@ export function DoctorReportPage() {
     if (profile !== undefined) {
       setNotesValue(profile?.parentNotes ?? '')
     }
-  }, [profile?.id])
+  }, [profile])
 
   if (profile === undefined || meanings === undefined || wordForms === undefined) {
     return (
@@ -49,6 +49,7 @@ export function DoctorReportPage() {
 
   const handleNotesBlur = () => {
     if (profile.id !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id: _id, ...rest } = profile
       updateChildProfile(profile.id, { ...rest, parentNotes: notesValue })
     }

@@ -229,14 +229,14 @@ describe('generateReport — edge cases', () => {
     expect(result).toContain('Nouns: 1')
     expect(result).toContain('Verbs: 1')
     // No 3rd category line (other categories have 0)
-    const lines = result.split('\n').filter((l) => /^  \w.+: \d+$/.test(l))
+    const lines = result.split('\n').filter((l) => /^ {2}\w.+: \d+$/.test(l))
     expect(lines.length).toBe(2)
   })
 
   it('zero categories have active meanings → topCategories section is empty', () => {
     const result = generateReport({ profile: baseProfile, meanings: [], wordForms: [], t, now })
     // No category count lines
-    const lines = result.split('\n').filter((l) => /^  \w.+: \d+$/.test(l))
+    const lines = result.split('\n').filter((l) => /^ {2}\w.+: \d+$/.test(l))
     expect(lines.length).toBe(0)
   })
 
@@ -253,7 +253,7 @@ describe('generateReport — edge cases', () => {
     ]
     const result = generateReport({ profile: baseProfile, meanings, wordForms: [], t, now })
     // Top 3: Nouns(3), Verbs(2), Adjectives(1) — People(1) is 4th by CATEGORIES order
-    const catLines = result.split('\n').filter((l) => /^  \w.+: \d+$/.test(l))
+    const catLines = result.split('\n').filter((l) => /^ {2}\w.+: \d+$/.test(l))
     expect(catLines.length).toBe(3)
     expect(result).toContain('Nouns: 3')
     expect(result).toContain('Verbs: 2')

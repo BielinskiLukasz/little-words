@@ -38,6 +38,7 @@ describe('useAddEntry', () => {
         setIosInstallPromptSeen: vi.fn(),
       }
       return selector ? selector(state) : state
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }) as any)
   })
 

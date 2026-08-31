@@ -3,7 +3,7 @@ import { useUIStore } from '@/stores/ui.store'
 
 const IOS_PROMPT_SEEN_KEY = 'little-words-ios-prompt-seen'
 
-export function useiOSInstallPrompt() {
+export function useIOSInstallPrompt() {
   const iosInstallPromptSeen = useUIStore((s) => s.iosInstallPromptSeen)
   const setIosInstallPromptSeen = useUIStore((s) => s.setIosInstallPromptSeen)
 

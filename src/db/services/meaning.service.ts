@@ -114,7 +114,7 @@ export async function getMeaningsByMonth(
 ): Promise<Array<{ month: string; count: number }>> {
   const now = new Date()
   let actualStartDate = startDate
-  let actualEndDate = endDate || now.toISOString()
+  const actualEndDate = endDate || now.toISOString()
 
   if (!actualStartDate) {
     // Default to all time - get earliest meaning's date
@@ -146,7 +146,7 @@ export async function getMeaningsByMonth(
   // Fill in missing months with 0 count
   if (result.length > 0) {
     const months: Array<{ month: string; count: number }> = []
-    let current = new Date(result[0].month + '-01')
+    const current = new Date(result[0].month + '-01')
     const endMonth = new Date(result[result.length - 1].month + '-01')
 
     while (current <= endMonth) {
@@ -175,7 +175,7 @@ export async function getCumulativeMeaningsByMonth(
 ): Promise<Array<{ month: string; total: number }>> {
   const now = new Date()
   let actualStartDate = startDate
-  let actualEndDate = endDate || now.toISOString()
+  const actualEndDate = endDate || now.toISOString()
 
   if (!actualStartDate) {
     // Default to all time - get earliest meaning's date
