@@ -2,8 +2,8 @@
 
 Ideas and scope items captured outside the active roadmap. Anything here is *not* in v1 — it has either been deferred by explicit decision, surfaced during UAT, or earmarked for a later milestone. Items graduate to a `ROADMAP.md` phase when picked up (`/gsd-review-backlog` to promote, `/gsd-phase add` to materialize).
 
-Last updated: 2026-07-30 (UAT phase 03)
-Last assigned ID: **B-002** — next new item must be **B-003**
+Last updated: 2026-08-31 (B-003 added)
+Last assigned ID: **B-003** — next new item must be **B-004**
 
 ---
 
@@ -20,6 +20,31 @@ Last assigned ID: **B-002** — next new item must be **B-003**
 - `milestones/v1.0-REQUIREMENTS.md` — v1.0 archived requirements (all 51 complete)
 - `PROJECT.md` — core constraints (single subject v1, no build step, no frameworks)
 - `CLAUDE.md` — v1/v2 split rules
+
+---
+
+### B-003 · App Version Number Display
+
+**Source:** product idea — adapted from med-stock B-013; reported 2026-08-31
+**Status:** captured · not scheduled
+**Earliest sensible slot:** next available patch or alongside any Settings page work
+
+**What:** Show the current app version (from `package.json`) somewhere visible in the UI — most naturally in the Settings page footer or a dedicated "About" card. The version string should match the `version` field in `package.json` exactly (e.g., `v0.1.0`).
+
+**Why:** Without a visible version, users and parents cannot report "which version broke X" and the developer cannot correlate feedback to releases. A one-line version badge costs almost nothing to add and eliminates ambiguity when issues are reported after a speech therapy consultation.
+
+**Open questions when this gets planned:**
+
+- Where exactly: Settings page footer, a small "About" card in Settings, or a badge on the Dashboard?
+- Should the build date or git commit hash be shown alongside the version for dev builds?
+- Tap-to-copy behaviour — useful for bug reports sent to a therapist or developer?
+
+**Implementation notes:**
+
+- Vite exposes `package.json` version via `import.meta.env` if added to `vite.config.ts` as `define: { __APP_VERSION__: JSON.stringify(pkg.version) }` — no runtime fetch needed.
+- Alternatively, import directly: `import { version } from '../../package.json'` (TypeScript `resolveJsonModule` is already on).
+- Render as a small `<p className="text-xs text-muted-foreground">v{version}</p>` in `src/features/settings/` — no new component needed.
+- The `__APP_VERSION__` approach avoids bundling the entire `package.json`; prefer it.
 
 ---
 
