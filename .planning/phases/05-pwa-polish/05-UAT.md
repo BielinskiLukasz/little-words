@@ -29,9 +29,7 @@ result: pass
 
 ### 3. PWA installability on Android Chrome and iOS Safari
 expected: Android — open app in Chrome, install prompt or install icon appears in address bar; app launches in standalone mode (no browser chrome). iOS — Safari Share → Add to Home Screen → Add; app launches from home screen icon in standalone mode with teal splash screen.
-result: blocked
-blocked_by: release-build
-reason: "commit staged — app not yet deployed to GitHub Pages"
+result: pass
 
 ### 4. SW update toast — new version deployed
 expected: Deploy the current build. Open app and confirm SW installs. Push a trivial change to main and wait for GitHub Actions deploy. Return to the tab. "Nowa wersja dostępna" / "New version available" persistent toast appears with "Odśwież" / "Refresh" button. Tapping Refresh reloads to the new bundle.
@@ -92,11 +90,11 @@ coverage_id: D4-02
 ## Summary
 
 total: 13
-passed: 10
+passed: 11
 issues: 0
 pending: 2
 skipped: 0
-blocked: 1
+blocked: 0
 
 ## Gaps
 
