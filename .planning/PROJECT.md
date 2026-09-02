@@ -24,6 +24,7 @@ A parent can walk into a specialist consultation and present objective, structur
 - ✓ Categories view shows all default categories with their meaning counts — Phase 3
 - ✓ Timeline view shows monthly vocabulary growth as both a chart and a data table — Phase 3
 - ✓ Parent can tap a word form detail page to see linked meanings; deleting a word form removes the link — meanings survive as independent entities — Phase 3
+- ✓ App works fully offline; installable as a PWA on Android Chrome and iOS Safari — Phase 5
 
 ### Active
 
@@ -34,7 +35,6 @@ A parent can walk into a specialist consultation and present objective, structur
 - [ ] Parent notes for the doctor report are a persistent field on the child profile
 - [ ] JSON export and import (backup and device migration) available in Settings → Data
 - [ ] CSV export available in Settings → Data
-- [ ] App works fully offline; installable as a PWA on mobile
 
 ### Out of Scope
 
@@ -86,6 +86,12 @@ A parent can walk into a specialist consultation and present objective, structur
 | Word form save without meanings is valid | Empty meanings array is handled gracefully by service; parents may log a sound before assigning meaning | — Phase 3 |
 | Sheet cleanup in `finally` block | `close()` + `reset()` in `finally` ensures UI state resets regardless of save outcome; never leave sheet open after an error | — Phase 3 |
 | Category names and dates must be i18n'd | UAT confirmed both were rendering in English in Polish mode; locale-aware display is a hard requirement for Polish users | — Phase 3 |
+| SW registerType: 'prompt' | Service worker waits for explicit user action before applying updates — no silent mid-session page reloads | — Phase 5 |
+| useRegisterSW at App() top level | Single hook mount point; no per-page SW logic; onNeedRefresh fires persistent Sonner toast (duration: Infinity) | — Phase 5 |
+| PWA icons: SVG → @resvg/resvg-js → PNG | Maintain one SVG source, generate all PNG variants via script; ESM import required (package.json type:module) | — Phase 5 |
+| Separate manifest.icons entries per purpose | W3C spec disallows combining any + maskable on one entry; 512x512 has two separate entries | — Phase 5 |
+| Icon src paths include /little-words/ prefix | Manifest served from /little-words/; browser resolves icon paths relative to page origin, not manifest location | — Phase 5 |
+| GitHub Actions: peaceiris + lint+test gate | Trigger on push to main only; lint and test must pass before build; keep_files: false prevents stale gh-pages artifacts | — Phase 5 |
 
 ## Evolution
 
@@ -105,4 +111,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-08-25 — Phase 3 complete (browse-views: Dashboard, Meanings, Word Forms, Categories, Timeline; 8 UAT gaps resolved; verification 38/38)*
+*Last updated: 2026-09-02 — Phase 5 complete (PWA polish: offline, installability, SW update toast, PWA icons, CI/CD deploy pipeline; 13/13 UAT passed)*

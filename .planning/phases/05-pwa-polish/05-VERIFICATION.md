@@ -1,11 +1,12 @@
 ---
 phase: 05-pwa-polish
 verified: 2026-08-31T20:50:00Z
-status: human_needed
+status: passed
 score: 15/18 must-haves verified
 behavior_unverified: 3
 overrides_applied: 0
 behavior_unverified_items:
+
   - truth: "After first load, the parent can disable their network connection and continue using the app without any errors or missing assets"
     test: "Load app on device, wait for SW registration, disable Wi-Fi/mobile data, navigate app screens and add a new entry"
     expected: "All screens load and IndexedDB writes succeed with no network errors; no missing asset warnings in console"
@@ -19,6 +20,7 @@ behavior_unverified_items:
     expected: "Persistent 'New version available' / 'Nowa wersja dostępna' toast appears at bottom-center; tapping 'Refresh' / 'Odśwież' reloads to the new bundle"
     why_human: "useRegisterSW hook wiring is VERIFIED in App.tsx (onNeedRefresh → toast with duration:Infinity → updateServiceWorker(true)). Triggering the flow requires a real SW state transition (new SW enters 'waiting' state), which only occurs after deploying two distinct versions"
 human_verification:
+
   - test: "Test offline capability after first load"
     expected: "App loads all screens and writes to IndexedDB without network errors after SW has cached all assets"
     why_human: "Cannot confirm SW actually serves cached assets without network — requires device disconnection test"
