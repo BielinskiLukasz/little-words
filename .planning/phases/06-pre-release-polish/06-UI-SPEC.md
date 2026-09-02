@@ -29,7 +29,7 @@ Source: `components.json` (style: "default", iconLibrary: "lucide", cssVariables
 
 ## Component Inventory
 
-Enumerated by `ls src/components/ui/` — 12 components — shadcn/ui local source copies, Radix UI primitives per package.json (no shadcn runtime package) — 2026-09-02.
+Enumerated by `ls src/components/ui/` — 12 components — shadcn/ui local source copies, Radix UI primitives (@radix-ui/react-slot@1.3.0, @radix-ui/react-switch@1.3.7, @radix-ui/react-collapsible@1.1.15, @radix-ui/react-dialog@1.1.18, @radix-ui/react-alert-dialog@1.1.23, @radix-ui/react-popover@1.1.18 per node_modules) — 2026-09-02.
 
 | Component | Import path | Notes |
 |-----------|-------------|-------|
@@ -78,12 +78,12 @@ Three sizes declared. Two primary weights declared. Source: established patterns
 |------|------|--------|-------------|----------------|
 | Display | 24px | 700 (bold) | 1.25 | `text-2xl font-bold` |
 | Body | 16px | 400 (regular) | 1.5 | `text-base` |
-| Label | 14px | 600 (semibold) | 1.5 | `text-sm font-medium` |
+| Label | 14px | 400 (regular) | 1.5 | `text-sm` |
 
 Notes:
 - Display: page headings (h1) only — Meanings detail, Word Forms detail, Pairs page, Doctor Report page.
 - Body: main content text — meaning text in read mode, word form text in read mode, report body.
-- Label: form field labels, input placeholder text, chip text, sort selector options, category badge text, metadata dates, isActive toggle label, Edit/Save/Cancel button labels, nav tab labels.
+- Label: form field labels, input placeholder text, chip text, sort selector options, category badge text, metadata dates, isActive toggle label, Edit/Save changes/Discard changes button labels, nav tab labels.
 - `text-muted-foreground` applies to secondary/supporting label text; it does not change font size or weight.
 
 ---
@@ -118,9 +118,9 @@ All strings must be added to `src/i18n/locales/pl/common.json` (Polish, default)
 
 | Element | Polish copy | English copy | i18n key |
 |---------|-------------|--------------|----------|
-| Primary CTA — commit inline edit | Zapisz | Save | `common.save` (likely exists) |
+| Primary CTA — commit inline edit (MeaningDetailPage, WordFormDetailPage) | Zapisz zmiany | Save changes | `common.saveChanges` (new key — add to both locales) |
 | Secondary — enter edit mode | Edytuj | Edit | `common.edit` (likely exists) |
-| Secondary — exit without saving | Anuluj | Cancel | `common.cancel` (likely exists) |
+| Secondary — exit inline edit without saving | Odrzuć zmiany | Discard changes | `common.discardChanges` (new key — add to both locales) |
 | Pairs page title | Pary | Pairs | `common.nav.pairs` |
 | Pairs sort — option 1 (default) | Najnowsze | Newest first | `common.sort.newestFirst` |
 | Pairs sort — option 2 | A–Z (forma) | A–Z by word form | `common.sort.azWordForm` |
@@ -154,6 +154,7 @@ Applicable state considerations resolved for Phase 6 screens and interactions.
 | loading | Edit mode save (`MeaningDetailPage`, `WordFormDetailPage`) | ✅ covered | Disable Save button and show spinner during async Dexie write; re-enable on completion in `finally` block — reuse existing `finally` reset pattern |
 | long-text | Word form chip and meaning chip in Pairs row | 🧪 backstop | Chips must truncate with `truncate` and a `max-w-[...px]` cap so two chips always fit on one row on 320px viewport; exact max-width TBD by executor based on measured layout |
 | long-text | Meaning text input in inline edit mode | 🧪 backstop | Textarea or multiline input must not overflow the card boundary; executor to verify at 320px minimum width with 60+ character meaning text |
+| focal-point | PairsPage — first-read element | ✅ covered | The pairs list with dual word-form/meaning chips is the primary focal element. Sort selector sits above it at reduced visual weight. Expanded metadata (dates, isActive) is secondary, revealed on tap only. |
 | overflow | Pairs list with 100+ pairs | ⚠ unresolved | No virtualization planned for v1; planner assumes native scroll is sufficient — add note if UAT shows jank |
 | zero-one-many | Category chips in edit mode — 0 categories selected | ✅ covered | CategoryChips renders an empty selection state showing all chips unselected; this is valid and saveable — "no category" is equivalent to "Other" per existing spec |
 | zero-one-many | Per-pair rows on Meaning detail — meaning with exactly 1 linked pair | ✅ covered | Single-row display is the base case; no edge behavior needed |
