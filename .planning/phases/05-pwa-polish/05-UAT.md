@@ -1,21 +1,14 @@
 ---
-status: testing
+status: complete
 phase: 05-pwa-polish
 source: [05-01-SUMMARY.md, 05-02-SUMMARY.md, 05-03-SUMMARY.md]
 started: 2026-08-31T21:00:00Z
-updated: 2026-08-31T21:00:00Z
+updated: 2026-09-02T00:00:00Z
 ---
 
 ## Current Test
 
-number: 4
-name: SW update toast — new version deployed
-expected: |
-  Deploy the current build. Open app and confirm SW installs. Push a trivial
-  change to main and wait for GitHub Actions deploy. Return to the tab.
-  "Nowa wersja dostępna" / "New version available" persistent toast appears
-  with "Odśwież" / "Refresh" button. Tapping Refresh reloads to the new bundle.
-awaiting: user response
+[testing complete]
 
 ## Tests
 
@@ -33,11 +26,11 @@ result: pass
 
 ### 4. SW update toast — new version deployed
 expected: Deploy the current build. Open app and confirm SW installs. Push a trivial change to main and wait for GitHub Actions deploy. Return to the tab. "Nowa wersja dostępna" / "New version available" persistent toast appears with "Odśwież" / "Refresh" button. Tapping Refresh reloads to the new bundle.
-result: [pending]
+result: pass
 
 ### 5. CI/CD: automated deploy fires on push to main
 expected: Push a commit to the main branch. GitHub Actions runs the deploy workflow automatically: checkout → Node 22 → npm ci → lint → test → build → deploys dist/ to gh-pages. Deployment completes successfully and the updated app is live at the GitHub Pages URL.
-result: [pending]
+result: pass
 
 ### 6. registerType 'prompt' in vite.config.ts
 expected: SW update waits for user consent (registerType: 'prompt')
@@ -90,9 +83,9 @@ coverage_id: D4-02
 ## Summary
 
 total: 13
-passed: 11
+passed: 13
 issues: 0
-pending: 2
+pending: 0
 skipped: 0
 blocked: 0
 
