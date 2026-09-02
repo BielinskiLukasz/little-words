@@ -1,0 +1,38 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": "v1.0",
+  "phases": [
+    {
+      "number": "1",
+      "name": "Foundation",
+      "status": "complete"
+    },
+    {
+      "number": "2",
+      "name": "Onboarding & Data Entry",
+      "status": "complete"
+    },
+    {
+      "number": "3",
+      "name": "Browse Views",
+      "status": "complete"
+    },
+    {
+      "number": "4",
+      "name": "Doctor Report & Data Management",
+      "status": "complete"
+    },
+    {
+      "number": "5",
+      "name": "PWA Polish",
+      "status": "complete"
+    }
+  ],
+  "next": {
+    "command": "/gsd:new-milestone",
+    "label": "Start a new milestone",
+    "reason": "All phases complete — start a new milestone"
+  },
+  "updated_at": "2026-09-02T18:37:56.478Z"
+}
