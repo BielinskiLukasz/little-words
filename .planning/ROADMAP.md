@@ -151,10 +151,28 @@ Plans:
 - [x] 05-02-PLAN.md — App icons: SVG source, PNG generation, vite.config.ts icons array
 - [x] 05-03-PLAN.md — CI/CD: GitHub Actions deploy.yml lint → test → build → gh-pages; .nojekyll
 
+### Phase 6: Pre-release Polish
+
+**Goal**: All blocking issues identified in pre-1.0 UAT are resolved — schema migrated to v3 (pair-level metadata), editing enabled for meanings and word forms, UI bugs fixed, word-meaning pairs screen added, and Doctor Report enhanced.
+**Mode:** mvp
+**Depends on**: Phase 5
+**Requirements**: PREREL-01, PREREL-02, PREREL-03, PREREL-04, PREREL-05
+**Success Criteria** (what must be TRUE):
+
+  1. Categories display in the user's language in the Meaning detail view; tapping a linked word form navigates to its detail page; Dashboard stat cards navigate to the corresponding list screen
+  2. A parent can edit a meaning's text and categories inline from the detail page; a parent can edit a word form's text from the detail page
+  3. The Dexie schema is v3: `firstObservationDate`, `lastUsedDate`, and `isActive` live on the `WordFormMeaning` junction row; existing data is migrated; all service queries use the new fields
+  4. A "Pairs" screen lists all word-form↔meaning pairs with navigation to both the word form and meaning detail pages
+  5. The Doctor Report shows age as "X years Y months" when months > 0, and includes per-category meaning lists and a word-form count per meaning
+
+**Plans**: 0 plans
+
+**UI hint**: yes
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -163,3 +181,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Browse Views | 7/7 | Complete    | 2026-08-25 |
 | 4. Doctor Report & Data Management | 3/3 | Complete | 2026-08-27 |
 | 5. PWA Polish | 3/3 | Complete    | 2026-08-31 |
+| 6. Pre-release Polish | 0/? | Planned | — |
