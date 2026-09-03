@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 import { db } from '@/db/db'
 import { deleteWordForm, updateWordForm } from '@/db/services/wordForm.service'
+import { updatePairFields } from '@/db/services/wordFormMeaning.service'
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,7 +35,13 @@ export function WordFormDetailPage() {
     return db.wordForms.get(Number(id))
   }, [id])
 
-  // Load linked meanings
+  // Load pairs for this word form (WordFormMeaning rows with dates + isActive)
+  const pairs = useLiveQuery(async () => {
+    if (!wordForm?.id) return []
+    return db.wordFormMeanings.where('wordFormId').equals(wordForm.id).toArray()
+  }, [wordForm?.id])
+
+  // Load linked meanings (for display text in pair rows)
   const linkedMeanings = useLiveQuery(async () => {
     if (!wordForm?.id) return []
     const links = await db.wordFormMeanings
@@ -94,6 +103,29 @@ export function WordFormDetailPage() {
       console.error('Failed to delete word form:', err)
     } finally {
       setIsDeleting(false)
+    }
+  }
+
+  const handlePairDateBlur = async (
+    pairId: number,
+    field: 'firstObservationDate' | 'lastUsedDate',
+    value: string
+  ) => {
+    if (!value) return
+    try {
+      await updatePairFields(pairId, { [field]: value })
+    } catch (err) {
+      console.error('Failed to update pair date:', err)
+      toast.error(t('errors.somethingWentWrong'))
+    }
+  }
+
+  const handlePairActiveChange = async (pairId: number, checked: boolean) => {
+    try {
+      await updatePairFields(pairId, { isActive: checked })
+    } catch (err) {
+      console.error('Failed to update pair active state:', err)
+      toast.error(t('errors.somethingWentWrong'))
     }
   }
 
@@ -171,31 +203,84 @@ export function WordFormDetailPage() {
         </p>
       </div>
 
-      {/* Linked Meanings */}
+      {/* Linked Meanings — per-pair expandable Collapsible rows (D-07) */}
       <div>
         <label className="text-sm font-medium text-muted-foreground">
           {t('wordForm.linkedMeanings')}
         </label>
-        {linkedMeanings === undefined ? (
+        {pairs === undefined || linkedMeanings === undefined ? (
           <p className="pt-2 text-sm text-muted-foreground">
             {t('app.loading')}
           </p>
-        ) : linkedMeanings.length === 0 ? (
+        ) : pairs.length === 0 ? (
           <p className="pt-2 rounded-lg border border-border bg-card p-3 text-sm text-muted-foreground">
             {t('wordForm.noLinkedMeanings')}
           </p>
         ) : (
           <div className="flex flex-col gap-2 pt-2">
-            {linkedMeanings.map(meaning => {
-              if (!meaning?.id) return null
+            {pairs.map(pair => {
+              const meaning = linkedMeanings.find(m => m?.id === pair.meaningId)
+              const meaningText = meaning?.text ?? ''
               return (
-                <button
-                  key={meaning.id}
-                  onClick={() => navigate(`/meanings/${meaning.id}`)}
-                  className="rounded-lg border border-border bg-card p-3 text-sm text-foreground text-left transition-colors hover:bg-accent hover:text-accent-foreground"
-                >
-                  {meaning.text}
-                </button>
+                <Collapsible key={pair.id} className="rounded-lg border border-border bg-card">
+                  <CollapsibleTrigger asChild>
+                    <div className="flex items-center justify-between px-3 cursor-pointer">
+                      <div className="min-h-[44px] flex items-center">
+                        <span className="text-sm text-foreground">{meaningText}</span>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        aria-label={t('pair.goToMeaning')}
+                        onClick={e => {
+                          e.stopPropagation()
+                          navigate('/meanings/' + pair.meaningId)
+                        }}
+                      >
+                        →
+                      </Button>
+                    </div>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <div className="grid grid-cols-2 gap-3 px-3 pb-3">
+                      <div>
+                        <label className="text-xs text-muted-foreground block mb-1">
+                          {t('pair.firstObserved')}
+                        </label>
+                        <input
+                          type="date"
+                          defaultValue={pair.firstObservationDate}
+                          onBlur={e =>
+                            handlePairDateBlur(pair.id!, 'firstObservationDate', e.target.value)
+                          }
+                          className="border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-ring w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-xs text-muted-foreground block mb-1">
+                          {t('pair.lastUsed')}
+                        </label>
+                        <input
+                          type="date"
+                          defaultValue={pair.lastUsedDate}
+                          onBlur={e =>
+                            handlePairDateBlur(pair.id!, 'lastUsedDate', e.target.value)
+                          }
+                          className="border rounded-md px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-ring w-full"
+                        />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <label className="text-xs text-muted-foreground">
+                          {t('pair.active')}
+                        </label>
+                        <Switch
+                          checked={pair.isActive}
+                          onCheckedChange={checked => handlePairActiveChange(pair.id!, checked)}
+                        />
+                      </div>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
               )
             })}
           </div>
