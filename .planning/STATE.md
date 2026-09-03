@@ -4,16 +4,16 @@ milestone: v1.0
 current_phase: 06
 current_phase_name: Pre-release Polish
 status: executing
-stopped_at: Completed 06-02-PLAN.md (i18n keys + Dashboard stat card links)
-last_updated: "2026-09-03T11:06:05.745Z"
+stopped_at: Completed 06-03-PLAN.md (MeaningDetailPage rewrite)
+last_updated: "2026-09-03T11:15:07.609Z"
 last_activity: 2026-09-03
 last_activity_desc: Phase 06 execution started
-state_head: 8a2c83b3bdc6a56269550516d979a2103e79b3a2
+state_head: 9b9b8c689d0e841bd90b10edc1f60771c8dc7fd1
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 29
-  completed_plans: 25
+  completed_plans: 26
 milestone_name: milestone
 ---
 
@@ -74,6 +74,7 @@ Progress: [████████████████████] 17/17 p
 | Phase 05-pwa-polish P02 | 25 | 2 tasks | 8 files |
 | Phase 06 P06-01 | 14 | 2 tasks | 11 files |
 | Phase 06 P02 | 9 | 2 tasks | 3 files |
+| Phase 06 P03 | 10 | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -114,6 +115,8 @@ Recent decisions affecting current work:
 - [Phase 06]: D-04: addWordEntry passes pair.firstObservationDate from user-supplied firstUseDate via pairFields parameter
 - [Phase 06]: common.saveChanges/discardChanges/edit placed in common group alongside save/cancel/delete for consistency
 - [Phase 06]: Link wrapper on Dashboard stat cards uses className=block to preserve Card flex layout; focus-visible ring for keyboard a11y
+- [Phase 06]: MeaningDetailPage: used t('errors.somethingWentWrong') for error toasts (t('error.generic') key does not exist)
+- [Phase 06]: MeaningDetailPage: used t('pair.active')/t('wordForm.inactive') for isActive Badge (no top-level active/inactive keys in i18n)
 
 ### Pending Todos
 
@@ -131,6 +134,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-03T11:06:03.463Z
-Stopped at: Completed 06-02-PLAN.md (i18n keys + Dashboard stat card links)
+Last session: 2026-09-03T11:15:05.413Z
+Stopped at: Completed 06-03-PLAN.md (MeaningDetailPage rewrite)
 Resume file: None
