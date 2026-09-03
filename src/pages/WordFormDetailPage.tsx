@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 import { db } from '@/db/db'
-import { deleteWordForm } from '@/db/services/wordForm.service'
+import { deleteWordForm, updateWordForm } from '@/db/services/wordForm.service'
 import { Button } from '@/components/ui/button'
 import {
   AlertDialog,
@@ -21,6 +22,9 @@ export function WordFormDetailPage() {
   const navigate = useNavigate()
   const { id } = useParams()
   const [isDeleting, setIsDeleting] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editForm, setEditForm] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
 
   // Load word form by ID
   const wordForm = useLiveQuery(async () => {
@@ -39,6 +43,47 @@ export function WordFormDetailPage() {
     const meanings = await db.meanings.bulkGet(meaningIds)
     return meanings.filter((m): m is typeof meanings[0] => m !== undefined)
   }, [wordForm?.id])
+
+  if (wordForm === undefined) {
+    return (
+      <div className="flex h-full items-center justify-center p-6">
+        <p className="text-muted-foreground">{t('app.loading')}</p>
+      </div>
+    )
+  }
+
+  if (!wordForm) {
+    return (
+      <div className="flex h-full items-center justify-center p-6">
+        <p className="text-muted-foreground">
+          {t('errors.somethingWentWrong')}
+        </p>
+      </div>
+    )
+  }
+
+  const enterEditMode = () => {
+    setEditForm(wordForm.form)
+    setIsEditing(true)
+  }
+
+  const handleSave = async () => {
+    if (editForm.trim().length === 0) return
+    setIsSaving(true)
+    try {
+      await updateWordForm(wordForm.id!, editForm)
+      setIsEditing(false)
+    } catch (err) {
+      console.error('Failed to save word form:', err)
+      toast.error(t('errors.somethingWentWrong'))
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleDiscard = () => {
+    setIsEditing(false)
+  }
 
   const handleDelete = async () => {
     setIsDeleting(true)
@@ -61,24 +106,6 @@ export function WordFormDetailPage() {
     })
   }
 
-  if (wordForm === undefined) {
-    return (
-      <div className="flex h-full items-center justify-center p-6">
-        <p className="text-muted-foreground">{t('app.loading')}</p>
-      </div>
-    )
-  }
-
-  if (!wordForm) {
-    return (
-      <div className="flex h-full items-center justify-center p-6">
-        <p className="text-muted-foreground">
-          {t('errors.somethingWentWrong')}
-        </p>
-      </div>
-    )
-  }
-
   return (
     <div className="flex flex-col gap-6 p-6 pb-20">
       {/* Back Button */}
@@ -90,14 +117,48 @@ export function WordFormDetailPage() {
         ← {t('common.back')}
       </Button>
 
-      {/* Word Form Text */}
-      <div>
-        <label className="text-sm font-medium text-muted-foreground">
-          {t('wordForm.text')}
-        </label>
-        <h1 className="text-2xl font-bold text-foreground">
-          {wordForm.form}
-        </h1>
+      {/* Word Form Text + Edit Controls */}
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-medium text-muted-foreground">
+            {t('wordForm.text')}
+          </label>
+          {!isEditing && (
+            <Button variant="outline" size="sm" onClick={enterEditMode}>
+              {t('common.edit')}
+            </Button>
+          )}
+        </div>
+
+        {isEditing ? (
+          <div className="flex flex-col gap-3">
+            <input
+              type="text"
+              className="border rounded-md px-2 py-1 text-2xl font-bold w-full focus:outline-none focus:ring-2 focus:ring-ring"
+              value={editForm}
+              onChange={e => setEditForm(e.target.value)}
+            />
+            <div className="flex gap-2">
+              <Button
+                disabled={isSaving || editForm.trim().length === 0}
+                onClick={handleSave}
+              >
+                {isSaving ? (
+                  <span className="animate-spin">...</span>
+                ) : (
+                  t('common.saveChanges')
+                )}
+              </Button>
+              <Button variant="ghost" onClick={handleDiscard}>
+                {t('common.discardChanges')}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <h1 className="text-2xl font-bold text-foreground">
+            {wordForm.form}
+          </h1>
+        )}
       </div>
 
       {/* First Use Date */}
