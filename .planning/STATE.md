@@ -4,16 +4,16 @@ milestone: v1.0
 current_phase: 06
 current_phase_name: Pre-release Polish
 status: executing
-stopped_at: Completed 06-01-PLAN.md (Dexie v3 schema migration)
-last_updated: "2026-09-03T10:57:49.651Z"
+stopped_at: Completed 06-02-PLAN.md (i18n keys + Dashboard stat card links)
+last_updated: "2026-09-03T11:06:05.745Z"
 last_activity: 2026-09-03
 last_activity_desc: Phase 06 execution started
-state_head: bcc8b4bc32ea5d1023e8986816df7339b1318c6a
+state_head: 8a2c83b3bdc6a56269550516d979a2103e79b3a2
 progress:
   total_phases: 6
   completed_phases: 2
   total_plans: 29
-  completed_plans: 24
+  completed_plans: 25
 milestone_name: milestone
 ---
 
@@ -73,6 +73,7 @@ Progress: [████████████████████] 17/17 p
 | Phase 05-pwa-polish P03 | 8 | 2 tasks | 2 files |
 | Phase 05-pwa-polish P02 | 25 | 2 tasks | 8 files |
 | Phase 06 P06-01 | 14 | 2 tasks | 11 files |
+| Phase 06 P02 | 9 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -111,6 +112,8 @@ Recent decisions affecting current work:
 - [Phase 06]: D-01: WordFormMeaning.firstObservationDate/lastUsedDate/isActive are required fields (one-way schema door, Dexie v3)
 - [Phase 06]: D-02: aggregateMeaningFromPairs called on every pair write including deleteWordForm to keep Meaning aggregate in sync
 - [Phase 06]: D-04: addWordEntry passes pair.firstObservationDate from user-supplied firstUseDate via pairFields parameter
+- [Phase 06]: common.saveChanges/discardChanges/edit placed in common group alongside save/cancel/delete for consistency
+- [Phase 06]: Link wrapper on Dashboard stat cards uses className=block to preserve Card flex layout; focus-visible ring for keyboard a11y
 
 ### Pending Todos
 
@@ -128,6 +131,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-03T10:56:38.828Z
-Stopped at: Completed 06-01-PLAN.md (Dexie v3 schema migration)
+Last session: 2026-09-03T11:06:03.463Z
+Stopped at: Completed 06-02-PLAN.md (i18n keys + Dashboard stat card links)
 Resume file: None
