@@ -115,13 +115,13 @@ describe('generateReport', () => {
     expect(result).toContain('report.neurologicalCare: report.no')
   })
 
-  it('age < 2 years → uses month count', () => {
-    // Child born 18 months before now
-    const profile: ChildProfile = { ...baseProfile, birthDate: '2024-07-01' }
+  it('age < 12 months → uses month count only (D-09)', () => {
+    // Child born 10 months before now — under 12 months shows months only
+    const profile: ChildProfile = { ...baseProfile, birthDate: '2025-03-01' }
     const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
-    // t('report.ageMonths', {count: 18}) returns '18'
-    expect(result).toContain('report.age: 18')
-    expect(result).not.toContain('report.ageYears')
+    // t('report.months', {count: 10}) returns '10'
+    expect(result).toContain('report.age: 10')
+    expect(result).not.toMatch(/report\.age: \d+y\d+m/)
   })
 
   it('age >= 2 years → uses yearsMonths format', () => {

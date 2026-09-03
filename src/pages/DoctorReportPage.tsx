@@ -13,6 +13,7 @@ export function DoctorReportPage() {
   const profile = useLiveQuery(() => getChildProfile())
   const meanings = useLiveQuery(() => db.meanings.toArray())
   const wordForms = useLiveQuery(() => db.wordForms.toArray())
+  const pairs = useLiveQuery(() => db.wordFormMeanings.toArray())
 
   const [notesValue, setNotesValue] = useState('')
 
@@ -22,7 +23,7 @@ export function DoctorReportPage() {
     }
   }, [profile])
 
-  if (profile === undefined || meanings === undefined || wordForms === undefined) {
+  if (profile === undefined || meanings === undefined || wordForms === undefined || pairs === undefined) {
     return (
       <div className="flex h-full items-center justify-center p-6">
         <p className="text-muted-foreground">{t('common.loading')}</p>
@@ -30,12 +31,18 @@ export function DoctorReportPage() {
     )
   }
 
+  const meaningWordFormCounts: Record<number, number> = {}
+  pairs.forEach((p) => {
+    meaningWordFormCounts[p.meaningId] = (meaningWordFormCounts[p.meaningId] ?? 0) + 1
+  })
+
   const reportText = generateReport({
     profile,
     meanings,
     wordForms,
     t: t as (key: string, opts?: Record<string, unknown>) => string,
     now: new Date(),
+    meaningWordFormCounts,
   })
 
   const handleCopy = async () => {
