@@ -4,6 +4,12 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { useTranslation } from 'react-i18next'
 import { getPairsWithDetails } from '@/db/services/wordFormMeaning.service'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from '@/components/ui/collapsible'
 
 type SortOrder = 'newest' | 'azForm' | 'azMeaning'
 
@@ -55,27 +61,49 @@ export function PairsPage() {
       ) : (
         <div className="flex flex-col gap-2">
           {sorted.map(pair => (
-            <div
-              key={pair.id}
-              className="flex items-center gap-2 min-h-[44px] rounded-lg border border-border bg-card px-3 py-2"
-            >
-              <Button
-                variant="outline"
-                size="sm"
-                className="truncate max-w-[45%]"
-                onClick={() => navigate('/word-forms/' + pair.wordFormId)}
-              >
-                {pair.wordFormText}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="truncate max-w-[45%]"
-                onClick={() => navigate('/meanings/' + pair.meaningId)}
-              >
-                {pair.meaningText}
-              </Button>
-            </div>
+            <Collapsible key={pair.id} className="rounded-lg border border-border bg-card">
+              <CollapsibleTrigger asChild>
+                <div className="flex items-center gap-2 min-h-[44px] cursor-pointer px-3 py-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="truncate max-w-[45vw] min-w-0"
+                    onClick={e => {
+                      e.stopPropagation()
+                      navigate('/word-forms/' + pair.wordFormId)
+                    }}
+                  >
+                    {pair.wordFormText}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="truncate max-w-[45vw] min-w-0"
+                    onClick={e => {
+                      e.stopPropagation()
+                      navigate('/meanings/' + pair.meaningId)
+                    }}
+                  >
+                    {pair.meaningText}
+                  </Button>
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="grid grid-cols-2 gap-2 px-3 pb-3 text-sm text-muted-foreground">
+                  <span>
+                    {t('pair.firstObserved')}: {pair.firstObservationDate}
+                  </span>
+                  <span>
+                    {t('pair.lastUsed')}: {pair.lastUsedDate}
+                  </span>
+                  <span className="col-span-2">
+                    <Badge variant={pair.isActive ? 'default' : 'secondary'}>
+                      {pair.isActive ? t('pair.active') : t('wordForm.inactive')}
+                    </Badge>
+                  </span>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           ))}
         </div>
       )}
