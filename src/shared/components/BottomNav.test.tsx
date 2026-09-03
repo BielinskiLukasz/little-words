@@ -14,9 +14,9 @@ describe('BottomNav', () => {
     )
   }
 
-  it('renders exactly 4 navigation links', () => {
+  it('renders exactly 5 navigation links', () => {
     renderNav()
-    expect(screen.getAllByRole('link')).toHaveLength(4)
+    expect(screen.getAllByRole('link')).toHaveLength(5)
   })
 
   it('renders tab labels in Polish (default locale)', () => {
