@@ -165,7 +165,20 @@ Plans:
   4. A "Pairs" screen lists all word-form↔meaning pairs with navigation to both the word form and meaning detail pages
   5. The Doctor Report shows age as "X years Y months" when months > 0, and includes per-category meaning lists and a word-form count per meaning
 
-**Plans**: 0 plans
+**Plans**: 6 plans
+Plans:
+
+**Wave 1** *(parallel — no mutual dependency)*
+
+- [ ] 06-01-PLAN.md — Dexie v3 schema migration + service layer (updateMeaning, updateWordForm, updatePairFields, aggregateMeaningFromPairs, getPairsWithDetails) [PREREL-03, D-01..D-04] [non-autonomous — has checkpoint:decision]
+- [ ] 06-02-PLAN.md — All Phase 6 i18n keys + Dashboard stat card Links (D-17) [PREREL-01 partial]
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 06-03-PLAN.md — MeaningDetailPage rewrite: inline edit, per-pair expandable rows, category i18n fix (D-05, D-06, D-08, D-16) [PREREL-01, PREREL-02]
+- [ ] 06-04-PLAN.md — WordFormDetailPage update: inline edit for word form text, per-pair expandable rows (D-07, D-08) [PREREL-02]
+- [ ] 06-05-PLAN.md — PairsPage + BottomNav 5th tab + /pairs route (D-13, D-14, D-15) [PREREL-04]
+- [ ] 06-06-PLAN.md — Report enhancements TDD: age format, per-category list, recent additions, inactive section (D-09..D-12) [PREREL-05]
 
 **UI hint**: yes
 
