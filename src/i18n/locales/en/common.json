@@ -3,7 +3,8 @@
     "dashboard": "Dashboard",
     "meanings": "Meanings",
     "wordForms": "Word Forms",
-    "more": "More"
+    "more": "More",
+    "pairs": "Pairs"
   },
   "more": {
     "categories": "Categories",
@@ -82,7 +83,10 @@
     "back": "Back",
     "saving": "Saving...",
     "deleting": "Deleting...",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "edit": "Edit",
+    "saveChanges": "Save changes",
+    "discardChanges": "Discard changes"
   },
   "category": {
     "Nouns": "Nouns",
@@ -191,6 +195,27 @@
     "parentNotes": "Parent notes",
     "parentNotesPlaceholder": "Add notes for the doctor...",
     "copyButton": "Copy report",
-    "copied": "Report copied!"
+    "copied": "Report copied!",
+    "byCategory": "Meanings by category",
+    "recentAdditions": "Recently added (5)",
+    "recentForgotten": "Recently forgotten (5)",
+    "yearsMonths": "{{years}} years {{months}} months",
+    "months": "{{count}} months"
+  },
+  "sort": {
+    "newestFirst": "Newest first",
+    "azWordForm": "A–Z by word form",
+    "azMeaning": "A–Z by meaning"
+  },
+  "pairs": {
+    "emptyHeading": "No pairs yet",
+    "emptyBody": "Add your first word entry to see pairs here."
+  },
+  "pair": {
+    "firstObserved": "First observed",
+    "lastUsed": "Last used",
+    "active": "Active",
+    "goToWordForm": "Go to word form",
+    "goToMeaning": "Go to meaning"
   }
 }

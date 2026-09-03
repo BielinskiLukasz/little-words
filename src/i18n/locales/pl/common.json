@@ -3,7 +3,8 @@
     "dashboard": "Pulpit",
     "meanings": "Znaczenia",
     "wordForms": "Formy słów",
-    "more": "Więcej"
+    "more": "Więcej",
+    "pairs": "Pary"
   },
   "more": {
     "categories": "Kategorie",
@@ -84,7 +85,10 @@
     "back": "Wstecz",
     "saving": "Zapisuję...",
     "deleting": "Usuwam...",
-    "loading": "Ładowanie..."
+    "loading": "Ładowanie...",
+    "edit": "Edytuj",
+    "saveChanges": "Zapisz zmiany",
+    "discardChanges": "Odrzuć zmiany"
   },
   "category": {
     "Nouns": "Rzeczowniki",
@@ -193,6 +197,27 @@
     "parentNotes": "Notatki dla lekarza",
     "parentNotesPlaceholder": "Dodaj notatki dla lekarza...",
     "copyButton": "Kopiuj raport",
-    "copied": "Raport skopiowany!"
+    "copied": "Raport skopiowany!",
+    "byCategory": "Znaczenia według kategorii",
+    "recentAdditions": "Ostatnio dodane (5)",
+    "recentForgotten": "Ostatnio zapomniane (5)",
+    "yearsMonths": "{{years}} lat {{months}} miesięcy",
+    "months": "{{count}} miesięcy"
+  },
+  "sort": {
+    "newestFirst": "Najnowsze",
+    "azWordForm": "A–Z (forma)",
+    "azMeaning": "A–Z (znaczenie)"
+  },
+  "pairs": {
+    "emptyHeading": "Brak par",
+    "emptyBody": "Dodaj pierwsze słowo, aby zobaczyć pary."
+  },
+  "pair": {
+    "firstObserved": "Pierwsze użycie",
+    "lastUsed": "Ostatnie użycie",
+    "active": "Aktywna",
+    "goToWordForm": "Przejdź do formy",
+    "goToMeaning": "Przejdź do znaczenia"
   }
 }
