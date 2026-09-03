@@ -2,17 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.0
 current_phase: 06
-status: ui-spec-ready
-stopped_at: Phase 06 UI-SPEC approved — ready for /gsd-plan-phase 6
-last_updated: "2026-09-03T00:00:00.000Z"
+current_phase_name: Pre-release Polish
+status: executing
+stopped_at: Completed 06-01-PLAN.md (Dexie v3 schema migration)
+last_updated: "2026-09-03T10:57:49.651Z"
 last_activity: 2026-09-03
-last_activity_desc: Phase 06 UI-SPEC written, probe resolved, approved
-state_head: 5b4e7c30681fb52fadd22f2a8d5d00f9173c0b1f
+last_activity_desc: Phase 06 execution started
+state_head: bcc8b4bc32ea5d1023e8986816df7339b1318c6a
 progress:
   total_phases: 6
   completed_phases: 2
-  total_plans: 23
-  completed_plans: 23
+  total_plans: 29
+  completed_plans: 24
 milestone_name: milestone
 ---
 
@@ -23,14 +24,14 @@ milestone_name: milestone
 See: .planning/PROJECT.md (updated 2026-09-02)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Milestone v1.0 complete — ready for /gsd-complete-milestone
+**Current focus:** Phase 06 — Pre-release Polish
 
 ## Current Position
 
-Phase: 06
+Phase: 06 (Pre-release Polish) — EXECUTING
 Next: /gsd-plan-phase 6 (UI-SPEC gate now clear)
-Status: UI-SPEC approved; planning not yet started
-Last activity: 2026-09-03 — Phase 06 UI-SPEC written and approved
+Status: Executing Phase 06
+Last activity: 2026-09-03 — Phase 06 execution started
 
 Progress: [████████████████████] 17/17 plans (100%)
 
@@ -71,6 +72,7 @@ Progress: [████████████████████] 17/17 p
 | Phase 05-pwa-polish P01 | 20 | 2 tasks | 4 files |
 | Phase 05-pwa-polish P03 | 8 | 2 tasks | 2 files |
 | Phase 05-pwa-polish P02 | 25 | 2 tasks | 8 files |
+| Phase 06 P06-01 | 14 | 2 tasks | 11 files |
 
 ## Accumulated Context
 
@@ -106,6 +108,9 @@ Recent decisions affecting current work:
 - [Phase 05]: D-08/D-09: deploy.yml triggers on push to main only with lint+test gate; peaceiris/actions-gh-pages@v4 pushes dist/ to gh-pages; keep_files: false
 - [Phase 05]: ESM import syntax in generate-icons.js — package.json is type:module, CJS require() invalid for .js files
 - [Phase 05]: Separate manifest.icons entries for purpose:any and purpose:maskable on 512x512 — W3C spec disallows combining on one entry
+- [Phase 06]: D-01: WordFormMeaning.firstObservationDate/lastUsedDate/isActive are required fields (one-way schema door, Dexie v3)
+- [Phase 06]: D-02: aggregateMeaningFromPairs called on every pair write including deleteWordForm to keep Meaning aggregate in sync
+- [Phase 06]: D-04: addWordEntry passes pair.firstObservationDate from user-supplied firstUseDate via pairFields parameter
 
 ### Pending Todos
 
@@ -123,6 +128,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-03T00:00:00.000Z
-Stopped at: Phase 06 UI-SPEC approved — ready for /gsd-plan-phase 6
-Resume file: .planning/phases/06-pre-release-polish/06-UI-SPEC.md
+Last session: 2026-09-03T10:56:38.828Z
+Stopped at: Completed 06-01-PLAN.md (Dexie v3 schema migration)
+Resume file: None

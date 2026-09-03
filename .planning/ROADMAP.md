@@ -165,12 +165,12 @@ Plans:
   4. A "Pairs" screen lists all word-form↔meaning pairs with navigation to both the word form and meaning detail pages
   5. The Doctor Report shows age as "X years Y months" when months > 0, and includes per-category meaning lists and a word-form count per meaning
 
-**Plans**: 6 plans
+**Plans**: 1/6 plans executed
 Plans:
 
 **Wave 1** *(parallel — no mutual dependency)*
 
-- [ ] 06-01-PLAN.md — Dexie v3 schema migration + service layer (updateMeaning, updateWordForm, updatePairFields, aggregateMeaningFromPairs, getPairsWithDetails) [PREREL-03, D-01..D-04] [non-autonomous — has checkpoint:decision]
+- [x] 06-01-PLAN.md — Dexie v3 schema migration + service layer (updateMeaning, updateWordForm, updatePairFields, aggregateMeaningFromPairs, getPairsWithDetails) [PREREL-03, D-01..D-04] [non-autonomous — has checkpoint:decision]
 - [ ] 06-02-PLAN.md — All Phase 6 i18n keys + Dashboard stat card Links (D-17) [PREREL-01 partial]
 
 **Wave 2** *(blocked on Wave 1 completion)*
@@ -194,4 +194,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Browse Views | 7/7 | Complete    | 2026-08-25 |
 | 4. Doctor Report & Data Management | 3/3 | Complete | 2026-08-27 |
 | 5. PWA Polish | 3/3 | Complete    | 2026-08-31 |
-| 6. Pre-release Polish | 0/? | Planned | — |
+| 6. Pre-release Polish | 1/6 | In Progress|  |
