@@ -84,3 +84,39 @@ describe('wordForm.service - findOrCreateWordForm', () => {
     await expect(findOrCreateWordForm('   ')).rejects.toThrow()
   })
 })
+
+// ── updateWordForm ─────────────────────────────────────────────────────────────
+
+describe('wordForm.service - updateWordForm', () => {
+  let wordFormId: number
+
+  beforeEach(async () => {
+    await Dexie.delete('LittleWordsDB')
+    testDb = new AppDB()
+    await testDb.open()
+
+    wordFormId = await testDb.wordForms.add({ form: 'ba', createdAt: '2025-01-01' }) as number
+  })
+
+  afterEach(async () => {
+    testDb.close()
+    await Dexie.delete('LittleWordsDB')
+  })
+
+  it('normalizes form text to lowercase and updates the DB row', async () => {
+    const { updateWordForm, getWordFormById } = await import('./wordForm.service')
+    await updateWordForm(wordFormId, 'New Form')
+    const updated = await getWordFormById(wordFormId)
+    expect(updated!.form).toBe('new form')
+  })
+
+  it('rejects empty form text with an error', async () => {
+    const { updateWordForm } = await import('./wordForm.service')
+    await expect(updateWordForm(wordFormId, '')).rejects.toThrow()
+  })
+
+  it('rejects whitespace-only form text with an error', async () => {
+    const { updateWordForm } = await import('./wordForm.service')
+    await expect(updateWordForm(wordFormId, '   ')).rejects.toThrow()
+  })
+})

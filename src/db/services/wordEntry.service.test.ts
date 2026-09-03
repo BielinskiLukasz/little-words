@@ -199,3 +199,52 @@ describe('wordFormMeaning.service - linkMeaningToWordForm idempotency', () => {
     expect(typeof unlinkMeaning).toBe('function')
   })
 })
+
+// ── addWordEntry D-04: pair.firstObservationDate from user-supplied date ──────
+
+describe('wordEntry.service - addWordEntry D-04', () => {
+  beforeEach(async () => {
+    await Dexie.delete('LittleWordsDB')
+    testDb = new AppDB()
+    await testDb.open()
+    Object.defineProperty(globalThis, 'navigator', {
+      value: {
+        ...globalThis.navigator,
+        storage: {
+          persist: vi.fn().mockResolvedValue(true),
+          persisted: vi.fn().mockResolvedValue(true),
+        },
+      },
+      configurable: true,
+      writable: true,
+    })
+  })
+
+  afterEach(async () => {
+    testDb.close()
+    await Dexie.delete('LittleWordsDB')
+  })
+
+  it('stores firstObservationDate and lastUsedDate from the supplied firstUseDate on the pair row', async () => {
+    const { addWordEntry } = await import('./wordEntry.service')
+    const result = await addWordEntry({
+      wordForm: 'ba',
+      meanings: [
+        {
+          text: 'ball',
+          categories: ['Nouns'],
+          firstUseDate: '2025-03-15',
+        },
+      ],
+    })
+
+    const pair = await testDb.wordFormMeanings
+      .where('wordFormId')
+      .equals(result.wordFormId)
+      .first()
+    expect(pair).toBeDefined()
+    expect(pair!.firstObservationDate).toBe('2025-03-15')
+    expect(pair!.lastUsedDate).toBe('2025-03-15')
+    expect(pair!.isActive).toBe(true)
+  })
+})
