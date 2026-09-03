@@ -165,7 +165,7 @@ Plans:
   4. A "Pairs" screen lists all word-form↔meaning pairs with navigation to both the word form and meaning detail pages
   5. The Doctor Report shows age as "X years Y months" when months > 0, and includes per-category meaning lists and a word-form count per meaning
 
-**Plans**: 3/6 plans executed
+**Plans**: 4/6 plans executed
 Plans:
 
 **Wave 1** *(parallel — no mutual dependency)*
@@ -176,7 +176,7 @@ Plans:
 **Wave 2** *(blocked on Wave 1 completion)*
 
 - [x] 06-03-PLAN.md — MeaningDetailPage rewrite: inline edit, per-pair expandable rows, category i18n fix (D-05, D-06, D-08, D-16) [PREREL-01, PREREL-02]
-- [ ] 06-04-PLAN.md — WordFormDetailPage update: inline edit for word form text, per-pair expandable rows (D-07, D-08) [PREREL-02]
+- [x] 06-04-PLAN.md — WordFormDetailPage update: inline edit for word form text, per-pair expandable rows (D-07, D-08) [PREREL-02]
 - [ ] 06-05-PLAN.md — PairsPage + BottomNav 5th tab + /pairs route (D-13, D-14, D-15) [PREREL-04]
 - [ ] 06-06-PLAN.md — Report enhancements TDD: age format, per-category list, recent additions, inactive section (D-09..D-12) [PREREL-05]
 
@@ -194,4 +194,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Browse Views | 7/7 | Complete    | 2026-08-25 |
 | 4. Doctor Report & Data Management | 3/3 | Complete | 2026-08-27 |
 | 5. PWA Polish | 3/3 | Complete    | 2026-08-31 |
-| 6. Pre-release Polish | 3/6 | In Progress|  |
+| 6. Pre-release Polish | 4/6 | In Progress|  |
