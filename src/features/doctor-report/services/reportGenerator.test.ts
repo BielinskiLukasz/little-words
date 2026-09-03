@@ -2,8 +2,9 @@ import { describe, it, expect } from 'vitest'
 import { generateReport } from './reportGenerator'
 import type { ChildProfile, Meaning, WordForm } from '@/db/schema'
 
-// Stub t function: returns count as string for count options, key name otherwise
+// Stub t function: returns formatted string for yearsMonths, count for count options, key name otherwise
 const t = (key: string, opts?: Record<string, unknown>): string => {
+  if (key === 'report.yearsMonths' && opts) return `${opts.years}y${opts.months}m`
   if (opts?.count !== undefined) return String(opts.count)
   return key
 }
@@ -123,11 +124,11 @@ describe('generateReport', () => {
     expect(result).not.toContain('report.ageYears')
   })
 
-  it('age >= 2 years → uses year count', () => {
-    // Child born 3 years before now
+  it('age >= 2 years → uses yearsMonths format', () => {
+    // Child born 3 years before now (36 months → 3y0m)
     const profile: ChildProfile = { ...baseProfile, birthDate: '2023-01-01' }
     const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
-    expect(result).toContain('report.age: 3')
+    expect(result).toContain('report.age: 3y0m')
   })
 
   it('parentNotes appears in output with empty value when empty', () => {
@@ -160,17 +161,18 @@ describe('generateReport — edge cases', () => {
     expect(Number.isNaN(Number(ageValue))).toBe(false)
   })
 
-  it('child aged exactly 2 years → uses year count', () => {
+  it('child aged exactly 2 years → uses yearsMonths format', () => {
     const profile: ChildProfile = { ...baseProfile, birthDate: '2024-01-01' }
     const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
-    // t('report.ageYears', {count: 2}) returns '2'
-    expect(result).toContain('report.age: 2')
+    // 24 months → years=2, months=0 → '2y0m'
+    expect(result).toContain('report.age: 2y0m')
   })
 
-  it('child aged 3 years → uses year count', () => {
+  it('child aged 3 years → uses yearsMonths format', () => {
     const profile: ChildProfile = { ...baseProfile, birthDate: '2023-01-01' }
     const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
-    expect(result).toContain('report.age: 3')
+    // 36 months → years=3, months=0 → '3y0m'
+    expect(result).toContain('report.age: 3y0m')
   })
 
   it('all meanings inactive → active=0, inactive=total', () => {
@@ -293,5 +295,288 @@ describe('generateReport — edge cases', () => {
   it("languages=['pl', 'en'] → output contains 'pl, en'", () => {
     const result = generateReport({ profile: baseProfile, meanings: [], wordForms: [], t, now })
     expect(result).toContain('pl, en')
+  })
+})
+
+describe('generateReport — D-09 age format', () => {
+  const now = new Date('2026-01-01T00:00:00.000Z')
+
+  it('age 11 months shows month count not yearsMonths format', () => {
+    // birthDate 11 months before 2026-01-01
+    const profile: ChildProfile = { ...baseProfile, birthDate: '2025-02-01' }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.age: 11')
+    expect(result).not.toMatch(/report\.age: \d+y\d+m/)
+  })
+
+  it('age exactly 12 months shows 1y0m', () => {
+    // birthDate exactly 12 months before 2026-01-01
+    const profile: ChildProfile = { ...baseProfile, birthDate: '2025-01-01' }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.age: 1y0m')
+  })
+
+  it('age 14 months shows 1y2m', () => {
+    // birthDate 14 months before 2026-01-01
+    const profile: ChildProfile = { ...baseProfile, birthDate: '2024-11-01' }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.age: 1y2m')
+  })
+
+  it('age 24 months shows 2y0m', () => {
+    // birthDate 24 months before 2026-01-01
+    const profile: ChildProfile = { ...baseProfile, birthDate: '2024-01-01' }
+    const result = generateReport({ profile, meanings: [], wordForms: [], t, now })
+    expect(result).toContain('report.age: 2y0m')
+  })
+})
+
+describe('generateReport — D-10 per-category list', () => {
+  const now = new Date('2026-01-01T00:00:00.000Z')
+
+  it('report contains report.byCategory heading', () => {
+    const meanings: Meaning[] = [activeMeaning({ id: 1, text: 'apple', categories: ['Nouns'] })]
+    const result = generateReport({
+      profile: baseProfile,
+      meanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: { 1: 1 },
+    })
+    expect(result).toContain('report.byCategory')
+  })
+
+  it('each active meaning text appears in report with word-form count in parentheses', () => {
+    const meanings: Meaning[] = [activeMeaning({ id: 1, text: 'apple', categories: ['Nouns'] })]
+    const result = generateReport({
+      profile: baseProfile,
+      meanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: { 1: 3 },
+    })
+    expect(result).toContain('apple (3)')
+  })
+
+  it('meaning with no entry in meaningWordFormCounts shows count (0)', () => {
+    const meanings: Meaning[] = [activeMeaning({ id: 1, text: 'apple', categories: ['Nouns'] })]
+    const result = generateReport({
+      profile: baseProfile,
+      meanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    expect(result).toContain('apple (0)')
+  })
+
+  it('inactive meanings do not appear in byCategory section with parenthesised count', () => {
+    const meanings: Meaning[] = [
+      activeMeaning({ id: 1, text: 'apple', categories: ['Nouns'] }),
+      inactiveMeaning({ id: 2, text: 'banana', categories: ['Food'] }),
+    ]
+    const result = generateReport({
+      profile: baseProfile,
+      meanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: { 1: 1, 2: 2 },
+    })
+    expect(result).toContain('apple (1)')
+    expect(result).not.toContain('banana (2)')
+  })
+
+  it('meanings sorted alphabetically within category', () => {
+    const meanings: Meaning[] = [
+      activeMeaning({ id: 1, text: 'zebra', categories: ['Animals'] }),
+      activeMeaning({ id: 2, text: 'ant', categories: ['Animals'] }),
+    ]
+    const result = generateReport({
+      profile: baseProfile,
+      meanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    const zebraIdx = result.indexOf('zebra')
+    const antIdx = result.indexOf('ant')
+    expect(antIdx).toBeLessThan(zebraIdx)
+  })
+
+  it('categories with zero active meanings do not appear as category headings', () => {
+    const meanings: Meaning[] = [activeMeaning({ id: 1, text: 'apple', categories: ['Nouns'] })]
+    const result = generateReport({
+      profile: baseProfile,
+      meanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    // byCategory section should contain Nouns heading
+    const lines = result.split('\n')
+    const byCategoryIdx = lines.findIndex((l) => l.includes('report.byCategory'))
+    expect(byCategoryIdx).toBeGreaterThan(-1)
+    // Verbs has no active meanings — should not appear after byCategory heading
+    const sectionLines = lines.slice(byCategoryIdx)
+    expect(sectionLines.some((l) => l === 'category.Verbs')).toBe(false)
+  })
+})
+
+describe('generateReport — D-11 recent additions', () => {
+  const now = new Date('2026-01-01T00:00:00.000Z')
+
+  const sevenActiveMeanings: Meaning[] = [
+    activeMeaning({ id: 1, text: 'word1', firstUseDate: '2025-12-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 2, text: 'word2', firstUseDate: '2025-11-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 3, text: 'word3', firstUseDate: '2025-10-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 4, text: 'word4', firstUseDate: '2025-09-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 5, text: 'word5', firstUseDate: '2025-08-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 6, text: 'word6', firstUseDate: '2025-07-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 7, text: 'word7', firstUseDate: '2025-06-01', categories: ['Nouns'] }),
+  ]
+
+  it('report contains report.recentAdditions heading', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenActiveMeanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    expect(result).toContain('report.recentAdditions')
+  })
+
+  it('top 5 most recent by firstUseDate appear in recent additions section', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenActiveMeanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    expect(result).toContain('word1')
+    expect(result).toContain('word2')
+    expect(result).toContain('word3')
+    expect(result).toContain('word4')
+    expect(result).toContain('word5')
+  })
+
+  it('6th and 7th oldest meanings do not appear in recent additions section', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenActiveMeanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    // Find recent additions section boundaries
+    const lines = result.split('\n')
+    const sectionStart = lines.findIndex((l) => l.includes('report.recentAdditions'))
+    expect(sectionStart).toBeGreaterThan(-1)
+    // Section ends at next blank line or end of output
+    const sectionEnd = lines.findIndex((l, i) => i > sectionStart && l.trim() === '')
+    const sectionSlice =
+      sectionEnd === -1 ? lines.slice(sectionStart) : lines.slice(sectionStart, sectionEnd)
+    expect(sectionSlice.some((l) => l.includes('word6'))).toBe(false)
+    expect(sectionSlice.some((l) => l.includes('word7'))).toBe(false)
+  })
+})
+
+describe('generateReport — D-12 inactive section', () => {
+  const now = new Date('2026-01-01T00:00:00.000Z')
+
+  const sevenInactiveMeanings: Meaning[] = [
+    inactiveMeaning({ id: 11, text: 'forgot1', lastUseDate: '2025-12-01' }),
+    inactiveMeaning({ id: 12, text: 'forgot2', lastUseDate: '2025-11-01' }),
+    inactiveMeaning({ id: 13, text: 'forgot3', lastUseDate: '2025-10-01' }),
+    inactiveMeaning({ id: 14, text: 'forgot4', lastUseDate: '2025-09-01' }),
+    inactiveMeaning({ id: 15, text: 'forgot5', lastUseDate: '2025-08-01' }),
+    inactiveMeaning({ id: 16, text: 'forgot6', lastUseDate: '2025-07-01' }),
+    inactiveMeaning({ id: 17, text: 'forgot7', lastUseDate: '2025-06-01' }),
+  ]
+
+  it('report contains report.recentForgotten heading', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenInactiveMeanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    expect(result).toContain('report.recentForgotten')
+  })
+
+  it('top 5 most recently inactive appear in recent forgotten section', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenInactiveMeanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    const lines = result.split('\n')
+    const sectionStart = lines.findIndex((l) => l.includes('report.recentForgotten'))
+    expect(sectionStart).toBeGreaterThan(-1)
+    const sectionEnd = lines.findIndex((l, i) => i > sectionStart && l.trim() === '')
+    const sectionSlice =
+      sectionEnd === -1 ? lines.slice(sectionStart) : lines.slice(sectionStart, sectionEnd)
+    expect(sectionSlice.some((l) => l.includes('forgot1'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('forgot2'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('forgot3'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('forgot4'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('forgot5'))).toBe(true)
+  })
+
+  it('6th and 7th least recently inactive do not appear in recent forgotten section', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenInactiveMeanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    const lines = result.split('\n')
+    const sectionStart = lines.findIndex((l) => l.includes('report.recentForgotten'))
+    expect(sectionStart).toBeGreaterThan(-1)
+    const sectionEnd = lines.findIndex((l, i) => i > sectionStart && l.trim() === '')
+    const sectionSlice =
+      sectionEnd === -1 ? lines.slice(sectionStart) : lines.slice(sectionStart, sectionEnd)
+    expect(sectionSlice.some((l) => l.includes('forgot6'))).toBe(false)
+    expect(sectionSlice.some((l) => l.includes('forgot7'))).toBe(false)
+  })
+
+  it('active meanings do not appear in recent forgotten section', () => {
+    const meanings: Meaning[] = [
+      activeMeaning({ id: 1, text: 'stillActive', lastUseDate: '2025-12-15' }),
+      inactiveMeaning({ id: 2, text: 'forgotten', lastUseDate: '2025-11-01' }),
+    ]
+    const result = generateReport({
+      profile: baseProfile,
+      meanings,
+      wordForms: [],
+      t,
+      now,
+      meaningWordFormCounts: {},
+    })
+    const lines = result.split('\n')
+    const sectionStart = lines.findIndex((l) => l.includes('report.recentForgotten'))
+    expect(sectionStart).toBeGreaterThan(-1)
+    const sectionEnd = lines.findIndex((l, i) => i > sectionStart && l.trim() === '')
+    const sectionSlice =
+      sectionEnd === -1 ? lines.slice(sectionStart) : lines.slice(sectionStart, sectionEnd)
+    expect(sectionSlice.some((l) => l.includes('stillActive'))).toBe(false)
+    expect(sectionSlice.some((l) => l.includes('forgotten'))).toBe(true)
   })
 })

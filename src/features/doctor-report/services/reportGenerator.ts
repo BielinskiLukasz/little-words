@@ -8,6 +8,7 @@ export interface ReportInput {
   wordForms: WordForm[]
   t: (key: string, opts?: Record<string, unknown>) => string
   now?: Date
+  meaningWordFormCounts?: Record<number, number>
 }
 
 export function generateReport(input: ReportInput): string {
