@@ -1,11 +1,45 @@
 import { db } from '../db'
 import type { Meaning } from '../types'
-import { CATEGORIES } from '../schema'
+import { CATEGORIES, type Category } from '../schema'
 
 export async function addMeaning(
   meaning: Omit<Meaning, 'id'>
 ): Promise<number> {
   return db.meanings.add(meaning) as Promise<number>
+}
+
+/**
+ * Recompute Meaning aggregate fields from all linked WordFormMeaning pairs.
+ * Sets isActive, firstUseDate, lastUseDate on the Meaning row.
+ * Edge case: if no pairs exist, leaves the meaning unchanged.
+ *
+ * D-02: Called on every pair write to keep Meaning in sync.
+ */
+export async function aggregateMeaningFromPairs(meaningId: number): Promise<void> {
+  const pairs = await db.wordFormMeanings.where('meaningId').equals(meaningId).toArray()
+  if (pairs.length === 0) return
+
+  const isActive = pairs.some(p => p.isActive)
+  const firstUseDateMs = Math.min(...pairs.map(p => new Date(p.firstObservationDate).getTime()))
+  const lastUseDateMs = Math.max(...pairs.map(p => new Date(p.lastUsedDate).getTime()))
+  const firstUseDate = new Date(firstUseDateMs).toISOString().slice(0, 10)
+  const lastUseDate = new Date(lastUseDateMs).toISOString().slice(0, 10)
+
+  await db.meanings.update(meaningId, { isActive, firstUseDate, lastUseDate })
+}
+
+/**
+ * Update a meaning's text and categories.
+ * Validates that text is non-empty (T-06-01-01).
+ */
+export async function updateMeaning(
+  id: number,
+  fields: { text: string; categories: Category[] }
+): Promise<void> {
+  if (fields.text.trim().length === 0) {
+    throw new Error('Meaning text cannot be empty')
+  }
+  await db.meanings.update(id, { text: fields.text.trim(), categories: fields.categories })
 }
 
 export async function toggleMeaningActive(

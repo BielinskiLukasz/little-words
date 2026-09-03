@@ -62,8 +62,17 @@ export async function addWordEntry(
     meaningIds.push(meaningId)
   }
 
-  for (const meaningId of meaningIds) {
-    await linkMeaningToWordForm(wordFormId, meaningId)
+  for (let i = 0; i < validMeanings.length; i++) {
+    const meaning = validMeanings[i]
+    const meaningId = meaningIds[i]
+    const isoDate = meaning.firstUseDate ?? new Date().toISOString()
+    const dateStr = isoDate.slice(0, 10)
+    // D-04: store pair.firstObservationDate from the user-supplied date
+    await linkMeaningToWordForm(wordFormId, meaningId, {
+      firstObservationDate: dateStr,
+      lastUsedDate: dateStr,
+      isActive: true,
+    })
   }
 
   // Storage persist guard (T-02-02-I1):

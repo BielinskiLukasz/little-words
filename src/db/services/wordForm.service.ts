@@ -1,5 +1,6 @@
 import { db } from '../db'
 import type { WordForm } from '../types'
+import { aggregateMeaningFromPairs } from './meaning.service'
 
 export async function addWordForm(
   form: Omit<WordForm, 'id'>
@@ -8,9 +9,18 @@ export async function addWordForm(
 }
 
 export async function deleteWordForm(id: number): Promise<void> {
-  await db.transaction('rw', [db.wordForms, db.wordFormMeanings], async () => {
+  await db.transaction('rw', [db.wordForms, db.wordFormMeanings, db.meanings], async () => {
+    // Collect affected meaningIds before deleting pairs so we can re-aggregate
+    const pairs = await db.wordFormMeanings.where('wordFormId').equals(id).toArray()
+    const affectedMeaningIds = [...new Set(pairs.map(p => p.meaningId))]
+
     await db.wordForms.delete(id)
     await db.wordFormMeanings.where('wordFormId').equals(id).delete()
+
+    // Re-aggregate each affected meaning so its fields stay correct (D-02)
+    for (const meaningId of affectedMeaningIds) {
+      await aggregateMeaningFromPairs(meaningId)
+    }
   })
 }
 
@@ -43,6 +53,17 @@ export async function findOrCreateWordForm(formText: string): Promise<number> {
       createdAt: new Date().toISOString(),
     })) as number
   })
+}
+
+/**
+ * Update a word form's text.
+ * Normalizes to lowercase and validates non-empty (T-06-01-01).
+ */
+export async function updateWordForm(id: number, form: string): Promise<void> {
+  if (form.trim().length === 0) {
+    throw new Error('Word form cannot be empty')
+  }
+  await db.wordForms.update(id, { form: form.trim().toLowerCase() })
 }
 
 /**
