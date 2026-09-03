@@ -1,7 +1,7 @@
 ---
 phase: "6"
 slug: "pre-release-polish"
-status: draft
+status: approved
 shadcn_initialized: true
 preset: none
 created: "2026-09-02"
@@ -146,23 +146,34 @@ Destructive actions in Phase 6: no new destructive actions are added. Existing d
 ## UI Considerations
 
 Applicable state considerations resolved for Phase 6 screens and interactions.
+Format: ✅ explicit (lifted as plain truth) · 🧪 backstop (lifted as `{ statement, verification: backstop }`) · ⚠ unresolved (planner treats as assumption).
 
 | Category | Element | Status | Resolution |
 |----------|---------|--------|------------|
-| empty | Pairs list (`PairsPage`) | ✅ covered | Render heading "No pairs yet" + body "Add your first word entry to see pairs here." per Copywriting Contract above |
-| loading | Pairs list (`useLiveQuery` in `PairsPage`) | ✅ covered | `useLiveQuery` returns `undefined` while loading; render `<p className="text-muted-foreground">{t('app.loading')}</p>` — same pattern as all existing list pages |
-| loading | Edit mode save (`MeaningDetailPage`, `WordFormDetailPage`) | ✅ covered | Disable Save button and show spinner during async Dexie write; re-enable on completion in `finally` block — reuse existing `finally` reset pattern |
-| long-text | Word form chip and meaning chip in Pairs row | 🧪 backstop | Chips must truncate with `truncate` and a `max-w-[...px]` cap so two chips always fit on one row on 320px viewport; exact max-width TBD by executor based on measured layout |
-| long-text | Meaning text input in inline edit mode | 🧪 backstop | Textarea or multiline input must not overflow the card boundary; executor to verify at 320px minimum width with 60+ character meaning text |
-| focal-point | PairsPage — first-read element | ✅ covered | The pairs list with dual word-form/meaning chips is the primary focal element. Sort selector sits above it at reduced visual weight. Expanded metadata (dates, isActive) is secondary, revealed on tap only. |
-| overflow | Pairs list with 100+ pairs | ⚠ unresolved | No virtualization planned for v1; planner assumes native scroll is sufficient — add note if UAT shows jank |
-| zero-one-many | Category chips in edit mode — 0 categories selected | ✅ covered | CategoryChips renders an empty selection state showing all chips unselected; this is valid and saveable — "no category" is equivalent to "Other" per existing spec |
+| empty | PairsPage — pairs list | ✅ covered | Render `<h2>{t('common.pairs.emptyHeading')}</h2>` ("No pairs yet") and `<p>{t('common.pairs.emptyBody')}</p>` ("Add your first word entry to see pairs here.") — same structural pattern as Meanings and Word Forms empty states |
+| loading | PairsPage — pairs list (`useLiveQuery`) | ✅ covered | `useLiveQuery` returns `undefined` while loading; render `<p className="text-muted-foreground">{t('app.loading')}</p>` — same pattern as all existing list pages |
+| zero-one-many | PairsPage — pairs list count | ✅ covered | 0 items → empty state (above); 1+ items → list of dual-chip rows; no singular/plural copy variation needed |
+| populated | PairsPage — normal happy-path state | ✅ covered | Sort selector above list; each row shows word-form chip (navigates to `/word-forms/:id`) and meaning chip (navigates to `/meanings/:id`); tapping row body expands Collapsible to reveal dates and isActive |
+| overflow | PairsPage — list with 100+ pairs | 🧪 backstop | Native scroll is the plan for v1; executor adds note to monitor for scroll jank; no virtualization in scope |
+| error | PairsPage — useLiveQuery throws | 🧪 backstop | App-level ErrorBoundary catches render crashes; useLiveQuery errors surface via `common.error.generic` toast — same pattern as existing list pages |
+| long-text | PairsPage — word form chip and meaning chip in a row | 🧪 backstop | Each chip must truncate with `truncate` and a `max-w-[...px]` cap so both chips fit on one row at 320px viewport minimum; exact cap determined by executor from measured layout |
+| focal-point | PairsPage — first-read element | ✅ covered | The pairs list with dual word-form/meaning chips is the primary focal element; sort selector sits above at reduced visual weight; expanded metadata (dates, isActive) is secondary, revealed on tap only |
+| loading | Inline edit save — `MeaningDetailPage` and `WordFormDetailPage` | ✅ covered | Save button disabled and shows spinner during async Dexie write; re-enabled in `finally` block — reuse existing `finally` reset pattern from `AddEntrySheet` |
+| error | Inline edit save — Dexie write failure | 🧪 backstop | Sonner toast fires with `common.error.generic`; Save button re-enables; same `catch` block pattern as `AddEntrySheet` |
+| long-text | Meaning text input in inline edit mode | 🧪 backstop | Textarea grows vertically within the card; must not overflow card boundary at 320px minimum width with 60+ character meaning text — executor to verify |
+| long-text | Word form text input in inline edit mode | 🧪 backstop | Single-line input; standard browser ellipsis/scroll applies; executor to verify at 320px |
+| zero-one-many | Category chips in edit mode — 0 categories selected | ✅ covered | CategoryChips renders all chips unselected; valid and saveable — "no category" is equivalent to "Other" per existing spec |
+| loading | Per-pair expandable rows — data availability | 🧪 backstop | Dexie reactive; pair data arrives near-instantly for typical app data volumes; no skeleton needed |
+| error | Per-pair expandable rows — date/isActive write failure | 🧪 backstop | Sonner toast with `common.error.generic` on Dexie rejection; same pattern as inline edit save |
+| populated | Per-pair expandable rows — expanded state | ✅ covered | Expanded Collapsible row shows `firstObservationDate` `<input type="date">`, `lastUsedDate` `<input type="date">`, and `isActive` Switch; date inputs save on blur (`handleNotesBlur` pattern from `DoctorReportPage.tsx`) |
 | zero-one-many | Per-pair rows on Meaning detail — meaning with exactly 1 linked pair | ✅ covered | Single-row display is the base case; no edge behavior needed |
-| zero-one-many | Per-pair rows on Word Form detail — word form with 0 linked pairs | ⚠ unresolved | Word forms with no linked pairs should not exist (schema constraint), but if they appear after a v3 migration edge case, render "No meanings linked" muted text |
-| empty | Pairs screen — sort selector with 0 results after filter | ✅ covered | Sort selector does not filter; 0-result state only occurs on a fresh app (covered by empty state above) |
-| state — interaction | Inline date input (per-pair firstObservationDate / lastUsedDate) | ✅ covered | Blur-triggered save — same pattern as `handleNotesBlur` in `DoctorReportPage.tsx`; no save on every keystroke |
-| state — interaction | Dashboard stat cards now navigable | ✅ covered | Wrap existing Card in `<Link to="/meanings">` etc.; existing visual unchanged; add focus ring via Tailwind `focus-visible:ring-2 focus-visible:ring-ring` to satisfy keyboard accessibility |
-| state — migration | Dexie v3 schema upgrade on first load after deploy | ✅ covered | Upgrade runs inside Dexie's built-in `onblocked`/`onversionchange` flow; no app-level loading UI needed; Dexie handles the transaction |
+| zero-one-many | Per-pair rows on Word Form detail — word form with 0 linked pairs | ⚠ unresolved — planner must treat as assumption | Word forms with 0 linked pairs should not exist post-migration (schema constraint); if encountered, render "No meanings linked" in muted text as a defensive fallback |
+| state — interaction | Per-pair date inputs (firstObservationDate / lastUsedDate) | ✅ covered | Blur-triggered save — same pattern as `handleNotesBlur` in `DoctorReportPage.tsx`; no save on every keystroke |
+| populated | Dashboard stat cards — navigable | ✅ covered | Existing Card components wrapped in `<Link to="/meanings">`, `<Link to="/word-forms">`, etc.; visual unchanged; add `focus-visible:ring-2 focus-visible:ring-ring` for keyboard accessibility |
+| zero-one-many | Dashboard stat cards — zero count | ✅ covered | Cards display the numeric count including 0; "0 active meanings" is a valid display state requiring no special handling |
+| loading | Dashboard stat cards (`useLiveQuery`) | 🧪 backstop | `useLiveQuery` returns `undefined` while loading; display 0 or a dash as loading placeholder — same behavior as before Link wrapping |
+| error | Dashboard stat cards | 🧪 backstop | App-level ErrorBoundary handles; individual card error states not in scope |
+| state — migration | Dexie v3 schema upgrade on first load after deploy | ✅ covered | Upgrade runs inside Dexie's built-in `onblocked`/`onversionchange` flow; no app-level loading UI needed; Dexie handles the transaction atomically |
 
 ---
 
@@ -178,12 +189,12 @@ No third-party registries declared for Phase 6. Registry vetting gate not applic
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
-- [ ] Dimension 7 Inventory Provenance: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS (FLAG: PairsPage focal point added)
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
+- [x] Dimension 7 Inventory Provenance: PASS (FLAG: version pins added)
 
-**Approval:** pending
+**Approval:** APPROVED — gsd-ui-checker, 2026-09-02
