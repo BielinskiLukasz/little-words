@@ -20,7 +20,14 @@ export async function linkMeaningToWordForm(
     return
   }
 
-  await db.wordFormMeanings.add({ wordFormId, meaningId })
+  const today = new Date().toISOString().slice(0, 10)
+  await db.wordFormMeanings.add({
+    wordFormId,
+    meaningId,
+    firstObservationDate: today,
+    lastUsedDate: today,
+    isActive: true,
+  })
 }
 
 /** @deprecated Use linkMeaningToWordForm instead (non-idempotent, kept for backward compat) */
@@ -28,7 +35,14 @@ export async function linkMeaning(
   wordFormId: number,
   meaningId: number
 ): Promise<number> {
-  return db.wordFormMeanings.add({ wordFormId, meaningId }) as Promise<number>
+  const today = new Date().toISOString().slice(0, 10)
+  return db.wordFormMeanings.add({
+    wordFormId,
+    meaningId,
+    firstObservationDate: today,
+    lastUsedDate: today,
+    isActive: true,
+  }) as Promise<number>
 }
 
 export async function unlinkMeaning(

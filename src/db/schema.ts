@@ -49,4 +49,7 @@ export interface WordFormMeaning {
   id?: number
   wordFormId: number
   meaningId: number
+  firstObservationDate: string
+  lastUsedDate: string
+  isActive: boolean
 }

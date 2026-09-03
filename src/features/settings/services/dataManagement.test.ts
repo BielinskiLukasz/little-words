@@ -69,7 +69,7 @@ describe('dataManagement - buildBackupData', () => {
   it('returns wordFormMeanings array equal to input', () => {
     const go = async () => {
       const { buildBackupData } = await import('./dataManagement')
-      const wordFormMeanings = [{ id: 1, wordFormId: 1, meaningId: 2 }]
+      const wordFormMeanings = [{ id: 1, wordFormId: 1, meaningId: 2, firstObservationDate: '2025-01-01', lastUsedDate: '2025-01-01', isActive: true }]
       const result = buildBackupData([], [], [], wordFormMeanings)
       expect(result.wordFormMeanings).toEqual(wordFormMeanings)
     }
@@ -186,8 +186,8 @@ describe('dataManagement - buildMeaningsCSV', () => {
       { id: 2, form: 'jedzenie', createdAt: '2024-01-01' },
     ]
     const wordFormMeanings = [
-      { id: 1, wordFormId: 1, meaningId: 10 },
-      { id: 2, wordFormId: 2, meaningId: 10 },
+      { id: 1, wordFormId: 1, meaningId: 10, firstObservationDate: '2024-01-01', lastUsedDate: '2024-01-01', isActive: true },
+      { id: 2, wordFormId: 2, meaningId: 10, firstObservationDate: '2024-01-01', lastUsedDate: '2024-01-01', isActive: true },
     ]
     const result = buildMeaningsCSV(meanings, wordFormMeanings, wordForms)
     const row = result.split('\n')[1]
