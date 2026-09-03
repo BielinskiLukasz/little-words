@@ -49,36 +49,51 @@ export function DashboardPage() {
   return (
     <div className="flex flex-col gap-6 p-6">
       {/* Hero Card: Active Meanings */}
-      <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-6">
-        <p className="text-sm font-medium text-muted-foreground">
-          {t('dashboard.activeMeanings')}
-        </p>
-        <p className="text-2xl font-semibold leading-[1.1]">
-          {activeMeaningsCount ?? 0}
-        </p>
-      </div>
+      <Link
+        to="/meanings"
+        className="block focus-visible:ring-2 focus-visible:ring-ring rounded-lg"
+      >
+        <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-6">
+          <p className="text-sm font-medium text-muted-foreground">
+            {t('dashboard.activeMeanings')}
+          </p>
+          <p className="text-2xl font-semibold leading-[1.1]">
+            {activeMeaningsCount ?? 0}
+          </p>
+        </div>
+      </Link>
 
       {/* Secondary Metrics Grid */}
       <div className="grid grid-cols-2 gap-4">
         {/* Active Word Forms */}
-        <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4">
-          <p className="text-xs font-medium text-muted-foreground">
-            {t('dashboard.activeWordForms')}
-          </p>
-          <p className="text-xl font-semibold">
-            {activeWordFormsCount ?? 0}
-          </p>
-        </div>
+        <Link
+          to="/word-forms"
+          className="block focus-visible:ring-2 focus-visible:ring-ring rounded-lg"
+        >
+          <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4">
+            <p className="text-xs font-medium text-muted-foreground">
+              {t('dashboard.activeWordForms')}
+            </p>
+            <p className="text-xl font-semibold">
+              {activeWordFormsCount ?? 0}
+            </p>
+          </div>
+        </Link>
 
         {/* New Meanings This Month */}
-        <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4">
-          <p className="text-xs font-medium text-muted-foreground">
-            {t('dashboard.newThisMonth')}
-          </p>
-          <p className="text-xl font-semibold">
-            {newMeaningsThisMonth ?? 0}
-          </p>
-        </div>
+        <Link
+          to="/meanings"
+          className="block focus-visible:ring-2 focus-visible:ring-ring rounded-lg"
+        >
+          <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-4">
+            <p className="text-xs font-medium text-muted-foreground">
+              {t('dashboard.newThisMonth')}
+            </p>
+            <p className="text-xl font-semibold">
+              {newMeaningsThisMonth ?? 0}
+            </p>
+          </div>
+        </Link>
       </div>
 
       {/* Review These? Section */}
