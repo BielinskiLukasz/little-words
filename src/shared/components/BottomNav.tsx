@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { LayoutDashboard, BookOpen, MessageSquare, MoreHorizontal } from 'lucide-react';
+import { LayoutDashboard, BookOpen, MessageSquare, GitBranch, MoreHorizontal } from 'lucide-react';
 
 const tabs = [
   { to: '/dashboard', icon: LayoutDashboard, labelKey: 'nav.dashboard' as const },
   { to: '/meanings', icon: BookOpen, labelKey: 'nav.meanings' as const },
   { to: '/word-forms', icon: MessageSquare, labelKey: 'nav.wordForms' as const },
+  { to: '/pairs', icon: GitBranch, labelKey: 'nav.pairs' as const },
   { to: '/more', icon: MoreHorizontal, labelKey: 'nav.more' as const },
 ];
 

@@ -15,6 +15,7 @@ import { DoctorReportPage } from '../pages/DoctorReportPage';
 import { SettingsPage } from '../pages/SettingsPage';
 import { OnboardingPage } from '../pages/OnboardingPage';
 import { ProfileEditPage } from '../pages/ProfileEditPage';
+import { PairsPage } from '../pages/PairsPage';
 
 // eslint-disable-next-line react-refresh/only-export-components
 function AuthGuard() {
@@ -47,6 +48,7 @@ export const router = createHashRouter([
       { path: 'meanings/:id', element: <MeaningDetailPage /> },
       { path: 'word-forms', element: <WordFormsPage /> },
       { path: 'word-forms/:id', element: <WordFormDetailPage /> },
+      { path: 'pairs', element: <PairsPage /> },
       { path: 'more', element: <MorePage /> },
       { path: 'categories', element: <CategoriesPage /> },
       { path: 'timeline', element: <TimelinePage /> },
