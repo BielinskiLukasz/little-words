@@ -27,12 +27,17 @@
       "number": "5",
       "name": "PWA Polish",
       "status": "complete"
+    },
+    {
+      "number": "6",
+      "name": "Pre-release Polish",
+      "status": "pending"
     }
   ],
   "next": {
-    "command": "/gsd:new-milestone",
-    "label": "Start a new milestone",
-    "reason": "All phases complete — start a new milestone"
+    "command": "/gsd:progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 6 of 6 · executing"
   },
-  "updated_at": "2026-09-02T18:37:56.478Z"
+  "updated_at": "2026-09-03T10:00:14.191Z"
 }
