@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "timestamp": "2026-09-08T14:04:45.059Z",
+  "phase": "06",
+  "phase_name": "pre-release-polish",
+  "phase_dir": ".planning/phases/06-pre-release-polish",
+  "plan": 6,
+  "task": 6,
+  "total_tasks": 6,
+  "status": "paused",
+  "completed_tasks": [
+    {"id": 1, "name": "Schema v3 migration (firstObservationDate, lastUsedDate, isActive on WordFormMeaning)", "status": "done"},
+    {"id": 2, "name": "Meaning inline edit (text + categories + per-pair rows)", "status": "done"},
+    {"id": 3, "name": "Word Form inline edit (text + per-pair rows)", "status": "done"},
+    {"id": 4, "name": "UI bug fixes (categories i18n, dashboard stat card navigation)", "status": "done"},
+    {"id": 5, "name": "Pairs screen (5th BottomNav tab, sort selector, navigation chips)", "status": "done"},
+    {"id": 6, "name": "Doctor Report TDD enhancements (age format, per-category list, recent additions, inactive)", "status": "done"}
+  ],
+  "remaining_tasks": [
+    {"id": 7, "name": "UAT — 17 manual browser tests in 06-UAT.md", "status": "not_started"}
+  ],
+  "blockers": [],
+  "async_jobs": [],
+  "human_actions_pending": [
+    {
+      "action": "Run dev server and perform 17 UAT scenarios from .planning/phases/06-pre-release-polish/06-UAT.md",
+      "context": "All code is complete (165 tests pass); verification is human_needed for interactive browser behaviors (inline edit, navigation, report rendering with real DB data)",
+      "blocking": true
+    }
+  ],
+  "decisions": [
+    {"decision": "Per-pair fields save on blur, not per keystroke", "rationale": "Avoids DB write on every keystroke; mirrors handleNotesBlur pattern from DoctorReportPage", "phase": "06"},
+    {"decision": "isActive badge on Meaning detail is read-only (aggregated from pairs)", "rationale": "Meaning.isActive = true if ANY linked pair.isActive is true; only changeable via per-pair Switch", "phase": "06"},
+    {"decision": "Date inputs use <input type=\"date\"> not Calendar popover", "rationale": "Consistent with onboarding birth date pattern; avoids Popover complexity", "phase": "06"}
+  ],
+  "uncommitted_files": [],
+  "next_action": "Run `npm run dev` and open localhost:5173 in browser. Work through 06-UAT.md tests 1-17. Update each test result inline. When all pass, run /gsd-ship or merge to main.",
+  "context_notes": "All 6 plans have SUMMARYs. REVIEW.md and VERIFICATION.md complete. UAT.md created with 17 tests, all pending. The only remaining gate is human browser testing — no code changes expected unless UAT reveals regressions."
+}
