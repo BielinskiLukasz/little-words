@@ -580,3 +580,145 @@ describe('generateReport — D-12 inactive section', () => {
     expect(sectionSlice.some((l) => l.includes('forgotten'))).toBe(true)
   })
 })
+
+describe('generateReport — configurable recentAdditionsLimit / recentForgottenLimit', () => {
+  const now = new Date('2026-01-01T00:00:00.000Z')
+
+  // Local t stub: returns "${key}:${count}" for the two configurable headings so count is visible
+  const localT = (key: string, opts?: Record<string, unknown>): string => {
+    if (key === 'report.yearsMonths' && opts) return `${opts.years}y${opts.months}m`
+    if (
+      (key === 'report.recentAdditions' || key === 'report.recentForgotten') &&
+      opts?.count !== undefined
+    )
+      return `${key}:${opts.count}`
+    if (opts?.count !== undefined) return String(opts.count)
+    return key
+  }
+
+  const sevenActive: Meaning[] = [
+    activeMeaning({ id: 1, text: 'word1', firstUseDate: '2025-12-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 2, text: 'word2', firstUseDate: '2025-11-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 3, text: 'word3', firstUseDate: '2025-10-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 4, text: 'word4', firstUseDate: '2025-09-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 5, text: 'word5', firstUseDate: '2025-08-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 6, text: 'word6', firstUseDate: '2025-07-01', categories: ['Nouns'] }),
+    activeMeaning({ id: 7, text: 'word7', firstUseDate: '2025-06-01', categories: ['Nouns'] }),
+  ]
+
+  const sevenInactive: Meaning[] = [
+    inactiveMeaning({ id: 11, text: 'forgot1', lastUseDate: '2025-12-01' }),
+    inactiveMeaning({ id: 12, text: 'forgot2', lastUseDate: '2025-11-01' }),
+    inactiveMeaning({ id: 13, text: 'forgot3', lastUseDate: '2025-10-01' }),
+    inactiveMeaning({ id: 14, text: 'forgot4', lastUseDate: '2025-09-01' }),
+    inactiveMeaning({ id: 15, text: 'forgot5', lastUseDate: '2025-08-01' }),
+    inactiveMeaning({ id: 16, text: 'forgot6', lastUseDate: '2025-07-01' }),
+    inactiveMeaning({ id: 17, text: 'forgot7', lastUseDate: '2025-06-01' }),
+  ]
+
+  it('recentAdditionsLimit: 3 shows only 3 recent additions (word4 absent)', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenActive,
+      wordForms: [],
+      t: localT,
+      now,
+      meaningWordFormCounts: {},
+      recentAdditionsLimit: 3,
+    })
+    const lines = result.split('\n')
+    const sectionStart = lines.findIndex((l) => l.includes('report.recentAdditions'))
+    expect(sectionStart).toBeGreaterThan(-1)
+    const sectionEnd = lines.findIndex((l, i) => i > sectionStart && l.trim() === '')
+    const sectionSlice =
+      sectionEnd === -1 ? lines.slice(sectionStart) : lines.slice(sectionStart, sectionEnd)
+    expect(sectionSlice.some((l) => l.includes('word1'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('word2'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('word3'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('word4'))).toBe(false)
+    expect(sectionSlice.some((l) => l.includes('word5'))).toBe(false)
+  })
+
+  it('recentAdditionsLimit defaults to 5 when not specified', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenActive,
+      wordForms: [],
+      t: localT,
+      now,
+      meaningWordFormCounts: {},
+    })
+    const lines = result.split('\n')
+    const sectionStart = lines.findIndex((l) => l.includes('report.recentAdditions'))
+    const sectionEnd = lines.findIndex((l, i) => i > sectionStart && l.trim() === '')
+    const sectionSlice =
+      sectionEnd === -1 ? lines.slice(sectionStart) : lines.slice(sectionStart, sectionEnd)
+    expect(sectionSlice.some((l) => l.includes('word5'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('word6'))).toBe(false)
+  })
+
+  it('recentForgottenLimit: 2 shows only 2 recently forgotten (forgot3 absent)', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenInactive,
+      wordForms: [],
+      t: localT,
+      now,
+      meaningWordFormCounts: {},
+      recentForgottenLimit: 2,
+    })
+    const lines = result.split('\n')
+    const sectionStart = lines.findIndex((l) => l.includes('report.recentForgotten'))
+    expect(sectionStart).toBeGreaterThan(-1)
+    const sectionEnd = lines.findIndex((l, i) => i > sectionStart && l.trim() === '')
+    const sectionSlice =
+      sectionEnd === -1 ? lines.slice(sectionStart) : lines.slice(sectionStart, sectionEnd)
+    expect(sectionSlice.some((l) => l.includes('forgot1'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('forgot2'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('forgot3'))).toBe(false)
+  })
+
+  it('recentForgottenLimit defaults to 5 when not specified', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenInactive,
+      wordForms: [],
+      t: localT,
+      now,
+      meaningWordFormCounts: {},
+    })
+    const lines = result.split('\n')
+    const sectionStart = lines.findIndex((l) => l.includes('report.recentForgotten'))
+    const sectionEnd = lines.findIndex((l, i) => i > sectionStart && l.trim() === '')
+    const sectionSlice =
+      sectionEnd === -1 ? lines.slice(sectionStart) : lines.slice(sectionStart, sectionEnd)
+    expect(sectionSlice.some((l) => l.includes('forgot5'))).toBe(true)
+    expect(sectionSlice.some((l) => l.includes('forgot6'))).toBe(false)
+  })
+
+  it('recentAdditions heading includes the count when limit specified', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenActive,
+      wordForms: [],
+      t: localT,
+      now,
+      meaningWordFormCounts: {},
+      recentAdditionsLimit: 3,
+    })
+    expect(result).toContain('report.recentAdditions:3')
+  })
+
+  it('recentForgotten heading includes the count when limit specified', () => {
+    const result = generateReport({
+      profile: baseProfile,
+      meanings: sevenInactive,
+      wordForms: [],
+      t: localT,
+      now,
+      meaningWordFormCounts: {},
+      recentForgottenLimit: 2,
+    })
+    expect(result).toContain('report.recentForgotten:2')
+  })
+})
