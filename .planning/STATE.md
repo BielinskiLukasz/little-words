@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-14)
 Phase: 06
 Next: /gsd-plan-phase 6 (UI-SPEC gate now clear)
 Status: All phases complete
-Last activity: 2026-09-14 — Phase 06 complete
+Last activity: 2026-09-14 - Completed quick task 260914-gm6: Implement three deferred follow-ups from phase 06 UAT
 
 Progress: [████████████████████] 17/17 plans (100%)
 
@@ -133,12 +133,18 @@ None yet.
 
 None yet.
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260914-gm6 | Implement three deferred follow-ups from phase 06 UAT: pairs page table layout and CSV export, configurable recent additions limit, configurable recently forgotten limit | 2026-09-14 | 1f2ba13 | [260914-gm6-implement-three-deferred-follow-ups-from](.planning/quick/260914-gm6-implement-three-deferred-follow-ups-from/) |
+
 ## Deferred Items
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| Pairs page | Export pairs as CSV download; table layout with word form / meaning / first observed / last used / active columns | Future phase | 2026-09-14 |
-| Doctor Report | Configurable recent additions + recently forgotten limit (currently hard-coded 5); control on Doctor Report page with regenerate button | Future phase | 2026-09-14 |
+| Pairs page | Export pairs as CSV download; table layout with word form / meaning / first observed / last used / active columns | Implemented (260914-gm6) | 2026-09-14 |
+| Doctor Report | Configurable recent additions + recently forgotten limit (currently hard-coded 5); control on Doctor Report page with regenerate button | Implemented (260914-gm6) | 2026-09-14 |
 
 ## Session Continuity
 
