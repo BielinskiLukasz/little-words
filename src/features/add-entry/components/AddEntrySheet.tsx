@@ -24,6 +24,7 @@ export function AddEntrySheet() {
     updateMeaningRow,
     handleSave,
     isLoading,
+    error,
   } = useAddEntry()
 
   return (
@@ -53,6 +54,11 @@ export function AddEntrySheet() {
             {t('addWord.addAnotherMeaning')}
           </Button>
         </div>
+
+        {/* Error banner */}
+        {error && (
+          <p role="alert" className="text-sm text-destructive px-4 pb-2">{error}</p>
+        )}
 
         {/* Sticky save button */}
         <div className="px-4 py-3 border-t border-border">
