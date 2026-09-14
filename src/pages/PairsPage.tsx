@@ -36,8 +36,19 @@ export function PairsPage() {
   }
 
   const lowerSearch = searchText.toLowerCase()
+  const now = new Date()
+  const msPerDay = 86400000
+  const cutoff =
+    datePreset === 'last7' ? new Date(now.getTime() - 7 * msPerDay)
+    : datePreset === 'last30' ? new Date(now.getTime() - 30 * msPerDay)
+    : datePreset === 'custom' && customAfterDate ? new Date(customAfterDate)
+    : null
+
   const filtered = pairs.filter(p => {
     if (searchText && !p.wordFormText.toLowerCase().includes(lowerSearch) && !p.meaningText.toLowerCase().includes(lowerSearch)) return false
+    if (statusFilter === 'active' && !p.isActive) return false
+    if (statusFilter === 'inactive' && p.isActive) return false
+    if (cutoff !== null && new Date(p.firstObservationDate) < cutoff) return false
     return true
   })
 
@@ -117,8 +128,37 @@ export function PairsPage() {
           placeholder={t('pairs.searchPlaceholder')}
           className="w-full rounded border border-border bg-background px-3 py-1 text-sm placeholder:text-muted-foreground"
         />
-        {/* Row 2 — status and date controls (added in Task 2) */}
+        {/* Row 2 — status toggle, date presets, and clear */}
         <div className="flex flex-wrap items-center gap-3">
+          {/* Status toggle */}
+          <div className="flex items-center gap-1">
+            <Button size="sm" variant={statusFilter === 'all' ? 'default' : 'outline'} onClick={() => setStatusFilter('all')}>
+              {t('pairs.filterAll')}
+            </Button>
+            <Button size="sm" variant={statusFilter === 'active' ? 'default' : 'outline'} onClick={() => setStatusFilter('active')}>
+              {t('pairs.filterActive')}
+            </Button>
+            <Button size="sm" variant={statusFilter === 'inactive' ? 'default' : 'outline'} onClick={() => setStatusFilter('inactive')}>
+              {t('pairs.filterInactive')}
+            </Button>
+          </div>
+          {/* Date presets */}
+          <div className="flex flex-wrap items-center gap-1">
+            <Button size="sm" variant={datePreset === 'last7' ? 'default' : 'outline'} onClick={() => { setDatePreset('last7'); setCustomAfterDate('') }}>
+              {t('pairs.last7Days')}
+            </Button>
+            <Button size="sm" variant={datePreset === 'last30' ? 'default' : 'outline'} onClick={() => { setDatePreset('last30'); setCustomAfterDate('') }}>
+              {t('pairs.last30Days')}
+            </Button>
+            <span className="text-sm text-muted-foreground">{t('pairs.learnedAfter')}</span>
+            <input
+              type="date"
+              value={customAfterDate}
+              onChange={e => { setCustomAfterDate(e.target.value); setDatePreset(e.target.value ? 'custom' : 'all') }}
+              className="rounded border border-border bg-background px-2 py-1 text-sm"
+            />
+          </div>
+          {/* Clear filters */}
           {isAnyFilterActive && (
             <button className="text-xs text-muted-foreground underline" onClick={clearFilters}>
               {t('pairs.clearFilters')}
