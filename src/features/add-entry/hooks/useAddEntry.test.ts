@@ -101,7 +101,7 @@ describe('useAddEntry', () => {
     expect(mockSetAddWordSheetOpen).toHaveBeenCalledWith(false)
   })
 
-  it('closes the sheet even when addWordEntry throws', async () => {
+  it('keeps the sheet open and sets error when addWordEntry throws', async () => {
     vi.mocked(addWordEntry).mockRejectedValue(new Error('DB error'))
     const { result } = renderHook(() => useAddEntry())
 
@@ -113,10 +113,12 @@ describe('useAddEntry', () => {
       await result.current.handleSave()
     })
 
-    // Finally block always closes the sheet and resets the form (including error state).
-    // The sheet closing is the primary guarantee; the error is cleared by reset().
-    expect(mockSetAddWordSheetOpen).toHaveBeenCalledWith(false)
-    expect(result.current.error).toBeNull()
+    // Sheet stays open so the user can see the error and their input is preserved.
+    expect(mockSetAddWordSheetOpen).not.toHaveBeenCalledWith(false)
+    // Error message must be surfaced for the role=alert banner in AddEntrySheet.
+    expect(result.current.error).toBe('DB error')
+    // Loading spinner must be cleared regardless.
+    expect(result.current.isLoading).toBe(false)
   })
 
   it('initializes isLoading as false', () => {
