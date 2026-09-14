@@ -1,88 +1,87 @@
 ---
-status: testing
+status: complete
 phase: 06-pre-release-polish
 source: 06-01-SUMMARY.md, 06-02-SUMMARY.md, 06-03-SUMMARY.md, 06-04-SUMMARY.md, 06-05-SUMMARY.md, 06-06-SUMMARY.md
 started: 2026-09-03T11:00:00Z
-updated: 2026-09-03T11:00:00Z
+updated: 2026-09-14T00:00:00Z
 ---
 
 ## Current Test
 
-number: 1
-name: Dashboard stat card navigation
-expected: |
-  Open the Dashboard. The three stat cards (Active Meanings, Active Word Forms, New This Month) should all be tappable. Tapping "Active Meanings" navigates to the Meanings list, tapping "Active Word Forms" navigates to the Word Forms list, tapping "New This Month" navigates to the Meanings list. Each card shows a keyboard focus ring when navigated with Tab.
-awaiting: user response
+[testing complete]
 
 ## Tests
 
 ### 1. Dashboard stat card navigation
 expected: Open the Dashboard. The three stat cards (Active Meanings, Active Word Forms, New This Month) should all be tappable. Tapping "Active Meanings" navigates to the Meanings list, tapping "Active Word Forms" navigates to the Word Forms list, tapping "New This Month" navigates to the Meanings list. Each card shows a keyboard focus ring when navigated with Tab.
-result: [pending]
+result: pass
 
 ### 2. Meaning inline edit — enter and save
 expected: Open a Meaning detail page. An "Edit" button is visible. Tapping Edit shows a textarea pre-filled with the meaning text and category chips for editing. Typing a new value and tapping "Save Changes" updates the meaning text and exits edit mode. Tapping "Discard Changes" cancels without saving. The Save button is disabled when the textarea is empty.
-result: [pending]
+result: pass
 
 ### 3. Category i18n on Meaning detail
 expected: On a Meaning detail page that has at least one category assigned, the category badges show translated Polish or English labels (e.g. "Zwierzęta" or "Animals"), not raw keys like "animals".
-result: [pending]
+result: pass
 
 ### 4. Meaning isActive read-only badge
 expected: On a Meaning detail page, the active/inactive status is displayed as a read-only Badge ("Active" or "Inactive"), not as an interactive Switch. The badge state reflects whether any linked word-form pairs are active.
-result: [pending]
+result: pass
 
 ### 5. Per-pair Collapsible rows on Meaning detail
 expected: On a Meaning detail page with at least one linked word form, each pair row is collapsed by default. Tapping a row expands it to reveal two date inputs (First Observed, Last Used) and an isActive Switch. Changing a date (then clicking away) or toggling the Switch saves the change without navigation.
-result: [pending]
+result: pass
 
 ### 6. Navigate from Meaning pair row to Word Form
 expected: On a Meaning detail page, the collapsed pair row has an arrow/navigate button on the right. Tapping that button navigates to the corresponding Word Form detail page without expanding/collapsing the Collapsible row.
-result: [pending]
+result: pass
 
 ### 7. Word Form inline edit — enter and save
 expected: Open a Word Form detail page. An "Edit" button is visible. Tapping Edit shows a text input pre-filled with the word form text. Typing a new value and tapping "Save Changes" updates the word form (stored as lowercase) and exits edit mode. Tapping "Discard Changes" cancels. The Save button is disabled when the input is empty.
-result: [pending]
+result: pass
 
 ### 8. Per-pair Collapsible rows on Word Form detail
 expected: On a Word Form detail page with at least one linked meaning, each pair row is collapsed by default. Tapping a row expands it to reveal two date inputs (First Observed, Last Used) and an isActive Switch. Changing a date (then clicking away) or toggling the Switch saves the change without navigation.
-result: [pending]
+result: pass
 
 ### 9. Navigate from Word Form pair row to Meaning
 expected: On a Word Form detail page, the collapsed pair row has an arrow/navigate button. Tapping that button navigates to the corresponding Meaning detail page without toggling the Collapsible row.
-result: [pending]
+result: pass
 
 ### 10. BottomNav shows 5 tabs including Pairs
 expected: The bottom navigation bar shows exactly 5 tabs: Dashboard, Meanings, Word Forms, Pairs (with a branch/link icon), and More. The Pairs tab is visible and tappable on all main screens.
-result: [pending]
+result: pass
 
 ### 11. Pairs page loads all pairs
 expected: Tapping the Pairs tab opens a screen titled "Pairs" (or "Pary" in Polish). All word-form/meaning pairs in the database are listed. Each row shows the word form and meaning text as two chips. If no pairs exist, an empty state message is shown.
-result: [pending]
+result: skipped
+reason: "Deferred follow-up: export button to download pairs as CSV; table layout with columns: word form, meaning, first observed, last used, active"
 
 ### 12. Pairs page sort selector
 expected: On the Pairs page, a sort control is visible. Selecting "A-Z Word Form" sorts pairs alphabetically by word form text. Selecting "A-Z Meaning" sorts by meaning text. Selecting "Newest First" (default) shows most-recently-observed pairs at the top.
-result: [pending]
+result: pass
 
 ### 13. Pairs page chip navigation
 expected: On the Pairs page, tapping the word form chip on any pair row navigates to that word form's detail page. Tapping the meaning chip navigates to that meaning's detail page. Tapping the chips does not expand or collapse the row.
-result: [pending]
+result: pass
 
 ### 14. Doctor report age format
 expected: Open the Doctor Report. If the child is 12 months or older, age is displayed in "X years Y months" format (e.g. "1y 3m" or equivalent localized text). If the child is under 12 months, only the month count is shown (e.g. "8 months").
-result: [pending]
+result: pass
 
 ### 15. Doctor report per-category meaning list
 expected: The Doctor Report includes a section listing meanings grouped by category. Each category heading is followed by an alphabetical list of its active meanings. Each meaning shows the number of linked word forms in parentheses (e.g. "ball (2)").
-result: [pending]
+result: pass
 
 ### 16. Doctor report recent additions section
 expected: The Doctor Report includes a "Recent Additions" section showing up to 5 recently added active meanings (by first observation date, newest first).
-result: [pending]
+result: skipped
+reason: "Deferred follow-up: the 5-item limit should be configurable, perhaps from the Doctor Report page itself with a regenerate button"
 
 ### 17. Doctor report recently forgotten section
 expected: The Doctor Report includes a section for recently inactive/forgotten meanings — up to 5 inactive meanings by most-recent last-used date.
-result: [pending]
+result: skipped
+reason: "Deferred follow-up: the 5-item limit should be configurable, perhaps from the Doctor Report page itself with a regenerate button"
 
 ### 18. D1 — WordFormMeaning schema fields
 expected: WordFormMeaning interface has firstObservationDate, lastUsedDate, isActive as required fields
@@ -135,12 +134,24 @@ coverage_id: D8
 ## Summary
 
 total: 25
-passed: 8
+passed: 22
 issues: 0
-pending: 17
-skipped: 0
+pending: 0
+skipped: 3
 blocked: 0
 
 ## Gaps
 
 [none yet]
+
+## Deferred Follow-Ups
+
+- test: 11
+  idea: "Export pairs as CSV download button; table layout for Pairs page with columns: word form, meaning, first observed, last used, active"
+  deferred_at: 2026-09-14
+- test: 16
+  idea: "Configurable recent additions limit (currently hard-coded 5); add control on Doctor Report page with a regenerate button"
+  deferred_at: 2026-09-14
+- test: 17
+  idea: "Configurable recently forgotten limit (currently hard-coded 5); add control on Doctor Report page with a regenerate button"
+  deferred_at: 2026-09-14
