@@ -6,10 +6,13 @@ import { getPairsWithDetails } from '@/db/services/wordFormMeaning.service'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from '@/components/ui/collapsible'
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from '@/components/ui/table'
 
 type SortOrder = 'newest' | 'azForm' | 'azMeaning'
 
@@ -38,19 +41,51 @@ export function PairsPage() {
     }
   })
 
+  const handleDownloadCsv = () => {
+    const headers = [
+      t('wordForm.text'),
+      t('meaning.text'),
+      t('pair.firstObserved'),
+      t('pair.lastUsed'),
+      t('pair.active'),
+    ]
+    const headerRow = headers.join(',')
+    const dataRows = sorted.map(pair => {
+      const wordFormText = `"${pair.wordFormText.replace(/"/g, '""')}"`
+      const meaningText = `"${pair.meaningText.replace(/"/g, '""')}"`
+      const firstObserved = pair.firstObservationDate
+      const lastUsed = pair.lastUsedDate
+      const activeStr = pair.isActive ? t('pair.active') : t('wordForm.inactive')
+      return [wordFormText, meaningText, firstObserved, lastUsed, activeStr].join(',')
+    })
+    const csvContent = '﻿' + [headerRow, ...dataRows].join('\n')
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement('a')
+    anchor.href = url
+    anchor.download = 'little-words-pairs.csv'
+    anchor.click()
+    URL.revokeObjectURL(url)
+  }
+
   return (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">{t('nav.pairs')}</h1>
-        <select
-          value={sort}
-          onChange={e => setSort(e.target.value as SortOrder)}
-          className="rounded border border-border bg-background px-2 py-1 text-sm"
-        >
-          <option value="newest">{t('sort.newestFirst')}</option>
-          <option value="azForm">{t('sort.azWordForm')}</option>
-          <option value="azMeaning">{t('sort.azMeaning')}</option>
-        </select>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={handleDownloadCsv}>
+            {t('pairs.downloadCsv')}
+          </Button>
+          <select
+            value={sort}
+            onChange={e => setSort(e.target.value as SortOrder)}
+            className="rounded border border-border bg-background px-2 py-1 text-sm"
+          >
+            <option value="newest">{t('sort.newestFirst')}</option>
+            <option value="azForm">{t('sort.azWordForm')}</option>
+            <option value="azMeaning">{t('sort.azMeaning')}</option>
+          </select>
+        </div>
       </div>
 
       {sorted.length === 0 ? (
@@ -59,52 +94,49 @@ export function PairsPage() {
           <p className="text-sm text-muted-foreground text-center">{t('pairs.emptyBody')}</p>
         </div>
       ) : (
-        <div className="flex flex-col gap-2">
-          {sorted.map(pair => (
-            <Collapsible key={pair.id} className="rounded-lg border border-border bg-card">
-              <CollapsibleTrigger asChild>
-                <div className="flex items-center gap-2 min-h-[44px] cursor-pointer px-3 py-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="truncate max-w-[45vw] min-w-0"
-                    onClick={e => {
-                      e.stopPropagation()
-                      navigate('/word-forms/' + pair.wordFormId)
-                    }}
-                  >
-                    {pair.wordFormText}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="truncate max-w-[45vw] min-w-0"
-                    onClick={e => {
-                      e.stopPropagation()
-                      navigate('/meanings/' + pair.meaningId)
-                    }}
-                  >
-                    {pair.meaningText}
-                  </Button>
-                </div>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <div className="grid grid-cols-2 gap-2 px-3 pb-3 text-sm text-muted-foreground">
-                  <span>
-                    {t('pair.firstObserved')}: {pair.firstObservationDate}
-                  </span>
-                  <span>
-                    {t('pair.lastUsed')}: {pair.lastUsedDate}
-                  </span>
-                  <span className="col-span-2">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>{t('wordForm.text')}</TableHead>
+                <TableHead>{t('meaning.text')}</TableHead>
+                <TableHead>{t('pair.firstObserved')}</TableHead>
+                <TableHead>{t('pair.lastUsed')}</TableHead>
+                <TableHead>{t('pair.active')}</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sorted.map(pair => (
+                <TableRow key={pair.id}>
+                  <TableCell>
+                    <Button
+                      variant="link"
+                      className="h-auto p-0"
+                      onClick={() => navigate('/word-forms/' + pair.wordFormId)}
+                    >
+                      {pair.wordFormText}
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant="link"
+                      className="h-auto p-0"
+                      onClick={() => navigate('/meanings/' + pair.meaningId)}
+                    >
+                      {pair.meaningText}
+                    </Button>
+                  </TableCell>
+                  <TableCell>{pair.firstObservationDate}</TableCell>
+                  <TableCell>{pair.lastUsedDate}</TableCell>
+                  <TableCell>
                     <Badge variant={pair.isActive ? 'default' : 'secondary'}>
                       {pair.isActive ? t('pair.active') : t('wordForm.inactive')}
                     </Badge>
-                  </span>
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
-          ))}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       )}
     </div>

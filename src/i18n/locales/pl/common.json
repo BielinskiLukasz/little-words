@@ -211,7 +211,8 @@
   },
   "pairs": {
     "emptyHeading": "Brak par",
-    "emptyBody": "Dodaj pierwsze słowo, aby zobaczyć pary."
+    "emptyBody": "Dodaj pierwsze słowo, aby zobaczyć pary.",
+    "downloadCsv": "Pobierz CSV"
   },
   "pair": {
     "firstObserved": "Pierwsze użycie",

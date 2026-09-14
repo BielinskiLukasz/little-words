@@ -209,7 +209,8 @@
   },
   "pairs": {
     "emptyHeading": "No pairs yet",
-    "emptyBody": "Add your first word entry to see pairs here."
+    "emptyBody": "Add your first word entry to see pairs here.",
+    "downloadCsv": "Download CSV"
   },
   "pair": {
     "firstObserved": "First observed",
