@@ -3,7 +3,7 @@ status: complete
 phase: 01-foundation
 source: [01-01-SUMMARY.md, 01-02-SUMMARY.md, 01-03-SUMMARY.md, 01-04-SUMMARY.md, 01-05-SUMMARY.md]
 started: 2026-07-15T00:00:00Z
-updated: 2026-07-19T00:00:00Z
+updated: 2026-09-14T00:00:00Z
 ---
 
 ## Current Test
@@ -41,15 +41,16 @@ result: pass
 
 ### 7. Dark Mode Theme
 expected: When the OS or browser is set to dark mode, the app automatically switches to a dark color scheme. No manual toggle is required — it follows system preference.
-result: issue
-reported: "nope"
+result: pass (after fix)
+reported: "no idea, I have dark mode everywhere and it works"
+fixed: "Changed color-scheme: light to color-scheme: light dark in src/index.css:67"
 severity: major
 
 ## Summary
 
 total: 7
-passed: 6
-issues: 1
+passed: 7
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
@@ -67,8 +68,8 @@ blocked: 0
   missing: []
 
 - truth: "App automatically switches to dark color scheme when OS/browser dark mode is active"
-  status: failed
-  reason: "User reported: nope"
+  status: resolved
+  reason: "User reported: nope (initial) → pass after fix"
   severity: major
   test: 7
   root_cause: "src/index.css line 67 had `color-scheme: light` (not `light dark`) — this told the browser only light mode is supported, preventing the @media (prefers-color-scheme: dark) block (lines 70–93) from ever activating even though all dark variables were defined."
