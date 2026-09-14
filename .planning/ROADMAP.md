@@ -58,8 +58,11 @@ Plans:
   3. When typing a meaning, previously entered meanings appear as autocomplete suggestions; choosing one links the word form to an existing meaning without creating a duplicate
   4. On iOS, after the first word is saved, the parent sees an instruction to add the app to the Home Screen framed as a data-protection step
 
-**Plans**: 5/5 plans complete
+**Plans**: 6/6 plans executed
 Plans:
+
+- [x] 02-06-PLAN.md
+
 **Wave 1**
 
 - [x] 02-01-PLAN.md — Setup: install react-hook-form/zod/date-fns, add Shadcn Sheet/Collapsible/Badge/Calendar, extend Zustand store, populate i18n locale files
@@ -190,7 +193,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 5/5 | Complete | 2026-06-30 |
-| 2. Onboarding & Data Entry | 5/5 | Complete   | 2026-07-01 |
+| 2. Onboarding & Data Entry | 6/6 | In Progress|  |
 | 3. Browse Views | 7/7 | Complete    | 2026-08-25 |
 | 4. Doctor Report & Data Management | 3/3 | Complete | 2026-08-27 |
 | 5. PWA Polish | 3/3 | Complete    | 2026-08-31 |

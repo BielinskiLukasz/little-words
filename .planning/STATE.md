@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.0
 current_phase: 02
-current_phase_name: onboarding-data-entry
-status: completed
-stopped_at: Phase 06 complete — all phases complete
-last_updated: "2026-09-14T19:33:21.772Z"
+current_phase_name: Onboarding & Data Entry
+status: executing
+stopped_at: Completed 02-06-PLAN.md (gap closure)
+last_updated: "2026-09-14T20:08:43.513Z"
 last_activity: 2026-09-14
-last_activity_desc: Phase 06 complete
-state_head: 061024f8d36c99821cf5894f7215babe398ea6da
+last_activity_desc: Phase 02 execution started
+state_head: 4fcea253203499d167b1714eff25e20923baa7c8
 progress:
   total_phases: 6
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 30
-  completed_plans: 29
+  completed_plans: 30
 milestone_name: milestone
 ---
 
@@ -24,14 +24,14 @@ milestone_name: milestone
 See: .planning/PROJECT.md (updated 2026-09-14)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Milestone v1.0 complete — ready for `/gsd-complete-milestone`
+**Current focus:** Phase 02 — Onboarding & Data Entry
 
 ## Current Position
 
-Phase: 02 (onboarding-data-entry) — READY TO EXECUTE
+Phase: 02 (Onboarding & Data Entry) — EXECUTING
 Next: /gsd-plan-phase 6 (UI-SPEC gate now clear)
-Status: All phases complete
-Last activity: 2026-09-14 - Completed quick task 260914-gm6: Implement three deferred follow-ups from phase 06 UAT
+Status: Executing Phase 02
+Last activity: 2026-09-14 — Phase 02 execution started
 
 Progress: [████████████████████] 17/17 plans (100%)
 
@@ -79,6 +79,7 @@ Progress: [████████████████████] 17/17 p
 | Phase 06 P04 | 8 | 2 tasks | 1 files |
 | Phase 06 P05 | 12 | 2 tasks | 3 files |
 | Phase 06 P06 | 15 | 3 tasks | 4 files |
+| Phase 02 P06 | 726 | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -125,6 +126,8 @@ Recent decisions affecting current work:
 - [Phase 06]: Used t('pair.active')/t('wordForm.inactive') for PairsPage isActive Badge — no top-level inactive key in i18n
 - [Phase 06]: D-09: age threshold 12 months; ageYears/ageMonths keys replaced with months/yearsMonths
 - [Phase 06]: meaningWordFormCounts optional on ReportInput; bulletSection helper for D-11/D-12
+- [Phase 02]: existingMeaningId passed as third arg from MeaningAutocomplete.onSelect to minimise interface surface
+- [Phase 02]: Transaction wraps all three tables (wordForms, meanings, wordFormMeanings) for full rollback safety
 
 ### Pending Todos
 
@@ -149,6 +152,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-14
-Stopped at: Phase 06 UAT complete (25/25 passed, 0 issues); milestone v1.0 all phases done
+Last session: 2026-09-14T20:08:40.101Z
+Stopped at: Completed 02-06-PLAN.md (gap closure)
 Resume file: None
