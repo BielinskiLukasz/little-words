@@ -220,9 +220,10 @@
     "filterAll": "Wszystkie",
     "filterActive": "Aktywne",
     "filterInactive": "Nieaktywne",
-    "last7Days": "Ostatnie 7 dni",
-    "last30Days": "Ostatnie 30 dni",
-    "learnedAfter": "Nauczone po",
+    "firstObservedFrom": "Pierwsze użycie",
+    "firstObservedTo": "do",
+    "lastUsedFrom": "Ostatnie użycie",
+    "lastUsedTo": "do",
     "clearFilters": "Wyczyść filtry",
     "noResults": "Brak par pasujących do filtrów."
   },

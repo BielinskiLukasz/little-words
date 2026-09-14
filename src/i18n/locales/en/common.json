@@ -218,9 +218,10 @@
     "filterAll": "All",
     "filterActive": "Active",
     "filterInactive": "Inactive",
-    "last7Days": "Last 7 days",
-    "last30Days": "Last 30 days",
-    "learnedAfter": "Learned after",
+    "firstObservedFrom": "First observed",
+    "firstObservedTo": "to",
+    "lastUsedFrom": "Last used",
+    "lastUsedTo": "to",
     "clearFilters": "Clear filters",
     "noResults": "No pairs match your filters."
   },
