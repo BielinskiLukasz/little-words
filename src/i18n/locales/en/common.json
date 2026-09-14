@@ -213,7 +213,16 @@
   "pairs": {
     "emptyHeading": "No pairs yet",
     "emptyBody": "Add your first word entry to see pairs here.",
-    "downloadCsv": "Download CSV"
+    "downloadCsv": "Download CSV",
+    "searchPlaceholder": "Search word forms or meanings...",
+    "filterAll": "All",
+    "filterActive": "Active",
+    "filterInactive": "Inactive",
+    "last7Days": "Last 7 days",
+    "last30Days": "Last 30 days",
+    "learnedAfter": "Learned after",
+    "clearFilters": "Clear filters",
+    "noResults": "No pairs match your filters."
   },
   "pair": {
     "firstObserved": "First observed",

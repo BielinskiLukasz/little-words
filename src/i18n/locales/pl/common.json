@@ -215,7 +215,16 @@
   "pairs": {
     "emptyHeading": "Brak par",
     "emptyBody": "Dodaj pierwsze słowo, aby zobaczyć pary.",
-    "downloadCsv": "Pobierz CSV"
+    "downloadCsv": "Pobierz CSV",
+    "searchPlaceholder": "Szukaj form lub znaczeń...",
+    "filterAll": "Wszystkie",
+    "filterActive": "Aktywne",
+    "filterInactive": "Nieaktywne",
+    "last7Days": "Ostatnie 7 dni",
+    "last30Days": "Ostatnie 30 dni",
+    "learnedAfter": "Nauczone po",
+    "clearFilters": "Wyczyść filtry",
+    "noResults": "Brak par pasujących do filtrów."
   },
   "pair": {
     "firstObserved": "Pierwsze użycie",

@@ -20,6 +20,10 @@ export function PairsPage() {
   const { t } = useTranslation('common')
   const navigate = useNavigate()
   const [sort, setSort] = useState<SortOrder>('newest')
+  const [searchText, setSearchText] = useState('')
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all')
+  const [datePreset, setDatePreset] = useState<'all' | 'last7' | 'last30' | 'custom'>('all')
+  const [customAfterDate, setCustomAfterDate] = useState('')
 
   const pairs = useLiveQuery(() => getPairsWithDetails(), [])
 
@@ -31,7 +35,13 @@ export function PairsPage() {
     )
   }
 
-  const sorted = [...pairs].sort((a, b) => {
+  const lowerSearch = searchText.toLowerCase()
+  const filtered = pairs.filter(p => {
+    if (searchText && !p.wordFormText.toLowerCase().includes(lowerSearch) && !p.meaningText.toLowerCase().includes(lowerSearch)) return false
+    return true
+  })
+
+  const sorted = [...filtered].sort((a, b) => {
     if (sort === 'newest') {
       return new Date(b.firstObservationDate).getTime() - new Date(a.firstObservationDate).getTime()
     } else if (sort === 'azForm') {
@@ -40,6 +50,15 @@ export function PairsPage() {
       return a.meaningText.localeCompare(b.meaningText)
     }
   })
+
+  const isAnyFilterActive = searchText !== '' || statusFilter !== 'all' || datePreset !== 'all' || customAfterDate !== ''
+
+  const clearFilters = () => {
+    setSearchText('')
+    setStatusFilter('all')
+    setDatePreset('all')
+    setCustomAfterDate('')
+  }
 
   const handleDownloadCsv = () => {
     const headers = [
@@ -88,10 +107,37 @@ export function PairsPage() {
         </div>
       </div>
 
-      {sorted.length === 0 ? (
+      {/* Filter bar */}
+      <div className="flex flex-col gap-2">
+        {/* Row 1 — search input */}
+        <input
+          type="text"
+          value={searchText}
+          onChange={e => setSearchText(e.target.value)}
+          placeholder={t('pairs.searchPlaceholder')}
+          className="w-full rounded border border-border bg-background px-3 py-1 text-sm placeholder:text-muted-foreground"
+        />
+        {/* Row 2 — status and date controls (added in Task 2) */}
+        <div className="flex flex-wrap items-center gap-3">
+          {isAnyFilterActive && (
+            <button className="text-xs text-muted-foreground underline" onClick={clearFilters}>
+              {t('pairs.clearFilters')}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {pairs.length === 0 ? (
         <div className="flex flex-col items-center gap-2 py-16">
           <h2 className="text-base font-medium">{t('pairs.emptyHeading')}</h2>
           <p className="text-sm text-muted-foreground text-center">{t('pairs.emptyBody')}</p>
+        </div>
+      ) : sorted.length === 0 ? (
+        <div className="flex flex-col items-center gap-2 py-16">
+          <p className="text-sm text-muted-foreground text-center">{t('pairs.noResults')}</p>
+          <button className="text-xs text-muted-foreground underline" onClick={clearFilters}>
+            {t('pairs.clearFilters')}
+          </button>
         </div>
       ) : (
         <div className="overflow-x-auto">
