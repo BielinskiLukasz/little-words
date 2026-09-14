@@ -16,6 +16,10 @@ export function DoctorReportPage() {
   const pairs = useLiveQuery(() => db.wordFormMeanings.toArray())
 
   const [notesValue, setNotesValue] = useState('')
+  const [additionsInput, setAdditionsInput] = useState(5)
+  const [forgottenInput, setForgottenInput] = useState(5)
+  const [appliedAdditionsLimit, setAppliedAdditionsLimit] = useState(5)
+  const [appliedForgottenLimit, setAppliedForgottenLimit] = useState(5)
 
   useEffect(() => {
     if (profile !== undefined) {
@@ -43,6 +47,8 @@ export function DoctorReportPage() {
     t: t as (key: string, opts?: Record<string, unknown>) => string,
     now: new Date(),
     meaningWordFormCounts,
+    recentAdditionsLimit: appliedAdditionsLimit,
+    recentForgottenLimit: appliedForgottenLimit,
   })
 
   const handleCopy = async () => {
@@ -62,6 +68,8 @@ export function DoctorReportPage() {
     }
   }
 
+  const clampLimit = (v: number) => Math.max(1, Math.min(50, v))
+
   return (
     <div className="overflow-y-auto p-6 pb-24">
       <h1 className="mb-4 text-xl font-semibold">{t('report.title')}</h1>
@@ -75,6 +83,45 @@ export function DoctorReportPage() {
           onChange={(e) => setNotesValue(e.target.value)}
           onBlur={handleNotesBlur}
         />
+      </div>
+
+      <div className="mb-4 flex flex-col gap-3">
+        <div className="flex items-center gap-2 text-sm">
+          <label>{t('report.recentAdditionsLabel')}</label>
+          <input
+            type="number"
+            min="1"
+            max="50"
+            value={additionsInput}
+            onChange={(e) =>
+              setAdditionsInput(clampLimit(parseInt(e.target.value, 10) || 1))
+            }
+            className="w-20 rounded-md border p-1 text-sm"
+          />
+        </div>
+        <div className="flex items-center gap-2 text-sm">
+          <label>{t('report.recentForgottenLabel')}</label>
+          <input
+            type="number"
+            min="1"
+            max="50"
+            value={forgottenInput}
+            onChange={(e) =>
+              setForgottenInput(clampLimit(parseInt(e.target.value, 10) || 1))
+            }
+            className="w-20 rounded-md border p-1 text-sm"
+          />
+        </div>
+        <Button
+          variant="outline"
+          className="w-full"
+          onClick={() => {
+            setAppliedAdditionsLimit(additionsInput)
+            setAppliedForgottenLimit(forgottenInput)
+          }}
+        >
+          {t('report.regenerate')}
+        </Button>
       </div>
 
       <pre className="mb-4 overflow-y-auto whitespace-pre-wrap rounded-lg bg-muted p-4 text-sm">

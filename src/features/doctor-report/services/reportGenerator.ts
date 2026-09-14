@@ -10,6 +10,10 @@ export interface ReportInput {
   now?: Date
   /** Word-form count per meaning id — computed by DoctorReportPage from wordFormMeanings */
   meaningWordFormCounts?: Record<number, number>
+  /** Number of most-recent active meanings to include in the "recently added" section (default 5) */
+  recentAdditionsLimit?: number
+  /** Number of most-recently-forgotten inactive meanings to include in the "recently forgotten" section (default 5) */
+  recentForgottenLimit?: number
 }
 
 /** Returns a section with a heading followed by indented bullet items */
@@ -20,6 +24,8 @@ function bulletSection(heading: string, items: string[]): string[] {
 export function generateReport(input: ReportInput): string {
   const { profile, meanings, wordForms, t, meaningWordFormCounts = {} } = input
   const now = input.now ?? new Date()
+  const recentAdditionsLimit = input.recentAdditionsLimit ?? 5
+  const recentForgottenLimit = input.recentForgottenLimit ?? 5
 
   // --- Age (D-09) ---
   // < 12 months → months only;  >= 12 months → X years Y months
@@ -61,23 +67,23 @@ export function generateReport(input: ReportInput): string {
     }
   }
 
-  // --- D-11: 5 most recently added active meanings ---
+  // --- D-11: most recently added active meanings (configurable limit, default 5) ---
   const recentAdditionsLines = bulletSection(
-    t('report.recentAdditions'),
+    t('report.recentAdditions', { count: recentAdditionsLimit }),
     activeMeanings
       .slice()
       .sort((a, b) => b.firstUseDate.localeCompare(a.firstUseDate))
-      .slice(0, 5)
+      .slice(0, recentAdditionsLimit)
       .map((m) => m.text)
   )
 
-  // --- D-12: 5 most recently forgotten inactive meanings ---
+  // --- D-12: most recently forgotten inactive meanings (configurable limit, default 5) ---
   const recentForgottenLines = bulletSection(
-    t('report.recentForgotten'),
+    t('report.recentForgotten', { count: recentForgottenLimit }),
     inactiveMeanings
       .slice()
       .sort((a, b) => b.lastUseDate.localeCompare(a.lastUseDate))
-      .slice(0, 5)
+      .slice(0, recentForgottenLimit)
       .map((m) => m.text)
   )
 

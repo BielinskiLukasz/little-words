@@ -3,8 +3,15 @@ import { generateReport } from './reportGenerator'
 import type { ChildProfile, Meaning, WordForm } from '@/db/schema'
 
 // Stub t function: returns formatted string for yearsMonths, count for count options, key name otherwise
+// For recentAdditions/recentForgotten with count, returns "${key}:${count}" so existing
+// toContain('report.recentAdditions') checks still match while also surfacing the count.
 const t = (key: string, opts?: Record<string, unknown>): string => {
   if (key === 'report.yearsMonths' && opts) return `${opts.years}y${opts.months}m`
+  if (
+    (key === 'report.recentAdditions' || key === 'report.recentForgotten') &&
+    opts?.count !== undefined
+  )
+    return `${key}:${opts.count}`
   if (opts?.count !== undefined) return String(opts.count)
   return key
 }

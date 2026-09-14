@@ -197,8 +197,11 @@
     "copyButton": "Copy report",
     "copied": "Report copied!",
     "byCategory": "Meanings by category",
-    "recentAdditions": "Recently added (5)",
-    "recentForgotten": "Recently forgotten (5)",
+    "recentAdditions": "Recently added ({{count}})",
+    "recentForgotten": "Recently forgotten ({{count}})",
+    "recentAdditionsLabel": "Recent additions to show",
+    "recentForgottenLabel": "Recently forgotten to show",
+    "regenerate": "Regenerate",
     "yearsMonths": "{{years}} years {{months}} months",
     "months": "{{count}} months"
   },

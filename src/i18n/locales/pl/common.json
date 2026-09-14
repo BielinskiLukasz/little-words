@@ -199,8 +199,11 @@
     "copyButton": "Kopiuj raport",
     "copied": "Raport skopiowany!",
     "byCategory": "Znaczenia według kategorii",
-    "recentAdditions": "Ostatnio dodane (5)",
-    "recentForgotten": "Ostatnio zapomniane (5)",
+    "recentAdditions": "Ostatnio dodane ({{count}})",
+    "recentForgotten": "Ostatnio zapomniane ({{count}})",
+    "recentAdditionsLabel": "Liczba ostatnio dodanych",
+    "recentForgottenLabel": "Liczba ostatnio zapomnianych",
+    "regenerate": "Odśwież raport",
     "yearsMonths": "{{years}} lat {{months}} miesięcy",
     "months": "{{count}} miesięcy"
   },
