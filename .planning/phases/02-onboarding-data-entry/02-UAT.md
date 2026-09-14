@@ -1,9 +1,9 @@
 ---
 status: complete
 phase: 02-onboarding-data-entry
-source: [02-01-SUMMARY.md, 02-02-SUMMARY.md, 02-03-SUMMARY.md, 02-04-SUMMARY.md, 02-05-SUMMARY.md]
+source: [02-01-SUMMARY.md, 02-02-SUMMARY.md, 02-03-SUMMARY.md, 02-04-SUMMARY.md, 02-05-SUMMARY.md, 02-06-SUMMARY.md]
 started: 2026-07-19T00:00:00Z
-updated: 2026-09-14T12:00:00Z
+updated: 2026-09-14T20:15:00Z
 ---
 
 ## Current Test
@@ -60,13 +60,30 @@ result: pass
 expected: On the Onboarding screen (visible in a fresh private/incognito tab), there is a "Medical context" section that is collapsed by default. Tapping it expands to reveal three checkboxes (premature birth, speech therapy, neurological care) and a notes textarea. Tapping again collapses it.
 result: pass
 
+### 12. Autocomplete deduplication — no duplicate Meaning row created
+expected: Selecting an existing autocomplete suggestion links by id without creating a duplicate Meaning row
+result: pass
+source: automated
+coverage_id: D1
+
+### 13. DB error surfacing in Add Entry sheet
+expected: A DB error during save keeps AddEntrySheet open with input intact and shows role=alert error message
+result: skipped
+reason: "can't test"
+
+### 14. Atomic writes — db.transaction wraps all writes
+expected: addWordEntry runs all writes inside a single db.transaction for atomicity
+result: pass
+source: automated
+coverage_id: D3
+
 ## Summary
 
-total: 11
-passed: 11
+total: 14
+passed: 13
 issues: 0
 pending: 0
-skipped: 0
+skipped: 1
 blocked: 0
 
 ## Gaps
