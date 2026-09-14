@@ -7,10 +7,10 @@
 
 ### Foundation
 
-- [ ] **FOUND-01**: Vite + React + TypeScript scaffold with `base: '/little-words/'`, tsconfig strict mode, Tailwind CSS v4, and Shadcn/UI initialized
-- [ ] **FOUND-02**: Dexie.js schema v1 defining all entities: ChildProfile, WordForm, Meaning (with categories as `string[]`), WordFormMeaning junction table, with TypeScript interfaces for all entities
-- [ ] **FOUND-03**: react-i18next initialized before React tree mounts; Polish and English locale files bundled as static imports; TypeScript key augmentation configured so missing keys cause compile errors
-- [ ] **FOUND-04**: `createHashRouter` configured with hash-based routes (`/#/path`), root layout with bottom nav tabs (3–4 tabs + overflow), and onboarding gate in App.tsx that redirects to onboarding if no child profile exists
+- [x] **FOUND-01**: Vite + React + TypeScript scaffold with `base: '/little-words/'`, tsconfig strict mode, Tailwind CSS v4, and Shadcn/UI initialized
+- [x] **FOUND-02**: Dexie.js schema v1 defining all entities: ChildProfile, WordForm, Meaning (with categories as `string[]`), WordFormMeaning junction table, with TypeScript interfaces for all entities
+- [x] **FOUND-03**: react-i18next initialized before React tree mounts; Polish and English locale files bundled as static imports; TypeScript key augmentation configured so missing keys cause compile errors
+- [x] **FOUND-04**: `createHashRouter` configured with hash-based routes (`/#/path`), root layout with bottom nav tabs (3–4 tabs + overflow), and onboarding gate in App.tsx that redirects to onboarding if no child profile exists
 
 ### Onboarding
 
@@ -40,14 +40,14 @@
 
 ### Doctor Report
 
-- [ ] **REPORT-01**: Doctor Report generates structured plain text including: child name and computed age, active meaning count, inactive meaning count, new meanings in last 3 months, active word form count, top 3 categories, languages used at home, premature birth flag, speech therapy flag, neurological care flag, parent notes, and report date
-- [ ] **REPORT-02**: A "Copy to clipboard" button copies the full plain-text report; success is confirmed with a toast notification
+- [x] **REPORT-01**: Doctor Report generates structured plain text including: child name and computed age, active meaning count, inactive meaning count, new meanings in last 3 months, active word form count, top 3 categories, languages used at home, premature birth flag, speech therapy flag, neurological care flag, parent notes, and report date
+- [x] **REPORT-02**: A "Copy to clipboard" button copies the full plain-text report; success is confirmed with a toast notification
 
 ### Data Management
 
-- [ ] **DATA-01**: Settings → Data screen provides JSON export that writes all app data (child profile, word forms, meanings, junction rows) as a single JSON file with a `schemaVersion` field
-- [ ] **DATA-02**: Settings → Data screen provides JSON import that reads a previously exported JSON file, validates `schemaVersion`, and restores all data (with a warning that existing data will be replaced)
-- [ ] **DATA-03**: Settings → Data screen provides CSV export of all meanings with columns: meaning label, categories, first use date, last use date, active status, linked word forms
+- [x] **DATA-01**: Settings → Data screen provides JSON export that writes all app data (child profile, word forms, meanings, junction rows) as a single JSON file with a `schemaVersion` field
+- [x] **DATA-02**: Settings → Data screen provides JSON import that reads a previously exported JSON file, validates `schemaVersion`, and restores all data (with a warning that existing data will be replaced)
+- [x] **DATA-03**: Settings → Data screen provides CSV export of all meanings with columns: meaning label, categories, first use date, last use date, active status, linked word forms
 
 ### PWA
 
@@ -104,10 +104,10 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
-| FOUND-02 | Phase 1 | Pending |
-| FOUND-03 | Phase 1 | Pending |
-| FOUND-04 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
+| FOUND-02 | Phase 1 | Complete |
+| FOUND-03 | Phase 1 | Complete |
+| FOUND-04 | Phase 1 | Complete |
 | ONBD-01 | Phase 2 | Complete |
 | ONBD-02 | Phase 2 | Complete |
 | ONBD-03 | Phase 2 | Complete |
@@ -122,11 +122,11 @@
 | BROWSE-02 | Phase 3 | Complete |
 | BROWSE-03 | Phase 3 | Complete |
 | BROWSE-04 | Phase 3 | Complete |
-| REPORT-01 | Phase 4 | Pending |
-| REPORT-02 | Phase 4 | Pending |
-| DATA-01 | Phase 4 | Pending |
-| DATA-02 | Phase 4 | Pending |
-| DATA-03 | Phase 4 | Pending |
+| REPORT-01 | Phase 4 | Complete |
+| REPORT-02 | Phase 4 | Complete |
+| DATA-01 | Phase 4 | Complete |
+| DATA-02 | Phase 4 | Complete |
+| DATA-03 | Phase 4 | Complete |
 | PWA-01 | Phase 5 | Complete |
 | PWA-02 | Phase 5 | Complete |
 | PWA-03 | Phase 5 | Complete |
@@ -139,4 +139,4 @@
 
 ---
 *Requirements defined: 2026-06-30*
-*Last updated: 2026-06-30 after roadmap creation*
+*Last updated: 2026-09-14 — synced stale checkboxes (FOUND-01..04, REPORT-01..02, DATA-01..03) to reflect verified phase completions*
