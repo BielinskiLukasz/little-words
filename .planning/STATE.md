@@ -31,7 +31,7 @@ See: .planning/PROJECT.md (updated 2026-09-14)
 Phase: 03 — Browse Views
 Next: /gsd-plan-phase 6 (UI-SPEC gate now clear)
 Status: Ready to plan
-Last activity: 2026-09-14 — Completed quick task 260914-vjq: Add search and filter controls to PairsPage
+Last activity: 2026-09-14 — Completed quick task 260914-w2a: Replace date preset buttons with date-range inputs on PairsPage
 
 Progress: [████████████████████] 17/17 plans (100%)
 
@@ -144,6 +144,7 @@ None yet.
 |---|-------------|------|--------|-----------|
 | 260914-gm6 | Implement three deferred follow-ups from phase 06 UAT: pairs page table layout and CSV export, configurable recent additions limit, configurable recently forgotten limit | 2026-09-14 | 1f2ba13 | [260914-gm6-implement-three-deferred-follow-ups-from](.planning/quick/260914-gm6-implement-three-deferred-follow-ups-from/) |
 | 260914-vjq | Add search and filter controls to PairsPage (text search, active/inactive status, date presets + custom date picker) | 2026-09-14 | f2ad33a | [260914-vjq-add-search-and-filter-controls-to-pairsp](.planning/quick/260914-vjq-add-search-and-filter-controls-to-pairsp/) |
+| 260914-w2a | Replace date preset buttons on PairsPage with from/to date range inputs for first observed and last used | 2026-09-14 | 311d37c | [260914-w2a-replace-date-preset-buttons-on-pairspage](.planning/quick/260914-w2a-replace-date-preset-buttons-on-pairspage/) |
 
 ## Deferred Items
 
