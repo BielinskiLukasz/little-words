@@ -135,6 +135,31 @@ describe('wordEntry.service - addWordEntry', () => {
     ).rejects.toThrow('At least one meaning is required')
   })
 
+  it('existingMeaningId links without creating a duplicate Meaning row', async () => {
+    const { addWordEntry } = await import('./wordEntry.service')
+
+    // Step 1: create a word form + meaning
+    const result1 = await addWordEntry({
+      wordForm: 'ba',
+      meanings: [{ text: 'ball', categories: ['Nouns'], firstUseDate: '2025-01-01' }],
+    })
+    const meaningId = result1.meaningIds[0]
+
+    // Step 2: count meanings before second call
+    const countBefore = await testDb.meanings.count()
+
+    // Step 3: add a different word form that reuses the same meaning id
+    const result2 = await addWordEntry({
+      wordForm: 'baa',
+      meanings: [{ text: 'ball', categories: ['Nouns'], firstUseDate: '2025-01-01', existingMeaningId: meaningId }],
+    })
+
+    // Step 4: db.meanings count must not have increased; result must use the supplied id
+    const countAfter = await testDb.meanings.count()
+    expect(countAfter).toBe(countBefore)
+    expect(result2.meaningIds[0]).toBe(meaningId)
+  })
+
   it('returns correct wordFormId and meaningIds in result', async () => {
     const { addWordEntry } = await import('./wordEntry.service')
     const result = await addWordEntry({

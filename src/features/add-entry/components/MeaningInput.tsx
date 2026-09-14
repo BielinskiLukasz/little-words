@@ -30,7 +30,7 @@ export function MeaningInput({ row, onChange }: MeaningInputProps) {
         />
         <MeaningAutocomplete
           meaningText={row.text}
-          onSelect={(text) => onChange({ text })}
+          onSelect={(text, isNew, id) => onChange({ text, existingMeaningId: isNew ? undefined : id })}
         />
       </div>
 

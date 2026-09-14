@@ -8,6 +8,7 @@ export interface MeaningRowState {
   text: string
   categories: Category[]
   firstUseDate: string
+  existingMeaningId?: number
 }
 
 function createEmptyRow(): MeaningRowState {
@@ -52,6 +53,7 @@ export function useAddEntry() {
         text: row.text,
         categories: row.categories,
         firstUseDate: row.firstUseDate,
+        existingMeaningId: row.existingMeaningId,
       }))
       await addWordEntry({ wordForm, meanings })
       setIosInstallPromptSeen(true)

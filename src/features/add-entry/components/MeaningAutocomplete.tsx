@@ -3,7 +3,7 @@ import { useMeaningSearch } from '../hooks/useMeaningSearch'
 
 interface MeaningAutocompleteProps {
   meaningText: string
-  onSelect: (text: string, isNew: boolean) => void
+  onSelect: (text: string, isNew: boolean, id?: number) => void
 }
 
 export function MeaningAutocomplete({ meaningText, onSelect }: MeaningAutocompleteProps) {
@@ -24,7 +24,7 @@ export function MeaningAutocomplete({ meaningText, onSelect }: MeaningAutocomple
         <li
           key={suggestion.id}
           className="px-3 py-2 text-sm text-foreground hover:bg-muted cursor-pointer"
-          onClick={() => onSelect(suggestion.text, false)}
+          onClick={() => onSelect(suggestion.text, false, suggestion.id)}
         >
           {suggestion.text}
         </li>

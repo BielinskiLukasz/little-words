@@ -8,6 +8,7 @@ export interface WordEntryMeaningInput {
   text: string
   categories: Category[]
   firstUseDate?: string
+  existingMeaningId?: number
 }
 
 export interface WordEntryInput {
