@@ -25,12 +25,13 @@ A parent can walk into a specialist consultation and present objective, structur
 - ✓ Timeline view shows monthly vocabulary growth as both a chart and a data table — Phase 3
 - ✓ Parent can tap a word form detail page to see linked meanings; deleting a word form removes the link — meanings survive as independent entities — Phase 3
 - ✓ App works fully offline; installable as a PWA on Android Chrome and iOS Safari — Phase 5
+- ✓ Parent can edit meaning details (categories, dates) from the detail page — Phase 6
+- ✓ Doctor Report enhanced with per-category meaning list, recent additions, recently forgotten, and child-age formatting — Phase 6
 
 ### Active
 
 - [ ] Each meaning records whether its first use was Spontaneous or Repeated
 - [ ] Parent can record gestures (description, first/last observed date)
-- [ ] Parent can edit meaning details (categories, dates) from the detail page
 - [ ] Doctor Report generates a structured text summary (active/inactive counts, top categories, gestures, profile medical context, parent notes) and copies it to clipboard
 - [ ] Parent notes for the doctor report are a persistent field on the child profile
 - [ ] JSON export and import (backup and device migration) available in Settings → Data
@@ -92,6 +93,10 @@ A parent can walk into a specialist consultation and present objective, structur
 | Separate manifest.icons entries per purpose | W3C spec disallows combining any + maskable on one entry; 512x512 has two separate entries | — Phase 5 |
 | Icon src paths include /little-words/ prefix | Manifest served from /little-words/; browser resolves icon paths relative to page origin, not manifest location | — Phase 5 |
 | GitHub Actions: peaceiris + lint+test gate | Trigger on push to main only; lint and test must pass before build; keep_files: false prevents stale gh-pages artifacts | — Phase 5 |
+| Radix Collapsible for per-pair rows (consistent pattern) | Collapsed-by-default rows on MeaningDetailPage, WordFormDetailPage, and PairsPage share the same Collapsible + e.stopPropagation() pattern for navigation arrows | — Phase 6 |
+| Uncontrolled date inputs with blur-triggered save | Avoids controlled/uncontrolled mixing; user can type freely, save fires on blur — no save button needed for date fields | — Phase 6 |
+| Age threshold changed from 24 months to 12 months in Doctor Report | Standard WHO/pediatric convention: years+months format starts at 12 months, not 24 | — Phase 6 |
+| Pairs page as 5th BottomNav tab | Many-to-many pairs made discoverable as a first-class screen; GitBranch icon communicates link/relationship | — Phase 6 |
 
 ## Evolution
 
@@ -111,4 +116,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-02 — Phase 5 complete (PWA polish: offline, installability, SW update toast, PWA icons, CI/CD deploy pipeline; 13/13 UAT passed)*
+*Last updated: 2026-09-14 — Phase 6 complete (pre-release polish: inline editing, Pairs screen, per-pair collapsible rows, Doctor Report enhancements; 25/25 UAT passed)*

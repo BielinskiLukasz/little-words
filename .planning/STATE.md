@@ -2,16 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 current_phase: 06
-current_phase_name: Pre-release Polish
-status: executing
-stopped_at: Completed 06-06-PLAN.md (Doctor Report TDD enhancements)
-last_updated: "2026-09-03T11:56:31.232Z"
-last_activity: 2026-09-03
-last_activity_desc: Phase 06 execution started
-state_head: bf200dde3ea94cbe0d11a8c32365668880b65229
+status: completed
+stopped_at: Phase 06 complete — all phases complete
+last_updated: "2026-09-14T09:25:23.755Z"
+last_activity: 2026-09-14
+last_activity_desc: Phase 06 complete
+state_head: ee910246c0299e59fd1a7116c60bc0634679d642
 progress:
   total_phases: 6
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 29
   completed_plans: 29
 milestone_name: milestone
@@ -21,17 +20,17 @@ milestone_name: milestone
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-02)
+See: .planning/PROJECT.md (updated 2026-09-14)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Phase 06 — Pre-release Polish
+**Current focus:** Milestone v1.0 complete — ready for `/gsd-complete-milestone`
 
 ## Current Position
 
-Phase: 06 (Pre-release Polish) — EXECUTING
+Phase: 06
 Next: /gsd-plan-phase 6 (UI-SPEC gate now clear)
-Status: Executing Phase 06
-Last activity: 2026-09-03 — Phase 06 execution started
+Status: All phases complete
+Last activity: 2026-09-14 — Phase 06 complete
 
 Progress: [████████████████████] 17/17 plans (100%)
 
@@ -39,7 +38,7 @@ Progress: [████████████████████] 17/17 p
 
 **Velocity:**
 
-- Total plans completed: 10
+- Total plans completed: 16
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -49,6 +48,7 @@ Progress: [████████████████████] 17/17 p
 |-------|-------|-------|----------|
 | 3 | 7 | - | - |
 | 05 | 3 | - | - |
+| 06 | 6 | - | - |
 
 **Recent Trend:**
 
@@ -137,10 +137,11 @@ None yet.
 
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
-| *(none)* | | | |
+| Pairs page | Export pairs as CSV download; table layout with word form / meaning / first observed / last used / active columns | Future phase | 2026-09-14 |
+| Doctor Report | Configurable recent additions + recently forgotten limit (currently hard-coded 5); control on Doctor Report page with regenerate button | Future phase | 2026-09-14 |
 
 ## Session Continuity
 
-Last session: 2026-09-03T11:56:19.473Z
-Stopped at: Completed 06-06-PLAN.md (Doctor Report TDD enhancements)
+Last session: 2026-09-14
+Stopped at: Phase 06 UAT complete (25/25 passed, 0 issues); milestone v1.0 all phases done
 Resume file: None
