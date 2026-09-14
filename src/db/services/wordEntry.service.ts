@@ -44,47 +44,57 @@ export async function addWordEntry(
     throw new Error('At least one meaning is required')
   }
 
-  const wordFormId = await findOrCreateWordForm(data.wordForm)
+  const result = await db.transaction('rw', [db.wordForms, db.meanings, db.wordFormMeanings], async () => {
+    const wordFormId = await findOrCreateWordForm(data.wordForm)
 
-  // Filter out empty meanings before save
-  const validMeanings = data.meanings.filter(m => m.text.trim().length > 0)
+    // Filter out empty meanings before save
+    const validMeanings = data.meanings.filter(m => m.text.trim().length > 0)
 
-  const meaningIds: number[] = []
+    const meaningIds: number[] = []
 
-  for (const meaning of validMeanings) {
-    const isoDate = meaning.firstUseDate ?? new Date().toISOString()
-    const meaningId = await addMeaning({
-      text: meaning.text,
-      categories: meaning.categories,
-      isActive: true,
-      firstUseDate: isoDate,
-      lastUseDate: isoDate,
-    })
-    meaningIds.push(meaningId)
-  }
+    for (const meaning of validMeanings) {
+      const isoDate = meaning.firstUseDate ?? new Date().toISOString()
+      let meaningId: number
+      if (meaning.existingMeaningId !== undefined && meaning.existingMeaningId !== null) {
+        // Dedup branch: reuse existing meaning — do not create a new Meaning row
+        meaningId = meaning.existingMeaningId
+      } else {
+        meaningId = await addMeaning({
+          text: meaning.text,
+          categories: meaning.categories,
+          isActive: true,
+          firstUseDate: isoDate,
+          lastUseDate: isoDate,
+        })
+      }
+      meaningIds.push(meaningId)
+    }
 
-  for (let i = 0; i < validMeanings.length; i++) {
-    const meaning = validMeanings[i]
-    const meaningId = meaningIds[i]
-    const isoDate = meaning.firstUseDate ?? new Date().toISOString()
-    const dateStr = isoDate.slice(0, 10)
-    // D-04: store pair.firstObservationDate from the user-supplied date
-    await linkMeaningToWordForm(wordFormId, meaningId, {
-      firstObservationDate: dateStr,
-      lastUsedDate: dateStr,
-      isActive: true,
-    })
-  }
+    for (let i = 0; i < validMeanings.length; i++) {
+      const meaning = validMeanings[i]
+      const meaningId = meaningIds[i]
+      const isoDate = meaning.firstUseDate ?? new Date().toISOString()
+      const dateStr = isoDate.slice(0, 10)
+      // D-04: store pair.firstObservationDate from the user-supplied date
+      await linkMeaningToWordForm(wordFormId, meaningId, {
+        firstObservationDate: dateStr,
+        lastUsedDate: dateStr,
+        isActive: true,
+      })
+    }
 
-  // Storage persist guard (T-02-02-I1):
-  // Triggered only on the very first junction row across the whole database.
-  // navigator.storage is optional — absent in some browsers and JSDOM.
-  // The call is fire-and-forget; the result (granted/denied) is not inspected
-  // and no error is surfaced to the caller.
-  const totalLinks = await db.wordFormMeanings.count()
-  if (totalLinks === 1) {
-    void navigator.storage?.persist?.()
-  }
+    // Storage persist guard (T-02-02-I1):
+    // Triggered only on the very first junction row across the whole database.
+    // navigator.storage is optional — absent in some browsers and JSDOM.
+    // The call is fire-and-forget; the result (granted/denied) is not inspected
+    // and no error is surfaced to the caller.
+    const totalLinks = await db.wordFormMeanings.count()
+    if (totalLinks === 1) {
+      void navigator.storage?.persist?.()
+    }
 
-  return { wordFormId, meaningIds }
+    return { wordFormId, meaningIds }
+  })
+
+  return result
 }
