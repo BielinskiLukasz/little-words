@@ -22,8 +22,10 @@ export function PairsPage() {
   const [sort, setSort] = useState<SortOrder>('newest')
   const [searchText, setSearchText] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all')
-  const [datePreset, setDatePreset] = useState<'all' | 'last7' | 'last30' | 'custom'>('all')
-  const [customAfterDate, setCustomAfterDate] = useState('')
+  const [firstObservedFrom, setFirstObservedFrom] = useState('')
+  const [firstObservedTo, setFirstObservedTo] = useState('')
+  const [lastUsedFrom, setLastUsedFrom] = useState('')
+  const [lastUsedTo, setLastUsedTo] = useState('')
 
   const pairs = useLiveQuery(() => getPairsWithDetails(), [])
 
@@ -36,19 +38,15 @@ export function PairsPage() {
   }
 
   const lowerSearch = searchText.toLowerCase()
-  const now = new Date()
-  const msPerDay = 86400000
-  const cutoff =
-    datePreset === 'last7' ? new Date(now.getTime() - 7 * msPerDay)
-    : datePreset === 'last30' ? new Date(now.getTime() - 30 * msPerDay)
-    : datePreset === 'custom' && customAfterDate ? new Date(customAfterDate)
-    : null
 
   const filtered = pairs.filter(p => {
     if (searchText && !p.wordFormText.toLowerCase().includes(lowerSearch) && !p.meaningText.toLowerCase().includes(lowerSearch)) return false
     if (statusFilter === 'active' && !p.isActive) return false
     if (statusFilter === 'inactive' && p.isActive) return false
-    if (cutoff !== null && new Date(p.firstObservationDate) < cutoff) return false
+    if (firstObservedFrom && p.firstObservationDate < firstObservedFrom) return false
+    if (firstObservedTo && p.firstObservationDate > firstObservedTo) return false
+    if (lastUsedFrom && p.lastUsedDate < lastUsedFrom) return false
+    if (lastUsedTo && p.lastUsedDate > lastUsedTo) return false
     return true
   })
 
@@ -62,13 +60,15 @@ export function PairsPage() {
     }
   })
 
-  const isAnyFilterActive = searchText !== '' || statusFilter !== 'all' || datePreset !== 'all' || customAfterDate !== ''
+  const isAnyFilterActive = searchText !== '' || statusFilter !== 'all' || firstObservedFrom !== '' || firstObservedTo !== '' || lastUsedFrom !== '' || lastUsedTo !== ''
 
   const clearFilters = () => {
     setSearchText('')
     setStatusFilter('all')
-    setDatePreset('all')
-    setCustomAfterDate('')
+    setFirstObservedFrom('')
+    setFirstObservedTo('')
+    setLastUsedFrom('')
+    setLastUsedTo('')
   }
 
   const handleDownloadCsv = () => {
@@ -142,19 +142,37 @@ export function PairsPage() {
               {t('pairs.filterInactive')}
             </Button>
           </div>
-          {/* Date presets */}
-          <div className="flex flex-wrap items-center gap-1">
-            <Button size="sm" variant={datePreset === 'last7' ? 'default' : 'outline'} onClick={() => { setDatePreset('last7'); setCustomAfterDate('') }}>
-              {t('pairs.last7Days')}
-            </Button>
-            <Button size="sm" variant={datePreset === 'last30' ? 'default' : 'outline'} onClick={() => { setDatePreset('last30'); setCustomAfterDate('') }}>
-              {t('pairs.last30Days')}
-            </Button>
-            <span className="text-sm text-muted-foreground">{t('pairs.learnedAfter')}</span>
+          {/* First observed range */}
+          <div className="flex items-center gap-1">
+            <span className="text-sm text-muted-foreground">{t('pairs.firstObservedFrom')}</span>
             <input
               type="date"
-              value={customAfterDate}
-              onChange={e => { setCustomAfterDate(e.target.value); setDatePreset(e.target.value ? 'custom' : 'all') }}
+              value={firstObservedFrom}
+              onChange={e => setFirstObservedFrom(e.target.value)}
+              className="rounded border border-border bg-background px-2 py-1 text-sm"
+            />
+            <span className="text-sm text-muted-foreground">{t('pairs.firstObservedTo')}</span>
+            <input
+              type="date"
+              value={firstObservedTo}
+              onChange={e => setFirstObservedTo(e.target.value)}
+              className="rounded border border-border bg-background px-2 py-1 text-sm"
+            />
+          </div>
+          {/* Last used range */}
+          <div className="flex items-center gap-1">
+            <span className="text-sm text-muted-foreground">{t('pairs.lastUsedFrom')}</span>
+            <input
+              type="date"
+              value={lastUsedFrom}
+              onChange={e => setLastUsedFrom(e.target.value)}
+              className="rounded border border-border bg-background px-2 py-1 text-sm"
+            />
+            <span className="text-sm text-muted-foreground">{t('pairs.lastUsedTo')}</span>
+            <input
+              type="date"
+              value={lastUsedTo}
+              onChange={e => setLastUsedTo(e.target.value)}
               className="rounded border border-border bg-background px-2 py-1 text-sm"
             />
           </div>
