@@ -3,12 +3,13 @@ status: complete
 phase: 02-onboarding-data-entry
 source: [02-01-SUMMARY.md, 02-02-SUMMARY.md, 02-03-SUMMARY.md, 02-04-SUMMARY.md, 02-05-SUMMARY.md]
 started: 2026-07-19T00:00:00Z
-updated: 2026-07-20T00:00:00Z
+updated: 2026-09-14T12:00:00Z
 ---
 
 ## Current Test
+<!-- OVERWRITE each test - shows where we are -->
 
-none — all 11 tests complete
+[testing complete]
 
 ## Tests
 
@@ -33,17 +34,11 @@ result: pass
 
 ### 5. Add Entry — meaning autocomplete dropdown
 expected: After saving at least one entry (Test 4 above), open the Add Entry sheet again and start typing in the meaning text field. Type the first letter(s) of a meaning you previously saved. A dropdown of suggestions should appear below the field. Selecting a suggestion fills the meaning field.
-result: issue
-reported: "dropdown list have white color in dark mode so text isn't visible"
-severity: major
-fixed: "Replaced hardcoded bg-white/border-gray-200/hover:bg-gray-50 with bg-background/border-border/hover:bg-muted/text-foreground CSS variable utilities in MeaningAutocomplete.tsx"
+result: pass
 
 ### 6. Add Entry — category chips horizontal scroll
 expected: In the Add Entry sheet, the category chips row (below the meaning text field) shows multiple category badges. If there are more chips than fit on screen, you can scroll horizontally to see all 14 categories. Tapping a chip selects/deselects it (badge appearance changes).
-result: issue
-reported: "all have only english values. switching to polish dont change them"
-severity: minor
-fixed: "Added category.* translation keys to en/common.json and pl/common.json; updated CategoryChips.tsx to use t(`category.${cat}`) instead of rendering raw schema constant"
+result: pass
 
 ### 7. Add Entry — save entry successfully
 expected: Fill in the Add Entry sheet (word form + at least one meaning), then tap Save. The sheet closes. No error message appears. If you reopen the sheet and type the same word form, the existing-meanings preview should now show the meaning you just saved.
@@ -68,8 +63,8 @@ result: pass
 ## Summary
 
 total: 11
-passed: 10
-issues: 3
+passed: 11
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
