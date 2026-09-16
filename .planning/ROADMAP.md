@@ -198,3 +198,25 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 4. Doctor Report & Data Management | 3/3 | Complete | 2026-08-27 |
 | 5. PWA Polish | 3/3 | Complete    | 2026-08-31 |
 | 6. Pre-release Polish | 6/6 | Complete    | 2026-09-14 |
+
+### Phase 06.1: Close gap: meaning rollup not recomputed on dedup reuse (INSERTED)
+
+**Goal:** A meaning's isActive/firstUseDate/lastUseDate rollup is always recomputed from its linked pairs, including when an existing meaning is reused (not newly created) via the add-entry autocomplete dedup path.
+**Requirements**: Closes milestone v1.0 audit gap affecting DASH-01, DASH-02, DASH-03, REPORT-01
+**Depends on:** Phase 6
+**Plans:** 1 plan
+
+Plans:
+
+- [ ] 06.1-01-PLAN.md — TDD fix: linkMeaningToWordForm re-aggregates parent Meaning on new-pair insert (D-01..D-04)
+
+### Phase 06.2: Close gap: JSON export/import not migrated to schema v3 (INSERTED)
+
+**Goal:** Settings JSON export/import correctly reflects the Dexie v3 schema — schemaVersion is bumped and import validation requires the WordFormMeaning per-pair fields (firstObservationDate, lastUsedDate, isActive), preventing silent corruption of the rollup calculation on restore.
+**Requirements**: Closes milestone v1.0 audit gap affecting DATA-02, PREREL-03
+**Depends on:** Phase 6, Phase 06.1
+**Plans:** 0 plans
+
+Plans:
+
+- [ ] TBD (run /gsd-plan-phase 06.2 to break down)
