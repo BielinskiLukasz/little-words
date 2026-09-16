@@ -1,39 +1,31 @@
 {
   "version": "1.0",
-  "timestamp": "2026-09-08T14:04:45.059Z",
-  "phase": "06",
-  "phase_name": "pre-release-polish",
-  "phase_dir": ".planning/phases/06-pre-release-polish",
-  "plan": 6,
-  "task": 6,
-  "total_tasks": 6,
+  "timestamp": "2026-09-16T20:57:13.869Z",
+  "phase": "06.1",
+  "phase_name": "close-gap-meaning-rollup-not-recomputed-on-dedup-reuse",
+  "phase_dir": ".planning/phases/06.1-close-gap-meaning-rollup-not-recomputed-on-dedup-reuse",
+  "plan": 1,
+  "task": 0,
+  "total_tasks": 1,
   "status": "paused",
-  "completed_tasks": [
-    {"id": 1, "name": "Schema v3 migration (firstObservationDate, lastUsedDate, isActive on WordFormMeaning)", "status": "done"},
-    {"id": 2, "name": "Meaning inline edit (text + categories + per-pair rows)", "status": "done"},
-    {"id": 3, "name": "Word Form inline edit (text + per-pair rows)", "status": "done"},
-    {"id": 4, "name": "UI bug fixes (categories i18n, dashboard stat card navigation)", "status": "done"},
-    {"id": 5, "name": "Pairs screen (5th BottomNav tab, sort selector, navigation chips)", "status": "done"},
-    {"id": 6, "name": "Doctor Report TDD enhancements (age format, per-category list, recent additions, inactive)", "status": "done"}
-  ],
+  "completed_tasks": [],
   "remaining_tasks": [
-    {"id": 7, "name": "UAT — 17 manual browser tests in 06-UAT.md", "status": "not_started"}
+    {"id": 1, "name": "linkMeaningToWordForm re-aggregates the parent Meaning on every new-pair insert (TDD feature: RED/GREEN/REFACTOR)", "status": "not_started"}
   ],
   "blockers": [],
   "async_jobs": [],
-  "human_actions_pending": [
-    {
-      "action": "Run dev server and perform 17 UAT scenarios from .planning/phases/06-pre-release-polish/06-UAT.md",
-      "context": "All code is complete (165 tests pass); verification is human_needed for interactive browser behaviors (inline edit, navigation, report rendering with real DB data)",
-      "blocking": true
-    }
-  ],
+  "human_actions_pending": [],
   "decisions": [
-    {"decision": "Per-pair fields save on blur, not per keystroke", "rationale": "Avoids DB write on every keystroke; mirrors handleNotesBlur pattern from DoctorReportPage", "phase": "06"},
-    {"decision": "isActive badge on Meaning detail is read-only (aggregated from pairs)", "rationale": "Meaning.isActive = true if ANY linked pair.isActive is true; only changeable via per-pair Switch", "phase": "06"},
-    {"decision": "Date inputs use <input type=\"date\"> not Calendar popover", "rationale": "Consistent with onboarding birth date pattern; avoids Popover complexity", "phase": "06"}
+    {"decision": "Move aggregateMeaningFromPairs(meaningId) call inside linkMeaningToWordForm itself, not just addWordEntry's dedup branch", "rationale": "Matches updatePairFields/deleteWordForm pattern; closes the whole class of bug for every current and future caller", "phase": "06.1"},
+    {"decision": "Early-return (idempotent re-link) path does NOT call aggregateMeaningFromPairs", "rationale": "Nothing changed on that pair, so nothing to re-aggregate; keeps fix strictly scoped", "phase": "06.1"},
+    {"decision": "Add both unit test (wordFormMeaning.service.test.ts) and integration test (wordEntry.service.test.ts) reproducing the exact audit scenario", "rationale": "Covers the fix at its source and proves the reported bug is gone end-to-end", "phase": "06.1"},
+    {"decision": "unlinkMeaning() stays untouched this phase", "rationale": "Dead code flagged as tech debt, not a blocker, in the milestone audit; fixing it would widen the diff beyond this phase's stated goal", "phase": "06.1"}
   ],
-  "uncommitted_files": [],
-  "next_action": "Run `npm run dev` and open localhost:5173 in browser. Work through 06-UAT.md tests 1-17. Update each test result inline. When all pass, run /gsd-ship or merge to main.",
-  "context_notes": "All 6 plans have SUMMARYs. REVIEW.md and VERIFICATION.md complete. UAT.md created with 17 tests, all pending. The only remaining gate is human browser testing — no code changes expected unless UAT reveals regressions."
+  "uncommitted_files": [
+    ".planning/STATE.md",
+    ".planning/state.json",
+    ".planning/phases/06.1-close-gap-meaning-rollup-not-recomputed-on-dedup-reuse/06.1-PATTERNS.md"
+  ],
+  "next_action": "Run /gsd-execute-phase 06.1 to execute 06.1-01-PLAN.md (single TDD feature: RED tests -> GREEN fix in linkMeaningToWordForm -> REFACTOR if needed).",
+  "context_notes": "Phase 06.1 is fully planned, not yet executed. Plan is a single type:tdd feature (06.1-01-PLAN.md) — a narrow, fully-specified bug fix restoring the Phase 6 invariant that Meaning.isActive/firstUseDate/lastUseDate must recompute on every WordFormMeaning write. Project config runs in yolo/autonomous mode with research and plan-checker both disabled (workflow.research=false, workflow.plan_check=false), so this planning run skipped those steps by design, not by omission. Requirements coverage (4/4: DASH-01, DASH-02, DASH-03, REPORT-01), decision coverage (4/4: D-01..D-04), and post-planning gap analysis (8/8 items) all passed clean. Plan committed at 0d2ba83. Pre-existing uncommitted changes unrelated to this session (phase 06 UAT/VERIFICATION doc edits, milestone.lock deletion, v1.0-MILESTONE-AUDIT.md edits, untracked .gsd/ dir, untracked 06.2 gap-closure phase dir) were present before this session started and were left alone."
 }
