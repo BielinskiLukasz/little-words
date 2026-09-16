@@ -4,18 +4,20 @@ milestone: v1.0
 current_phase: 03
 current_phase_name: Browse Views
 status: planning
-stopped_at: Phase 02 complete, ready to plan Phase 03
-last_updated: "2026-09-14T20:32:57.187Z"
+stopped_at: Phase 06.1 context gathered
+last_updated: "2026-09-16T18:38:25.126Z"
 last_activity: 2026-09-14
 last_activity_desc: Phase 02 complete, transitioned to Phase 03
-state_head: 045c7ca6d2a4d4ee2838ee19c2ea9d8166e2df0b
+state_head: 10039709264bdbac0cb828813fc5fcec50ec845e
 progress:
-  total_phases: 6
+  total_phases: 8
   completed_phases: 5
   total_plans: 30
   completed_plans: 30
 milestone_name: milestone
 ---
+
+Total Phases: 7
 
 # Project State
 
@@ -146,6 +148,11 @@ None yet.
 | 260914-vjq | Add search and filter controls to PairsPage (text search, active/inactive status, date presets + custom date picker) | 2026-09-14 | f2ad33a | [260914-vjq-add-search-and-filter-controls-to-pairsp](.planning/quick/260914-vjq-add-search-and-filter-controls-to-pairsp/) |
 | 260914-w2a | Replace date preset buttons on PairsPage with from/to date range inputs for first observed and last used | 2026-09-14 | 311d37c | [260914-w2a-replace-date-preset-buttons-on-pairspage](.planning/quick/260914-w2a-replace-date-preset-buttons-on-pairspage/) |
 
+### Roadmap Evolution
+
+- Phase 06.1 inserted after Phase 6: Close gap: meaning rollup not recomputed on dedup reuse (DASH-01/REPORT-01, milestone v1.0 audit) (URGENT)
+- Phase 06.2 inserted after Phase 06.1: Close gap: JSON export/import not migrated to schema v3 (DATA-02/PREREL-03, milestone v1.0 audit) (URGENT)
+
 ## Deferred Items
 
 | Category | Item | Status | Deferred At |
@@ -155,6 +162,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-14T20:08:40.101Z
-Stopped at: Phase 02 complete, ready to plan Phase 03
-Resume file: None
+Last session: 2026-09-16T18:38:19.686Z
+Stopped at: Phase 06.1 context gathered
+Resume file: .planning/phases/06.1-close-gap-meaning-rollup-not-recomputed-on-dedup-reuse/06.1-CONTEXT.md
