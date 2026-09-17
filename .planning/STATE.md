@@ -25,7 +25,7 @@ Total Phases: 7
 See: .planning/PROJECT.md (updated 2026-09-17)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Phase 06.2 — Close gap: JSON export/import not migrated to schema v3 (INSERTED)
+**Current focus:** All milestone v1.0 phases complete — ready for `/gsd-complete-milestone`
 
 ## Current Position
 
@@ -147,7 +147,7 @@ None yet.
 
 ### Blockers/Concerns
 
-None yet.
+- ⚠️ [Phase 6.2] Code review flagged `validateBackupData` accepting a JSON backup with an empty `childProfile` array — on import this clears the existing profile, writes zero profiles, and `AuthGuard` redirects to onboarding, leaving `wordForms`/`meanings`/`wordFormMeanings` in IndexedDB but unreachable through the UI. Perceived data loss. Out of scope for 6.2 (not part of its DATA-02/PREREL-03 must_haves) — candidate for a follow-up gap-closure phase. See `06.2-REVIEW.md` (CR-01) and its 4 accompanying warnings (CSV formula-injection guard, category validation, referential integrity between imported wordForms/meanings, missing `wordForms` round-trip test coverage).
 
 ### Quick Tasks Completed
 

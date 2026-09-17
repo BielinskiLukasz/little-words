@@ -27,6 +27,7 @@ A parent can walk into a specialist consultation and present objective, structur
 - ✓ App works fully offline; installable as a PWA on Android Chrome and iOS Safari — Phase 5
 - ✓ Parent can edit meaning details (categories, dates) from the detail page — Phase 6
 - ✓ Doctor Report enhanced with per-category meaning list, recent additions, recently forgotten, and child-age formatting — Phase 6
+- ✓ JSON export and import (backup and device migration) available in Settings → Data — Phase 4, hardened against Dexie schema v3 drift in Phase 6.2
 
 ### Active
 
@@ -34,7 +35,6 @@ A parent can walk into a specialist consultation and present objective, structur
 - [ ] Parent can record gestures (description, first/last observed date)
 - [ ] Doctor Report generates a structured text summary (active/inactive counts, top categories, gestures, profile medical context, parent notes) and copies it to clipboard
 - [ ] Parent notes for the doctor report are a persistent field on the child profile
-- [ ] JSON export and import (backup and device migration) available in Settings → Data
 - [ ] CSV export available in Settings → Data
 
 ### Out of Scope
@@ -99,6 +99,9 @@ A parent can walk into a specialist consultation and present objective, structur
 | Pairs page as 5th BottomNav tab | Many-to-many pairs made discoverable as a first-class screen; GitBranch icon communicates link/relationship | — Phase 6 |
 | `linkMeaningToWordForm` re-aggregates parent Meaning inside its own transaction (D-01) | Milestone v1.0 audit found dedup-reuse of an existing meaning left Dashboard/Doctor Report reading stale `isActive`/`firstUseDate`/`lastUseDate` — closes the same class of bug `updatePairFields`/`deleteWordForm` already fixed | Phase 6.1 |
 | Idempotent early-return path stays aggregate-free (D-02) | Nothing changed on that pair, so nothing needs re-aggregating — keeps the fix strictly scoped | Phase 6.1 |
+| Single `BACKUP_SCHEMA_VERSION` constant drives all three JSON export/import version checks (D-01, D-02) | Milestone v1.0 audit found `dataManagement.ts` hardcoded `schemaVersion: 2` in three separate places and never validated the v3 per-pair fields Phase 6 moved onto `WordFormMeaning` — a restored backup silently carried stale/absent rollup fields; exact `===` match (not `>=`) at every site closes the same-symptom class of bug | Phase 6.2 |
+| v2-shaped backups are rejected outright, no auto-migration (D-03) | Out of scope for a correctness fix; a future phase can add v2 auto-migration if a real need arises | Phase 6.2 |
+| Version-mismatch import error reworded to direction-neutral phrasing (D-04) | Original copy asserted the backup was "from a newer version" — factually backwards for the v2-rejection path this phase implements; a rejected legacy backup is older, not newer | Phase 6.2 |
 
 ## Evolution
 
@@ -118,4 +121,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-17 — Phase 6.1 complete (gap closure: linkMeaningToWordForm re-aggregates parent Meaning on dedup-reuse, closing milestone v1.0 audit blocker 1)*
+*Last updated: 2026-09-17 — Phase 6.2 complete (gap closure: JSON export/import validated against Dexie schema v3, closing milestone v1.0 audit blocker 2)*
