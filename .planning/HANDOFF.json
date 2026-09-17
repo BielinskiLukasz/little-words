@@ -1,31 +1,28 @@
 {
   "version": "1.0",
-  "timestamp": "2026-09-16T20:57:13.869Z",
-  "phase": "06.1",
-  "phase_name": "close-gap-meaning-rollup-not-recomputed-on-dedup-reuse",
-  "phase_dir": ".planning/phases/06.1-close-gap-meaning-rollup-not-recomputed-on-dedup-reuse",
-  "plan": 1,
+  "timestamp": "2026-09-17T15:48:53.572Z",
+  "phase": "06.3",
+  "phase_name": "address-tech-debt-requirements-md-traceability-import-valida",
+  "phase_dir": ".planning/phases/06.3-address-tech-debt-requirements-md-traceability-import-valida",
+  "plan": null,
   "task": 0,
-  "total_tasks": 1,
+  "total_tasks": 8,
   "status": "paused",
   "completed_tasks": [],
   "remaining_tasks": [
-    {"id": 1, "name": "linkMeaningToWordForm re-aggregates the parent Meaning on every new-pair insert (TDD feature: RED/GREEN/REFACTOR)", "status": "not_started"}
+    {"id": 1, "name": "06.3-01-PLAN.md (type: tdd, wave 1): validateBackupData rejects childProfile.length !== 1, new distinct error + i18n key + regression tests (D-01..D-05)", "status": "not_started"},
+    {"id": 2, "name": "06.3-02-PLAN.md (type: execute, wave 1): REQUIREMENTS.md PREREL-01..05 traceability rows + Coverage summary + backfill requirements-completed frontmatter in audit-flagged SUMMARY.md files (D-07..D-09)", "status": "not_started"},
+    {"id": 3, "name": "06.3-03-PLAN.md (type: execute, wave 1): fix body Status text in 05-VERIFICATION.md and 06-VERIFICATION.md from human_needed to passed (D-10..D-11)", "status": "not_started"}
   ],
   "blockers": [],
   "async_jobs": [],
   "human_actions_pending": [],
   "decisions": [
-    {"decision": "Move aggregateMeaningFromPairs(meaningId) call inside linkMeaningToWordForm itself, not just addWordEntry's dedup branch", "rationale": "Matches updatePairFields/deleteWordForm pattern; closes the whole class of bug for every current and future caller", "phase": "06.1"},
-    {"decision": "Early-return (idempotent re-link) path does NOT call aggregateMeaningFromPairs", "rationale": "Nothing changed on that pair, so nothing to re-aggregate; keeps fix strictly scoped", "phase": "06.1"},
-    {"decision": "Add both unit test (wordFormMeaning.service.test.ts) and integration test (wordEntry.service.test.ts) reproducing the exact audit scenario", "rationale": "Covers the fix at its source and proves the reported bug is gone end-to-end", "phase": "06.1"},
-    {"decision": "unlinkMeaning() stays untouched this phase", "rationale": "Dead code flagged as tech debt, not a blocker, in the milestone audit; fixing it would widen the diff beyond this phase's stated goal", "phase": "06.1"}
+    {"decision": "Skip research before planning phase 06.3", "rationale": "All three tech-debt items are well-understood fixes with exact file/line references and fully-decided approach already locked in CONTEXT.md (D-01..D-12) -- no new integrations, dependencies, or architecture to investigate. User confirmed this recommendation.", "phase": "06.3"},
+    {"decision": "Split phase into 3 independent Wave-1 plans (one per tech-debt item) rather than one bundled plan", "rationale": "Each item touches a disjoint file set with no dependency between them, so parallel execution is safe and each plan stays independently verifiable", "phase": "06.3"},
+    {"decision": "06.3-01 is type:tdd (business logic with defined I/O); 06.3-02 and 06.3-03 are type:execute (pure documentation/frontmatter edits)", "rationale": "Project-wide tdd_mode heuristic: business logic gets RED/GREEN/REFACTOR, doc/glue edits stay standard execute plans", "phase": "06.3"}
   ],
-  "uncommitted_files": [
-    ".planning/STATE.md",
-    ".planning/state.json",
-    ".planning/phases/06.1-close-gap-meaning-rollup-not-recomputed-on-dedup-reuse/06.1-PATTERNS.md"
-  ],
-  "next_action": "Run /gsd-execute-phase 06.1 to execute 06.1-01-PLAN.md (single TDD feature: RED tests -> GREEN fix in linkMeaningToWordForm -> REFACTOR if needed).",
-  "context_notes": "Phase 06.1 is fully planned, not yet executed. Plan is a single type:tdd feature (06.1-01-PLAN.md) — a narrow, fully-specified bug fix restoring the Phase 6 invariant that Meaning.isActive/firstUseDate/lastUseDate must recompute on every WordFormMeaning write. Project config runs in yolo/autonomous mode with research and plan-checker both disabled (workflow.research=false, workflow.plan_check=false), so this planning run skipped those steps by design, not by omission. Requirements coverage (4/4: DASH-01, DASH-02, DASH-03, REPORT-01), decision coverage (4/4: D-01..D-04), and post-planning gap analysis (8/8 items) all passed clean. Plan committed at 0d2ba83. Pre-existing uncommitted changes unrelated to this session (phase 06 UAT/VERIFICATION doc edits, milestone.lock deletion, v1.0-MILESTONE-AUDIT.md edits, untracked .gsd/ dir, untracked 06.2 gap-closure phase dir) were present before this session started and were left alone."
+  "uncommitted_files": [],
+  "next_action": "Run /gsd-execute-phase 06.3 to execute all 3 Wave-1 plans in parallel (no dependencies between them).",
+  "context_notes": "Phase 06.3 is fully planned, not yet executed. This is an INSERTED tech-debt phase closing 3 items from the v1.0 milestone audit (.planning/v1.0-MILESTONE-AUDIT.md): an import-validation footgun (empty childProfile array wipes data on restore), REQUIREMENTS.md traceability gaps (missing PREREL-01..05 rows + 14 SUMMARY.md files missing requirements-completed frontmatter), and VERIFICATION.md frontmatter/body status inconsistency in phases 05 and 06. Project config runs in yolo mode with research, plan-checker, and nyquist validation all disabled by default (workflow.research=false, workflow.plan_check=false, workflow.nyquist_validation=false) -- this run asked the user explicitly about research (per /gsd-plan-phase's own workflow gate) and the user chose to skip it; plan-checker was skipped automatically per config. Pattern-mapper capability (workflow.pattern_mapper=true) WAS run and produced 06.3-PATTERNS.md (20/20 file analogs found). Decision coverage (12/12: D-01..D-12) and post-planning gap analysis (12/12 items) both passed clean. Plans committed at 1290e21 (planner) and c563d4d (STATE.md/ROADMAP.md wave annotation). Pre-existing uncommitted changes unrelated to this session (.planning/milestone.lock deletion, .planning/state.json edits, .planning/v1.0-MILESTONE-AUDIT.md edits) were present before this session started and were deliberately left alone -- do not fold them into a 06.3 execution commit."
 }
