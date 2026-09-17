@@ -273,3 +273,71 @@ describe('wordEntry.service - addWordEntry D-04', () => {
     expect(pair!.isActive).toBe(true)
   })
 })
+
+// ── addWordEntry dedup reuse rollup (06.1 audit gap) ─────────────────────────
+
+describe('wordEntry.service - addWordEntry dedup reuse rollup (06.1 audit gap)', () => {
+  beforeEach(async () => {
+    await Dexie.delete('LittleWordsDB')
+    testDb = new AppDB()
+    await testDb.open()
+    Object.defineProperty(globalThis, 'navigator', {
+      value: {
+        ...globalThis.navigator,
+        storage: {
+          persist: vi.fn().mockResolvedValue(true),
+          persisted: vi.fn().mockResolvedValue(true),
+        },
+      },
+      configurable: true,
+      writable: true,
+    })
+  })
+
+  afterEach(async () => {
+    testDb.close()
+    await Dexie.delete('LittleWordsDB')
+  })
+
+  it('dedup reuse of a previously-inactive meaning refreshes isActive and lastUseDate', async () => {
+    const { addWordEntry } = await import('./wordEntry.service')
+
+    // Step 1: create initial word form + meaning
+    const result1 = await addWordEntry({
+      wordForm: 'ba',
+      meanings: [{ text: 'ball', categories: ['Nouns'], firstUseDate: '2025-01-01' }],
+    })
+    const meaningId = result1.meaningIds[0]
+
+    // Step 2: find the pair created for this meaning
+    const pair1 = await testDb.wordFormMeanings
+      .where('[wordFormId+meaningId]')
+      .equals([result1.wordFormId, meaningId])
+      .first()
+
+    // Step 3: deactivate the meaning's only pair (already re-aggregates via updatePairFields)
+    const { updatePairFields } = await import('./wordFormMeaning.service')
+    await updatePairFields(pair1!.id!, { isActive: false })
+
+    // Step 4: sanity check on setup
+    const deactivated = await testDb.meanings.get(meaningId)
+    expect(deactivated!.isActive).toBe(false)
+    expect(deactivated!.lastUseDate).toBe('2025-01-01')
+
+    // Step 5: dedup branch reuses meaningId on a brand-new word form
+    const result2 = await addWordEntry({
+      wordForm: 'baa',
+      meanings: [{ text: 'ball', categories: ['Nouns'], firstUseDate: '2025-06-01', existingMeaningId: meaningId }],
+    })
+
+    // Step 6: parent meaning must now reflect all of its current pairs
+    const refreshed = await testDb.meanings.get(meaningId)
+    expect(refreshed!.isActive).toBe(true)
+    expect(refreshed!.lastUseDate).toBe('2025-06-01')
+
+    // Step 7: dedup still holds — no duplicate meaning created
+    const countAfter = await testDb.meanings.count()
+    expect(countAfter).toBe(1)
+    expect(result2.meaningIds[0]).toBe(meaningId)
+  })
+})

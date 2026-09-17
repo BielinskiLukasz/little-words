@@ -136,6 +136,70 @@ describe('wordFormMeaning.service - updatePairFields', () => {
   })
 })
 
+// ── linkMeaningToWordForm re-aggregation (06.1) ──────────────────────────────
+
+describe('wordFormMeaning.service - linkMeaningToWordForm re-aggregation (06.1)', () => {
+  beforeEach(async () => {
+    await Dexie.delete('LittleWordsDB')
+    testDb = new AppDB()
+    await testDb.open()
+  })
+
+  afterEach(async () => {
+    testDb.close()
+    await Dexie.delete('LittleWordsDB')
+  })
+
+  it('recomputes isActive/firstUseDate/lastUseDate on the parent meaning when a new pair is created', async () => {
+    const wordFormId = await testDb.wordForms.add({ form: 'zzz', createdAt: '2025-01-01' }) as number
+    const meaningId = await testDb.meanings.add({
+      text: 'zed',
+      categories: ['Nouns'],
+      isActive: false,
+      firstUseDate: '2020-01-01',
+      lastUseDate: '2020-01-01',
+    }) as number
+
+    const { linkMeaningToWordForm } = await import('./wordFormMeaning.service')
+    await linkMeaningToWordForm(wordFormId, meaningId, {
+      firstObservationDate: '2025-06-01',
+      lastUsedDate: '2025-06-01',
+      isActive: true,
+    })
+
+    const updated = await testDb.meanings.get(meaningId)
+    expect(updated!.isActive).toBe(true)
+    expect(updated!.firstUseDate).toBe('2025-06-01')
+    expect(updated!.lastUseDate).toBe('2025-06-01')
+  })
+
+  it('does not re-aggregate on the idempotent early-return path (D-02 guard)', async () => {
+    const wordFormId = await testDb.wordForms.add({ form: 'zzz', createdAt: '2025-01-01' }) as number
+    const meaningId = await testDb.meanings.add({
+      text: 'zed',
+      categories: ['Nouns'],
+      isActive: true,
+      firstUseDate: '2025-01-01',
+      lastUseDate: '2025-01-01',
+    }) as number
+    await testDb.wordFormMeanings.add({
+      wordFormId,
+      meaningId,
+      firstObservationDate: '2025-01-01',
+      lastUsedDate: '2025-01-01',
+      isActive: true,
+    })
+    // Corrupt the meaning's cached state directly (bypassing aggregation)
+    await testDb.meanings.update(meaningId, { isActive: false })
+
+    const { linkMeaningToWordForm } = await import('./wordFormMeaning.service')
+    await linkMeaningToWordForm(wordFormId, meaningId)
+
+    const updated = await testDb.meanings.get(meaningId)
+    expect(updated!.isActive).toBe(false)
+  })
+})
+
 // ── getPairsWithDetails ──────────────────────────────────────────────────────
 
 describe('wordFormMeaning.service - getPairsWithDetails', () => {
