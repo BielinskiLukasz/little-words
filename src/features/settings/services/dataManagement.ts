@@ -1,6 +1,8 @@
 import type { ChildProfile, WordForm, Meaning, WordFormMeaning } from '@/db/schema'
 import { db } from '@/db/db'
 
+export const BACKUP_SCHEMA_VERSION = 3
+
 export interface BackupData {
   schemaVersion: number
   exportedAt: string
@@ -19,7 +21,7 @@ export function buildBackupData(
   now?: Date,
 ): BackupData {
   return {
-    schemaVersion: 2,
+    schemaVersion: BACKUP_SCHEMA_VERSION,
     exportedAt: (now ?? new Date()).toISOString(),
     childProfile,
     wordForms,
@@ -60,14 +62,20 @@ function isValidMeaning(item: unknown): boolean {
 function isValidWordFormMeaning(item: unknown): boolean {
   if (typeof item !== 'object' || item === null) return false
   const wfm = item as Record<string, unknown>
-  return typeof wfm.wordFormId === 'number' && typeof wfm.meaningId === 'number'
+  return (
+    typeof wfm.wordFormId === 'number' &&
+    typeof wfm.meaningId === 'number' &&
+    typeof wfm.firstObservationDate === 'string' &&
+    typeof wfm.lastUsedDate === 'string' &&
+    typeof wfm.isActive === 'boolean'
+  )
 }
 
-// Type guard — validates that data is a well-formed BackupData with schemaVersion=2
+// Type guard — validates that data is a well-formed BackupData with schemaVersion=BACKUP_SCHEMA_VERSION
 export function validateBackupData(data: unknown): data is BackupData {
   if (typeof data !== 'object' || data === null) return false
   const d = data as Record<string, unknown>
-  if (d.schemaVersion !== 2) return false
+  if (d.schemaVersion !== BACKUP_SCHEMA_VERSION) return false
   if (!Array.isArray(d.childProfile)) return false
   if (!Array.isArray(d.wordForms)) return false
   if (!Array.isArray(d.meanings)) return false
@@ -159,7 +167,7 @@ export async function exportMeaningsCSV(): Promise<void> {
 }
 
 // Restores all app data from a JSON backup file.
-// Throws with message 'wrong-schema-version' if schemaVersion !== 2.
+// Throws with message 'wrong-schema-version' if schemaVersion !== BACKUP_SCHEMA_VERSION.
 // Throws with message 'corrupt' if the file cannot be parsed or is not a valid backup.
 // The caller (DataSection) is responsible for showing error/success UI.
 export async function importData(file: File): Promise<void> {
@@ -177,7 +185,7 @@ export async function importData(file: File): Promise<void> {
     parsed !== null &&
     'schemaVersion' in parsed &&
     typeof (parsed as Record<string, unknown>).schemaVersion === 'number' &&
-    (parsed as Record<string, unknown>).schemaVersion !== 2
+    (parsed as Record<string, unknown>).schemaVersion !== BACKUP_SCHEMA_VERSION
   ) {
     throw new Error('wrong-schema-version')
   }
