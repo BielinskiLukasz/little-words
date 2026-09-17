@@ -11,6 +11,11 @@ import { aggregateMeaningFromPairs } from './meaning.service'
  *
  * D-04: Accepts optional pairFields to store firstObservationDate, lastUsedDate,
  * and isActive on the new row. Defaults to today's date and isActive=true.
+ *
+ * D-01: After inserting a new pair, re-aggregates the parent Meaning's
+ * isActive/firstUseDate/lastUseDate inside the same transaction so pair +
+ * meaning stay in sync. D-02: the early-return (existing pair) path
+ * intentionally skips aggregation because nothing changed.
  */
 export async function linkMeaningToWordForm(
   wordFormId: number,
@@ -29,12 +34,15 @@ export async function linkMeaningToWordForm(
   const today = new Date().toISOString().slice(0, 10)
   const fields = pairFields ?? { firstObservationDate: today, lastUsedDate: today }
 
-  await db.wordFormMeanings.add({
-    wordFormId,
-    meaningId,
-    firstObservationDate: fields.firstObservationDate,
-    lastUsedDate: fields.lastUsedDate,
-    isActive: fields.isActive ?? true,
+  await db.transaction('rw', [db.wordFormMeanings, db.meanings], async () => {
+    await db.wordFormMeanings.add({
+      wordFormId,
+      meaningId,
+      firstObservationDate: fields.firstObservationDate,
+      lastUsedDate: fields.lastUsedDate,
+      isActive: fields.isActive ?? true,
+    })
+    await aggregateMeaningFromPairs(meaningId)
   })
 }
 
