@@ -31,13 +31,13 @@
     {
       "number": "6",
       "name": "Pre-release Polish",
-      "status": "pending"
+      "status": "complete"
     }
   ],
   "next": {
     "command": "/gsd:progress --next",
-    "label": "Advance to the next step",
-    "reason": "Phase 6 of 6 · executing"
+    "label": "Advance to the next step (plan phase 6)",
+    "reason": "Phase 6 of 8 — needs a plan"
   },
-  "updated_at": "2026-09-03T10:00:14.191Z"
+  "updated_at": "2026-09-17T08:48:32.806Z"
 }
