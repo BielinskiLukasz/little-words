@@ -204,7 +204,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 **Goal:** A meaning's isActive/firstUseDate/lastUseDate rollup is always recomputed from its linked pairs, including when an existing meaning is reused (not newly created) via the add-entry autocomplete dedup path.
 **Requirements**: Closes milestone v1.0 audit gap affecting DASH-01, DASH-02, DASH-03, REPORT-01
 **Depends on:** Phase 6
-**Plans:** 1/1 plans executed
+**Plans:** 1/1 plans complete
 
 Plans:
 

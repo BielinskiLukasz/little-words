@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-current_phase: 06.1
-current_phase_name: close-gap-meaning-rollup-not-recomputed-on-dedup-reuse
-status: verifying
-stopped_at: Completed 06.1-01-PLAN.md
-last_updated: "2026-09-17T08:21:57.490Z"
+current_phase: 06.2
+current_phase_name: "Close gap: JSON export/import not migrated to schema v3"
+status: planning
+stopped_at: Phase 06.1 complete, ready to plan Phase 06.2
+last_updated: "2026-09-17T08:48:32.373Z"
 last_activity: 2026-09-17
-last_activity_desc: Phase 06.1 execution started
-state_head: 59a3c3c3217c7e2c7579e93f2c80b5751cdd4d69
+last_activity_desc: Phase 06.1 complete, transitioned to Phase 06.2
+state_head: 85c622aa2dde1141b4217e6c8ea8db4f40d91a31
 progress:
   total_phases: 8
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 31
   completed_plans: 31
 milestone_name: milestone
@@ -30,11 +30,11 @@ See: .planning/PROJECT.md (updated 2026-09-14)
 
 ## Current Position
 
-Phase: 06.1 (close-gap-meaning-rollup-not-recomputed-on-dedup-reuse) — EXECUTING
-Plan: 1 of 1 in current phase
+Phase: 06.2 — Close gap: JSON export/import not migrated to schema v3
+Plan: Not started
 Next: /gsd-plan-phase 6 (UI-SPEC gate now clear)
-Status: Phase complete — ready for verification
-Last activity: 2026-09-17 — Phase 06.1 execution started
+Status: Ready to plan
+Last activity: 2026-09-17 — Phase 06.1 complete, transitioned to Phase 06.2
 
 Progress: [████████████████████] 1/1 plans (100%)
 
@@ -42,7 +42,7 @@ Progress: [████████████████████] 1/1 pla
 
 **Velocity:**
 
-- Total plans completed: 22
+- Total plans completed: 23
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -54,6 +54,7 @@ Progress: [████████████████████] 1/1 pla
 | 05 | 3 | - | - |
 | 06 | 6 | - | - |
 | 02 | 6 | - | - |
+| 06.1 | 1 | - | - |
 
 **Recent Trend:**
 
@@ -167,5 +168,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-09-17T08:21:51.332Z
-Stopped at: Completed 06.1-01-PLAN.md
+Stopped at: Phase 06.1 complete, ready to plan Phase 06.2
 Resume file: None
