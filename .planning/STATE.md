@@ -1,15 +1,15 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-current_phase: 06.2
-status: completed
-stopped_at: Phase 06.2 complete — all phases complete
-last_updated: "2026-09-17T11:30:22.825Z"
+current_phase: 06.3
+status: Tech debt cleanup phase inserted
+stopped_at: Phase 06.3 context gathered
+last_updated: "2026-09-17T15:15:16.524Z"
 last_activity: 2026-09-17
 last_activity_desc: Phase 06.2 complete
-state_head: 456f134e8baace7bdd1c18ebcd6a36eb2c156694
+state_head: a17e65810a7fd8199fcb9640a4d66d87f6e56bcd
 progress:
-  total_phases: 8
+  total_phases: 9
   completed_phases: 7
   total_plans: 33
   completed_plans: 33
@@ -29,10 +29,10 @@ See: .planning/PROJECT.md (updated 2026-09-17)
 
 ## Current Position
 
-Phase: 06.2
+Phase: 06.3
 Plan: Not started
-Next: /gsd-plan-phase 6 (UI-SPEC gate now clear)
-Status: All phases complete
+Next: /gsd-plan-phase 06.3
+Status: Tech debt cleanup phase inserted
 Last activity: 2026-09-17 — Phase 06.2 complete
 
 Progress: [████████████████████] 1/1 plans (100%)
@@ -161,6 +161,7 @@ None yet.
 
 - Phase 06.1 inserted after Phase 6: Close gap: meaning rollup not recomputed on dedup reuse (DASH-01/REPORT-01, milestone v1.0 audit) (URGENT)
 - Phase 06.2 inserted after Phase 06.1: Close gap: JSON export/import not migrated to schema v3 (DATA-02/PREREL-03, milestone v1.0 audit) (URGENT)
+- Phase 06.3 inserted after Phase 6: Address tech debt: REQUIREMENTS.md traceability, import validation footgun, verification artifact hygiene (URGENT)
 
 ## Deferred Items
 
@@ -171,6 +172,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-17T10:38:17.805Z
-Stopped at: Phase 06.2 complete — all phases complete
-Resume file: None
+Last session: 2026-09-17T15:15:07.958Z
+Stopped at: Phase 06.3 context gathered
+Resume file: C:/my-code/vibe-coding/little-words/.planning/phases/06.3-address-tech-debt-requirements-md-traceability-import-valida/06.3-CONTEXT.md
