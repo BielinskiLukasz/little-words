@@ -57,7 +57,7 @@
     "importConfirmButton": "Yes, replace my data",
     "importErrorTitle": "Cannot read file",
     "importErrorDescriptionCorrupt": "This file doesn't appear to be a Little Words backup.",
-    "importErrorDescriptionVersion": "This backup is from a newer version of the app and cannot be imported.",
+    "importErrorDescriptionVersion": "This backup was made with a different version of the app and cannot be imported.",
     "importSuccess": "Data imported successfully"
   },
   "profile": {

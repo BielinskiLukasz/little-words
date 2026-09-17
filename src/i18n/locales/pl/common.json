@@ -59,7 +59,7 @@
     "importConfirmButton": "Tak, zastąp moje dane",
     "importErrorTitle": "Nie można wczytać pliku",
     "importErrorDescriptionCorrupt": "Ten plik wygląda na uszkodzony lub nie jest kopią zapasową aplikacji Słówko.",
-    "importErrorDescriptionVersion": "Ta kopia zapasowa pochodzi z nowszej wersji aplikacji i nie może zostać wczytana.",
+    "importErrorDescriptionVersion": "Ta kopia zapasowa została utworzona w innej wersji aplikacji i nie może zostać wczytana.",
     "importSuccess": "Dane zaimportowane pomyślnie"
   },
   "profile": {
