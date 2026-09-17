@@ -215,7 +215,7 @@ Plans:
 **Goal:** Settings JSON export/import correctly reflects the Dexie v3 schema — schemaVersion is bumped and import validation requires the WordFormMeaning per-pair fields (firstObservationDate, lastUsedDate, isActive), preventing silent corruption of the rollup calculation on restore.
 **Requirements**: Closes milestone v1.0 audit gap affecting DATA-02, PREREL-03
 **Depends on:** Phase 6, Phase 06.1
-**Plans:** 2/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 
