@@ -2,18 +2,18 @@
 gsd_state_version: 1.0
 milestone: v1.0
 current_phase: 06.2
-current_phase_name: close-gap-json-export-import-not-migrated-to-schema-v3
+current_phase_name: "Close gap: JSON export/import not migrated to schema v3 (INSERTED)"
 status: executing
-stopped_at: Phase 06.2 context gathered
-last_updated: "2026-09-17T10:16:02.339Z"
+stopped_at: Completed 06.2-01-PLAN.md
+last_updated: "2026-09-17T10:38:24.060Z"
 last_activity: 2026-09-17
-last_activity_desc: Phase 06.1 complete, transitioned to Phase 06.2
-state_head: 7a7a844801bed435fa9b1cc73f587cdae1a7ec0c
+last_activity_desc: Phase 06.2 execution started
+state_head: 945f29bf93b71a5c9d6ddbd46883cc49698011a8
 progress:
   total_phases: 8
   completed_phases: 6
   total_plans: 33
-  completed_plans: 31
+  completed_plans: 32
 milestone_name: milestone
 ---
 
@@ -26,15 +26,15 @@ Total Phases: 7
 See: .planning/PROJECT.md (updated 2026-09-17)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Phase 06.2 — close-gap-json-export-import-not-migrated-to-schema-v3
+**Current focus:** Phase 06.2 — Close gap: JSON export/import not migrated to schema v3 (INSERTED)
 
 ## Current Position
 
-Phase: 06.2 (close-gap-json-export-import-not-migrated-to-schema-v3) — READY TO EXECUTE
-Plan: Not started
+Phase: 06.2 (Close gap: JSON export/import not migrated to schema v3 (INSERTED)) — EXECUTING
+Plan: 2 of 2
 Next: /gsd-plan-phase 6 (UI-SPEC gate now clear)
 Status: Ready to execute
-Last activity: 2026-09-17 — Phase 06.1 complete, transitioned to Phase 06.2
+Last activity: 2026-09-17 — Phase 06.2 execution started
 
 Progress: [████████████████████] 1/1 plans (100%)
 
@@ -86,6 +86,7 @@ Progress: [████████████████████] 1/1 pla
 | Phase 06 P06 | 15 | 3 tasks | 4 files |
 | Phase 02 P06 | 726 | 3 tasks | 7 files |
 | Phase 06.1 P01 | 15min | 1 tasks | 3 files |
+| Phase 06.2 P01 | 7min | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -136,6 +137,7 @@ Recent decisions affecting current work:
 - [Phase 02]: Transaction wraps all three tables (wordForms, meanings, wordFormMeanings) for full rollback safety
 - [Phase 06.1]: D-01: aggregate call moved inside linkMeaningToWordForm itself, wrapped in the same transaction as the pair insert
 - [Phase 06.1]: D-02: idempotent early-return path in linkMeaningToWordForm stays aggregate-free (nothing changed, nothing to re-aggregate)
+- [Phase 06.2]: Phase 06.2: D-01/D-05 - BACKUP_SCHEMA_VERSION=3 single constant used by all three former hardcoded-2 sites; isValidWordFormMeaning now requires the three v3 per-pair fields
 
 ### Pending Todos
 
@@ -167,6 +169,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-17T09:39:14.227Z
-Stopped at: Phase 06.2 context gathered
-Resume file: .planning/phases/06.2-close-gap-json-export-import-not-migrated-to-schema-v3/06.2-CONTEXT.md
+Last session: 2026-09-17T10:38:17.805Z
+Stopped at: Completed 06.2-01-PLAN.md
+Resume file: None
