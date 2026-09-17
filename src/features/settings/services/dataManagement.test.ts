@@ -17,11 +17,11 @@ vi.mock('@/db/db', async (importOriginal) => {
 })
 
 describe('dataManagement - buildBackupData', () => {
-  it('returns schemaVersion === 2', () => {
+  it('returns schemaVersion === BACKUP_SCHEMA_VERSION (3)', () => {
     const go = async () => {
-      const { buildBackupData } = await import('./dataManagement')
+      const { buildBackupData, BACKUP_SCHEMA_VERSION } = await import('./dataManagement')
       const result = buildBackupData([], [], [], [])
-      expect(result.schemaVersion).toBe(2)
+      expect(result.schemaVersion).toBe(BACKUP_SCHEMA_VERSION)
     }
     return go()
   })
@@ -93,25 +93,38 @@ describe('dataManagement - validateBackupData', () => {
     expect(validateBackupData({ childProfile: [], wordForms: [], meanings: [], wordFormMeanings: [] })).toBe(false)
   })
 
-  it('returns false for schemaVersion !== 2 (e.g., schemaVersion: 1)', async () => {
+  it('returns false for schemaVersion !== BACKUP_SCHEMA_VERSION (e.g., schemaVersion: 2, a legacy version)', async () => {
     const { validateBackupData } = await import('./dataManagement')
-    expect(validateBackupData({ schemaVersion: 1, childProfile: [], wordForms: [], meanings: [], wordFormMeanings: [] })).toBe(false)
+    expect(validateBackupData({ schemaVersion: 2, childProfile: [], wordForms: [], meanings: [], wordFormMeanings: [] })).toBe(false)
   })
 
-  it('returns false for schemaVersion=2 but missing childProfile array', async () => {
+  it('returns false for schemaVersion=3 but missing childProfile array', async () => {
     const { validateBackupData } = await import('./dataManagement')
-    expect(validateBackupData({ schemaVersion: 2, wordForms: [], meanings: [], wordFormMeanings: [] })).toBe(false)
+    expect(validateBackupData({ schemaVersion: 3, wordForms: [], meanings: [], wordFormMeanings: [] })).toBe(false)
   })
 
-  it('returns false for schemaVersion=2 but meanings is not an array', async () => {
+  it('returns false for schemaVersion=3 but meanings is not an array', async () => {
     const { validateBackupData } = await import('./dataManagement')
-    expect(validateBackupData({ schemaVersion: 2, childProfile: [], wordForms: [], meanings: 'bad', wordFormMeanings: [] })).toBe(false)
+    expect(validateBackupData({ schemaVersion: 3, childProfile: [], wordForms: [], meanings: 'bad', wordFormMeanings: [] })).toBe(false)
+  })
+
+  it('returns false for a v3 schemaVersion but a wordFormMeanings row missing isActive', async () => {
+    const { validateBackupData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      exportedAt: new Date().toISOString(),
+      childProfile: [],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [{ wordFormId: 1, meaningId: 1, firstObservationDate: '2024-01-01', lastUsedDate: '2024-01-01' }],
+    }
+    expect(validateBackupData(backup)).toBe(false)
   })
 
   it('returns true for a valid BackupData object with all four arrays present', async () => {
     const { validateBackupData } = await import('./dataManagement')
     const validBackup: BackupData = {
-      schemaVersion: 2,
+      schemaVersion: 3,
       exportedAt: new Date().toISOString(),
       childProfile: [],
       wordForms: [],
@@ -219,7 +232,7 @@ describe('dataManagement - importData', () => {
   it('imports childProfile records from a valid backup file', async () => {
     const { importData } = await import('./dataManagement')
     const backup: BackupData = {
-      schemaVersion: 2,
+      schemaVersion: 3,
       exportedAt: new Date().toISOString(),
       childProfile: [{ name: 'Alex', birthDate: '2022-01-01', languages: ['pl'], createdAt: '2024-01-01' }],
       wordForms: [],
@@ -236,7 +249,7 @@ describe('dataManagement - importData', () => {
   it('imports meanings records from a valid backup file', async () => {
     const { importData } = await import('./dataManagement')
     const backup: BackupData = {
-      schemaVersion: 2,
+      schemaVersion: 3,
       exportedAt: new Date().toISOString(),
       childProfile: [],
       wordForms: [],
@@ -250,16 +263,55 @@ describe('dataManagement - importData', () => {
     expect(meanings[0].text).toBe('mama')
   })
 
+  it('imports wordFormMeanings records with all three per-pair fields from a valid v3 backup file', async () => {
+    const { importData } = await import('./dataManagement')
+    const backup: BackupData = {
+      schemaVersion: 3,
+      exportedAt: new Date().toISOString(),
+      childProfile: [],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [{ id: 1, wordFormId: 1, meaningId: 1, firstObservationDate: '2025-01-01', lastUsedDate: '2025-06-01', isActive: true }],
+    }
+    const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' })
+    await importData(file)
+    const pairs = await testDb.wordFormMeanings.toArray()
+    expect(pairs).toHaveLength(1)
+    expect(pairs[0].firstObservationDate).toBe('2025-01-01')
+    expect(pairs[0].lastUsedDate).toBe('2025-06-01')
+    expect(pairs[0].isActive).toBe(true)
+  })
+
   it('throws for a corrupt JSON string', async () => {
     const { importData } = await import('./dataManagement')
     const file = new File(['not valid { json }'], 'backup.json', { type: 'application/json' })
     await expect(importData(file)).rejects.toThrow()
   })
 
-  it('throws with wrong-schema-version message when schemaVersion is not 2', async () => {
+  it('throws with wrong-schema-version message for a v2-shaped backup and writes no data', async () => {
     const { importData } = await import('./dataManagement')
-    const backup = { schemaVersion: 1, childProfile: [], wordForms: [], meanings: [], wordFormMeanings: [] }
+    const backup = {
+      schemaVersion: 2,
+      childProfile: [],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [{ id: 1, wordFormId: 1, meaningId: 2 }],
+    }
     const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' })
     await expect(importData(file)).rejects.toThrow('wrong-schema-version')
+    expect(await testDb.childProfile.count()).toBe(0)
+  })
+
+  it('throws with corrupt message for a v3-shaped backup missing a required per-pair field (isActive)', async () => {
+    const { importData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      childProfile: [],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [{ wordFormId: 1, meaningId: 1, firstObservationDate: '2024-01-01', lastUsedDate: '2024-01-01' }],
+    }
+    const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' })
+    await expect(importData(file)).rejects.toThrow('corrupt')
   })
 })
