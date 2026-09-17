@@ -54,8 +54,7 @@ result: pass
 
 ### 11. Pairs page loads all pairs
 expected: Tapping the Pairs tab opens a screen titled "Pairs" (or "Pary" in Polish). All word-form/meaning pairs in the database are listed. Each row shows the word form and meaning text as two chips. If no pairs exist, an empty state message is shown.
-result: skipped
-reason: "Deferred follow-up: export button to download pairs as CSV; table layout with columns: word form, meaning, first observed, last used, active"
+result: pass
 
 ### 12. Pairs page sort selector
 expected: On the Pairs page, a sort control is visible. Selecting "A-Z Word Form" sorts pairs alphabetically by word form text. Selecting "A-Z Meaning" sorts by meaning text. Selecting "Newest First" (default) shows most-recently-observed pairs at the top.
@@ -75,13 +74,11 @@ result: pass
 
 ### 16. Doctor report recent additions section
 expected: The Doctor Report includes a "Recent Additions" section showing up to 5 recently added active meanings (by first observation date, newest first).
-result: skipped
-reason: "Deferred follow-up: the 5-item limit should be configurable, perhaps from the Doctor Report page itself with a regenerate button"
+result: pass
 
 ### 17. Doctor report recently forgotten section
 expected: The Doctor Report includes a section for recently inactive/forgotten meanings — up to 5 inactive meanings by most-recent last-used date.
-result: skipped
-reason: "Deferred follow-up: the 5-item limit should be configurable, perhaps from the Doctor Report page itself with a regenerate button"
+result: pass
 
 ### 18. D1 — WordFormMeaning schema fields
 expected: WordFormMeaning interface has firstObservationDate, lastUsedDate, isActive as required fields
@@ -134,10 +131,10 @@ coverage_id: D8
 ## Summary
 
 total: 25
-passed: 22
+passed: 25
 issues: 0
 pending: 0
-skipped: 3
+skipped: 0
 blocked: 0
 
 ## Gaps

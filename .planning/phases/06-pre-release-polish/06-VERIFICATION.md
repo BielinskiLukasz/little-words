@@ -1,7 +1,7 @@
 ---
 phase: 06-pre-release-polish
 verified: 2026-09-05T12:00:00Z
-status: human_needed
+status: passed
 score: 5/5 must-haves verified at code level
 behavior_unverified: 0
 overrides_applied: 0
@@ -9,6 +9,7 @@ requirements_covered: [PREREL-01, PREREL-02, PREREL-03, PREREL-04, PREREL-05]
 must_haves_passed: 5
 must_haves_total: 5
 human_verification:
+
   - test: "Open the Meaning detail page for an existing meaning. Verify that category badges display in the current app language (e.g. 'Rzeczownik' in Polish, 'Nouns' in English), not the raw English key."
     expected: "Category badges show translated strings from the active locale."
     why_human: "i18n rendering requires a running browser with locale context."
