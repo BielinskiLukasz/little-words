@@ -23,10 +23,10 @@ Total Phases: 7
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-09-14)
+See: .planning/PROJECT.md (updated 2026-09-17)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Phase 06.1 — close-gap-meaning-rollup-not-recomputed-on-dedup-reuse
+**Current focus:** Phase 06.2 — close-gap-json-export-import-not-migrated-to-schema-v3
 
 ## Current Position
 

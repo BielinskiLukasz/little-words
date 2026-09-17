@@ -97,6 +97,8 @@ A parent can walk into a specialist consultation and present objective, structur
 | Uncontrolled date inputs with blur-triggered save | Avoids controlled/uncontrolled mixing; user can type freely, save fires on blur — no save button needed for date fields | — Phase 6 |
 | Age threshold changed from 24 months to 12 months in Doctor Report | Standard WHO/pediatric convention: years+months format starts at 12 months, not 24 | — Phase 6 |
 | Pairs page as 5th BottomNav tab | Many-to-many pairs made discoverable as a first-class screen; GitBranch icon communicates link/relationship | — Phase 6 |
+| `linkMeaningToWordForm` re-aggregates parent Meaning inside its own transaction (D-01) | Milestone v1.0 audit found dedup-reuse of an existing meaning left Dashboard/Doctor Report reading stale `isActive`/`firstUseDate`/`lastUseDate` — closes the same class of bug `updatePairFields`/`deleteWordForm` already fixed | Phase 6.1 |
+| Idempotent early-return path stays aggregate-free (D-02) | Nothing changed on that pair, so nothing needs re-aggregating — keeps the fix strictly scoped | Phase 6.1 |
 
 ## Evolution
 
@@ -116,4 +118,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-14 — Phase 6 complete (pre-release polish: inline editing, Pairs screen, per-pair collapsible rows, Doctor Report enhancements; 25/25 UAT passed)*
+*Last updated: 2026-09-17 — Phase 6.1 complete (gap closure: linkMeaningToWordForm re-aggregates parent Meaning on dedup-reuse, closing milestone v1.0 audit blocker 1)*
