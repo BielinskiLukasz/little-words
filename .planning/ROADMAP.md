@@ -204,11 +204,11 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 **Goal:** A meaning's isActive/firstUseDate/lastUseDate rollup is always recomputed from its linked pairs, including when an existing meaning is reused (not newly created) via the add-entry autocomplete dedup path.
 **Requirements**: Closes milestone v1.0 audit gap affecting DASH-01, DASH-02, DASH-03, REPORT-01
 **Depends on:** Phase 6
-**Plans:** 1 plan
+**Plans:** 1/1 plans executed
 
 Plans:
 
-- [ ] 06.1-01-PLAN.md — TDD fix: linkMeaningToWordForm re-aggregates parent Meaning on new-pair insert (D-01..D-04)
+- [x] 06.1-01-PLAN.md — TDD fix: linkMeaningToWordForm re-aggregates parent Meaning on new-pair insert (D-01..D-04)
 
 ### Phase 06.2: Close gap: JSON export/import not migrated to schema v3 (INSERTED)
 

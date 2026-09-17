@@ -1,19 +1,19 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-current_phase: 03
-current_phase_name: Browse Views
-status: planning
-stopped_at: Phase 06.1 context gathered
-last_updated: "2026-09-16T18:38:25.126Z"
-last_activity: 2026-09-14
-last_activity_desc: Phase 02 complete, transitioned to Phase 03
-state_head: 10039709264bdbac0cb828813fc5fcec50ec845e
+current_phase: 06.1
+current_phase_name: close-gap-meaning-rollup-not-recomputed-on-dedup-reuse
+status: verifying
+stopped_at: Completed 06.1-01-PLAN.md
+last_updated: "2026-09-17T08:21:57.490Z"
+last_activity: 2026-09-17
+last_activity_desc: Phase 06.1 execution started
+state_head: 59a3c3c3217c7e2c7579e93f2c80b5751cdd4d69
 progress:
   total_phases: 8
   completed_phases: 5
-  total_plans: 30
-  completed_plans: 30
+  total_plans: 31
+  completed_plans: 31
 milestone_name: milestone
 ---
 
@@ -26,16 +26,17 @@ Total Phases: 7
 See: .planning/PROJECT.md (updated 2026-09-14)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** Phase 02 — Onboarding & Data Entry
+**Current focus:** Phase 06.1 — close-gap-meaning-rollup-not-recomputed-on-dedup-reuse
 
 ## Current Position
 
-Phase: 03 — Browse Views
+Phase: 06.1 (close-gap-meaning-rollup-not-recomputed-on-dedup-reuse) — EXECUTING
+Plan: 1 of 1 in current phase
 Next: /gsd-plan-phase 6 (UI-SPEC gate now clear)
-Status: Ready to plan
-Last activity: 2026-09-14 — Completed quick task 260914-w2a: Replace date preset buttons with date-range inputs on PairsPage
+Status: Phase complete — ready for verification
+Last activity: 2026-09-17 — Phase 06.1 execution started
 
-Progress: [████████████████████] 17/17 plans (100%)
+Progress: [████████████████████] 1/1 plans (100%)
 
 ## Performance Metrics
 
@@ -83,6 +84,7 @@ Progress: [████████████████████] 17/17 p
 | Phase 06 P05 | 12 | 2 tasks | 3 files |
 | Phase 06 P06 | 15 | 3 tasks | 4 files |
 | Phase 02 P06 | 726 | 3 tasks | 7 files |
+| Phase 06.1 P01 | 15min | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -131,6 +133,8 @@ Recent decisions affecting current work:
 - [Phase 06]: meaningWordFormCounts optional on ReportInput; bulletSection helper for D-11/D-12
 - [Phase 02]: existingMeaningId passed as third arg from MeaningAutocomplete.onSelect to minimise interface surface
 - [Phase 02]: Transaction wraps all three tables (wordForms, meanings, wordFormMeanings) for full rollback safety
+- [Phase 06.1]: D-01: aggregate call moved inside linkMeaningToWordForm itself, wrapped in the same transaction as the pair insert
+- [Phase 06.1]: D-02: idempotent early-return path in linkMeaningToWordForm stays aggregate-free (nothing changed, nothing to re-aggregate)
 
 ### Pending Todos
 
@@ -162,6 +166,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-16T18:38:19.686Z
-Stopped at: Phase 06.1 context gathered
-Resume file: .planning/phases/06.1-close-gap-meaning-rollup-not-recomputed-on-dedup-reuse/06.1-CONTEXT.md
+Last session: 2026-09-17T08:21:51.332Z
+Stopped at: Completed 06.1-01-PLAN.md
+Resume file: None
