@@ -192,15 +192,13 @@ export async function importData(file: File): Promise<void> {
     throw new Error('wrong-schema-version')
   }
 
-  // Check childProfile count next for a more specific error message than 'corrupt' (D-02)
-  if (
-    typeof parsed === 'object' &&
-    parsed !== null &&
-    'childProfile' in parsed &&
-    Array.isArray((parsed as Record<string, unknown>).childProfile) &&
-    ((parsed as Record<string, unknown>).childProfile as unknown[]).length !== 1
-  ) {
-    throw new Error('invalid-child-profile-count')
+  // Check childProfile shape next for a more specific error message than 'corrupt' (D-02).
+  // Any invalid shape — missing key, null, non-array, or wrong-length array — throws here.
+  if (typeof parsed === 'object' && parsed !== null) {
+    const childProfile = (parsed as Record<string, unknown>).childProfile
+    if (!Array.isArray(childProfile) || childProfile.length !== 1) {
+      throw new Error('invalid-child-profile-count')
+    }
   }
 
   if (!validateBackupData(parsed)) {
