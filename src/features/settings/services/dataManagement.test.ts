@@ -133,6 +133,46 @@ describe('dataManagement - validateBackupData', () => {
     }
     expect(validateBackupData(validBackup)).toBe(true)
   })
+
+  it('returns false for a v3 backup with an empty childProfile array', async () => {
+    const { validateBackupData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      exportedAt: new Date().toISOString(),
+      childProfile: [],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    expect(validateBackupData(backup)).toBe(false)
+  })
+
+  it('returns false for a v3 backup with a childProfile array containing 2 valid profiles', async () => {
+    const { validateBackupData } = await import('./dataManagement')
+    const profile = { name: 'Alex', birthDate: '2022-01-01', languages: ['pl'], createdAt: '2024-01-01' }
+    const backup = {
+      schemaVersion: 3,
+      exportedAt: new Date().toISOString(),
+      childProfile: [profile, profile],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    expect(validateBackupData(backup)).toBe(false)
+  })
+
+  it('returns true for a v3 backup with exactly 1 childProfile entry and otherwise-empty arrays', async () => {
+    const { validateBackupData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      exportedAt: new Date().toISOString(),
+      childProfile: [{ name: 'Alex', birthDate: '2022-01-01', languages: ['pl'], createdAt: '2024-01-01' }],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    expect(validateBackupData(backup)).toBe(true)
+  })
 })
 
 describe('dataManagement - buildMeaningsCSV', () => {
