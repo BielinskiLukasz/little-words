@@ -30,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-09-18)
 Phase: Milestone v1.0 complete
 Plan: —
 Status: Awaiting next milestone
-Last activity: 2026-09-18 — Milestone v1.0 completed and archived
+Last activity: 2026-09-18 - Completed quick task 260918-mid: Create/update RELEASES.md with release notes for the v1.0 milestone release
 
 ## Performance Metrics
 
@@ -158,6 +158,7 @@ None yet.
 
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
+| 260918-mid | Create/update RELEASES.md with release notes for the v1.0 milestone release | 2026-09-18 | ddb35cd | [260918-mid-create-update-releases-md-with-release-n](./quick/260918-mid-create-update-releases-md-with-release-n/) |
 
 ### Roadmap Evolution
 
