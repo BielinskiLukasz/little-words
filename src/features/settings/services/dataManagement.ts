@@ -81,6 +81,7 @@ export function validateBackupData(data: unknown): data is BackupData {
   if (!Array.isArray(d.meanings)) return false
   if (!Array.isArray(d.wordFormMeanings)) return false
   if (!d.childProfile.every(isValidChildProfile)) return false
+  if (d.childProfile.length !== 1) return false
   if (!d.wordForms.every(isValidWordForm)) return false
   if (!d.meanings.every(isValidMeaning)) return false
   if (!d.wordFormMeanings.every(isValidWordFormMeaning)) return false

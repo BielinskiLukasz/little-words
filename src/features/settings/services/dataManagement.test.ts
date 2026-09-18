@@ -126,7 +126,7 @@ describe('dataManagement - validateBackupData', () => {
     const validBackup: BackupData = {
       schemaVersion: 3,
       exportedAt: new Date().toISOString(),
-      childProfile: [],
+      childProfile: [{ name: 'Alex', birthDate: '2022-01-01', languages: ['pl'], createdAt: '2024-01-01' }],
       wordForms: [],
       meanings: [],
       wordFormMeanings: [],
@@ -291,7 +291,7 @@ describe('dataManagement - importData', () => {
     const backup: BackupData = {
       schemaVersion: 3,
       exportedAt: new Date().toISOString(),
-      childProfile: [],
+      childProfile: [{ name: 'Alex', birthDate: '2022-01-01', languages: ['pl'], createdAt: '2024-01-01' }],
       wordForms: [],
       meanings: [{ id: 5, text: 'mama', categories: ['People' as const], isActive: true, firstUseDate: '2024-01-01', lastUseDate: '2024-06-01' }],
       wordFormMeanings: [],
@@ -308,7 +308,7 @@ describe('dataManagement - importData', () => {
     const backup: BackupData = {
       schemaVersion: 3,
       exportedAt: new Date().toISOString(),
-      childProfile: [],
+      childProfile: [{ name: 'Alex', birthDate: '2022-01-01', languages: ['pl'], createdAt: '2024-01-01' }],
       wordForms: [],
       meanings: [],
       wordFormMeanings: [{ id: 1, wordFormId: 1, meaningId: 1, firstObservationDate: '2025-01-01', lastUsedDate: '2025-06-01', isActive: true }],
