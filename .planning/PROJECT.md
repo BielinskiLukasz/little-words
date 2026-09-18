@@ -102,6 +102,9 @@ A parent can walk into a specialist consultation and present objective, structur
 | Single `BACKUP_SCHEMA_VERSION` constant drives all three JSON export/import version checks (D-01, D-02) | Milestone v1.0 audit found `dataManagement.ts` hardcoded `schemaVersion: 2` in three separate places and never validated the v3 per-pair fields Phase 6 moved onto `WordFormMeaning` — a restored backup silently carried stale/absent rollup fields; exact `===` match (not `>=`) at every site closes the same-symptom class of bug | Phase 6.2 |
 | v2-shaped backups are rejected outright, no auto-migration (D-03) | Out of scope for a correctness fix; a future phase can add v2 auto-migration if a real need arises | Phase 6.2 |
 | Version-mismatch import error reworded to direction-neutral phrasing (D-04) | Original copy asserted the backup was "from a newer version" — factually backwards for the v2-rejection path this phase implements; a rejected legacy backup is older, not newer | Phase 6.2 |
+| `importData` rejects any invalid `childProfile` shape — missing, null, non-array, or wrong-length — via one guard (D-01, widened by gap-closure D-04 of 6.3-04) | Milestone v1.0 audit flagged an empty-`childProfile`-array backup as a data-loss/lockout footgun on restore; code review of the initial fix (WR-01) found the guard only covered the wrong-length-array case, not missing/null/non-array — widened to close the gap fully before shipping | Phase 6.3 |
+| REQUIREMENTS.md traceability rows only for Phase 6, no duplicate prose section (D-08) | PREREL-01..05 requirement text stays single-sourced in ROADMAP.md; REQUIREMENTS.md's Traceability table gets tracking rows only, avoiding a second copy that would drift | Phase 6.3 |
+| VERIFICATION.md body Status text corrected to match frontmatter, no new status vocabulary (D-10, D-11) | 05/06-VERIFICATION.md had `status: passed` in frontmatter but `human_needed` in body text — cosmetic inconsistency fixed without inventing a `passed_human_needed` hybrid state | Phase 6.3 |
 
 ## Evolution
 
@@ -121,4 +124,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-17 — Phase 6.2 complete (gap closure: JSON export/import validated against Dexie schema v3, closing milestone v1.0 audit blocker 2)*
+*Last updated: 2026-09-18 — Phase 6.3 complete (tech-debt cleanup: import-validation footgun fully closed including WR-01 gap-closure, REQUIREMENTS.md traceability backfilled, VERIFICATION.md status text fixed — last phase of milestone v1.0)*
