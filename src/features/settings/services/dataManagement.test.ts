@@ -354,4 +354,33 @@ describe('dataManagement - importData', () => {
     const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' })
     await expect(importData(file)).rejects.toThrow('corrupt')
   })
+
+  it('throws with invalid-child-profile-count message for a v3-shaped backup with an empty childProfile array and writes no data', async () => {
+    const { importData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      childProfile: [],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' })
+    await expect(importData(file)).rejects.toThrow('invalid-child-profile-count')
+    expect(await testDb.childProfile.count()).toBe(0)
+  })
+
+  it('throws with invalid-child-profile-count message for a v3-shaped backup with a 2-entry childProfile array and writes no data', async () => {
+    const { importData } = await import('./dataManagement')
+    const profile = { name: 'Alex', birthDate: '2022-01-01', languages: ['pl'], createdAt: '2024-01-01' }
+    const backup = {
+      schemaVersion: 3,
+      childProfile: [profile, profile],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' })
+    await expect(importData(file)).rejects.toThrow('invalid-child-profile-count')
+    expect(await testDb.childProfile.count()).toBe(0)
+  })
 })
