@@ -173,6 +173,32 @@ describe('dataManagement - validateBackupData', () => {
     }
     expect(validateBackupData(backup)).toBe(true)
   })
+
+  it('returns false for a v3 backup with childProfile as null', async () => {
+    const { validateBackupData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      exportedAt: new Date().toISOString(),
+      childProfile: null,
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    expect(validateBackupData(backup)).toBe(false)
+  })
+
+  it('returns false for a v3 backup with childProfile as a non-array string', async () => {
+    const { validateBackupData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      exportedAt: new Date().toISOString(),
+      childProfile: 'not-an-array',
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    expect(validateBackupData(backup)).toBe(false)
+  })
 })
 
 describe('dataManagement - buildMeaningsCSV', () => {
@@ -375,6 +401,47 @@ describe('dataManagement - importData', () => {
     const backup = {
       schemaVersion: 3,
       childProfile: [profile, profile],
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' })
+    await expect(importData(file)).rejects.toThrow('invalid-child-profile-count')
+    expect(await testDb.childProfile.count()).toBe(0)
+  })
+
+  it('throws with invalid-child-profile-count message for a v3-shaped backup missing the childProfile key entirely and writes no data', async () => {
+    const { importData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' })
+    await expect(importData(file)).rejects.toThrow('invalid-child-profile-count')
+    expect(await testDb.childProfile.count()).toBe(0)
+  })
+
+  it('throws with invalid-child-profile-count message for a v3-shaped backup with childProfile as null and writes no data', async () => {
+    const { importData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      childProfile: null,
+      wordForms: [],
+      meanings: [],
+      wordFormMeanings: [],
+    }
+    const file = new File([JSON.stringify(backup)], 'backup.json', { type: 'application/json' })
+    await expect(importData(file)).rejects.toThrow('invalid-child-profile-count')
+    expect(await testDb.childProfile.count()).toBe(0)
+  })
+
+  it('throws with invalid-child-profile-count message for a v3-shaped backup with childProfile as a non-array string and writes no data', async () => {
+    const { importData } = await import('./dataManagement')
+    const backup = {
+      schemaVersion: 3,
+      childProfile: 'not-an-array',
       wordForms: [],
       meanings: [],
       wordFormMeanings: [],
