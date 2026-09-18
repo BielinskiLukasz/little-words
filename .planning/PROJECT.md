@@ -27,19 +27,21 @@ A parent can walk into a specialist consultation and present objective, structur
 - ✓ App works fully offline; installable as a PWA on Android Chrome and iOS Safari — Phase 5
 - ✓ Parent can edit meaning details (categories, dates) from the detail page — Phase 6
 - ✓ Doctor Report enhanced with per-category meaning list, recent additions, recently forgotten, and child-age formatting — Phase 6
-- ✓ JSON export and import (backup and device migration) available in Settings → Data — Phase 4, hardened against Dexie schema v3 drift in Phase 6.2
+- ✓ JSON export and import (backup and device migration) available in Settings → Data — Phase 4, hardened against Dexie schema v3 drift in Phase 6.2, and against malformed/missing `childProfile` shapes in Phase 6.3
+- ✓ Doctor Report generates a structured plain-text summary (active/inactive counts, top categories, languages, medical flags, parent notes, report date) and copies it to clipboard in one tap — Phase 4
+- ✓ Parent notes for the doctor report are a persistent field on the child profile, set during onboarding — Phase 2
+- ✓ CSV export of meanings available in Settings → Data — Phase 4
+- ✓ Pairs view lists every word-form/meaning pair with search, status/date filters, sort, and CSV export as a first-class 5th nav tab — Phase 6, extended by post-launch quick tasks (260914-vjq, 260914-w2a, 260914-gm6)
 
 ### Active
 
-- [ ] Each meaning records whether its first use was Spontaneous or Repeated
-- [ ] Parent can record gestures (description, first/last observed date)
-- [ ] Doctor Report generates a structured text summary (active/inactive counts, top categories, gestures, profile medical context, parent notes) and copies it to clipboard
-- [ ] Parent notes for the doctor report are a persistent field on the child profile
-- [ ] CSV export available in Settings → Data
+- [ ] Each meaning records whether its first use was Spontaneous or Imitated (clinical SLP terminology)
+- [ ] Parent can record gestures (description, first/last observed date); gestures appear in the Doctor Report
+- [ ] Search/filter for the Meanings and Word Forms list views (Pairs already has this — real usage during v1.0 showed the need once a family accumulates many pairs; the other two lists likely need it too as vocabulary grows)
 
 ### Out of Scope
 
-- Search / filter in list views — list will be small enough to scroll for MVP; defer to v2
+- Search / filter in Meanings/Word Forms/Categories list views — lists are still small enough to scroll; Pairs got search/filter via post-launch quick tasks once real usage showed the need there first, but the other lists haven't hit that threshold yet (see Active above)
 - Custom user-defined categories — ship with fixed defaults, add after core is validated
 - PDF doctor report — copy-to-clipboard is sufficient for v1; PDF deferred to v2
 - Photo, audio, and video attachments — v2
@@ -55,9 +57,11 @@ A parent can walk into a specialist consultation and present objective, structur
 - Primary user: parent of a child with delayed, emerging, or closely monitored speech development (current design target: child ~2.5 years old)
 - Specialists receiving the doctor report: speech therapists, neurologists
 - The app tracks **meanings** as the primary metric — one spoken form ("pa") can express multiple meanings (goodbye, look, I want this), so meaning count matters more than word count
-- Gestures are supporting observations only; they are not counted as words
+- Gestures are supporting observations only; they are not counted as words (not yet built — v2 Active item)
 - Usage history is intentionally minimal (first + last date only) to reduce logging burden and encourage sustained daily use
 - The data model is relational: WordForm ↔ Meaning is many-to-many; Meaning is an independent entity that survives word form deletion
+- **v1.0 shipped 2026-09-18** — 9 phases, 37 plans, ~8,663 LOC (TS/TSX), 80-day timeline (2026-06-30 → 2026-09-18). Full details: `.planning/milestones/v1.0-ROADMAP.md`, `.planning/milestones/v1.0-REQUIREMENTS.md`, `.planning/MILESTONES.md`.
+- **Known tech debt carried into v1.1**: import validation only guards the `childProfile` count/shape axis — referential integrity across `wordForms`/`meanings`/`wordFormMeanings` and CSV formula-injection hardening on a malicious/hand-edited backup are explicitly deferred (accepted risk, documented in `06.3-SECURITY.md`, low likelihood on a single-device app). Candidate for a future import-hardening phase.
 
 ## Constraints
 
@@ -73,16 +77,16 @@ A parent can walk into a specialist consultation and present objective, structur
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| React + Vite + TypeScript | Best-documented PWA + IndexedDB ecosystem; TypeScript needed for complex relational data model | — Pending |
-| Hash-based routing | Required by GitHub Pages static hosting — no config workarounds | — Pending |
-| IndexedDB (no backend) | Privacy-first requirement; parent owns all data; no account friction | — Pending |
-| Meanings are independent entities | Deleting a word form ("ba") should not destroy the meaning ("banana") that may be linked to other forms | — Pending |
-| Fixed default categories for MVP | Reduces scope; most vocabulary fits the defaults; custom categories added after core is validated | — Pending |
-| i18n (Polish + English) | App brand is English ("Little Words"); primary users are Polish-speaking; language switcher in Settings covers both | — Pending |
-| Parent notes on profile (not per-report) | Persistent notes travel with the child profile and appear automatically in every report | — Pending |
-| Single child profile | Current design target; multi-child support explicitly deferred to v2 | — Pending |
-| Import/Export in Settings → Data | Infrequent action; does not belong in primary navigation | — Pending |
-| Active/Inactive toggled from detail page only | Prevents accidental toggles from list views; explicit intent required | — Pending |
+| React + Vite + TypeScript | Best-documented PWA + IndexedDB ecosystem; TypeScript needed for complex relational data model | ✓ Good — v1.0 shipped clean |
+| Hash-based routing | Required by GitHub Pages static hosting — no config workarounds | ✓ Good — no routing issues across 13 routes |
+| IndexedDB (no backend) | Privacy-first requirement; parent owns all data; no account friction | ✓ Good |
+| Meanings are independent entities | Deleting a word form ("ba") should not destroy the meaning ("banana") that may be linked to other forms | ✓ Good |
+| Fixed default categories for MVP | Reduces scope; most vocabulary fits the defaults; custom categories added after core is validated | ✓ Good — no user friction reported |
+| i18n (Polish + English) | App brand is English ("Little Words"); primary users are Polish-speaking; language switcher in Settings covers both | ✓ Good |
+| Parent notes on profile (not per-report) | Persistent notes travel with the child profile and appear automatically in every report | ✓ Good |
+| Single child profile | Current design target; multi-child support explicitly deferred to v2 | — Pending (unvalidated until multi-child need arises) |
+| Import/Export in Settings → Data | Infrequent action; does not belong in primary navigation | ✓ Good |
+| Active/Inactive toggled from detail page only | Prevents accidental toggles from list views; explicit intent required | ✓ Good |
 | flex-1 on calendar day cells (Tailwind v4) | `w-full` collapses flex children to minimum width in Tailwind v4; `flex-1` distributes evenly — applies to any DayPicker usage | — Phase 3 |
 | Word form save without meanings is valid | Empty meanings array is handled gracefully by service; parents may log a sound before assigning meaning | — Phase 3 |
 | Sheet cleanup in `finally` block | `close()` + `reset()` in `finally` ensures UI state resets regardless of save outcome; never leave sheet open after an error | — Phase 3 |
@@ -105,6 +109,7 @@ A parent can walk into a specialist consultation and present objective, structur
 | `importData` rejects any invalid `childProfile` shape — missing, null, non-array, or wrong-length — via one guard (D-01, widened by gap-closure D-04 of 6.3-04) | Milestone v1.0 audit flagged an empty-`childProfile`-array backup as a data-loss/lockout footgun on restore; code review of the initial fix (WR-01) found the guard only covered the wrong-length-array case, not missing/null/non-array — widened to close the gap fully before shipping | Phase 6.3 |
 | REQUIREMENTS.md traceability rows only for Phase 6, no duplicate prose section (D-08) | PREREL-01..05 requirement text stays single-sourced in ROADMAP.md; REQUIREMENTS.md's Traceability table gets tracking rows only, avoiding a second copy that would drift | Phase 6.3 |
 | VERIFICATION.md body Status text corrected to match frontmatter, no new status vocabulary (D-10, D-11) | 05/06-VERIFICATION.md had `status: passed` in frontmatter but `human_needed` in body text — cosmetic inconsistency fixed without inventing a `passed_human_needed` hybrid state | Phase 6.3 |
+| Referential-integrity + CSV-injection import hardening explicitly deferred (accepted risk, T-06.3-02) | Out of scope for the `childProfile`-count fix; low likelihood (requires a hand-crafted/corrupted backup) and limited blast radius (single-device, no-account app) | ⚠️ Revisit — candidate for a future import-hardening phase |
 
 ## Evolution
 
@@ -124,4 +129,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-18 — Phase 6.3 complete (tech-debt cleanup: import-validation footgun fully closed including WR-01 gap-closure, REQUIREMENTS.md traceability backfilled, VERIFICATION.md status text fixed — last phase of milestone v1.0)*
+*Last updated: 2026-09-18 after v1.0 milestone — full evolution review: Doctor Report/CSV export/parent-notes/Pairs-view requirements moved to Validated, Active list refreshed with genuine v2 candidates, Out of Scope reasoning revised for Pairs-page filters, foundational Key Decisions marked ✓ Good, one accepted-risk import-hardening item flagged for future revisit.*

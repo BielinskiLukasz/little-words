@@ -1,19 +1,19 @@
 ---
 gsd_state_version: 1.0
 milestone: v1.0
-current_phase: 06.3
-status: completed
+status: Awaiting next milestone
 stopped_at: Phase 06.3 complete — all phases complete
-last_updated: "2026-09-18T10:32:04.432Z"
+last_updated: "2026-09-18T13:21:33.883Z"
 last_activity: 2026-09-18
-last_activity_desc: Phase 06.3 complete
-state_head: be785c13f372e70aa1a4cff8117900c8698092a5
+last_activity_desc: Milestone v1.0 completed and archived
+state_head: 3db40208862ab569758beeee45f38c7283c31d42
 progress:
   total_phases: 9
-  completed_phases: 6
+  completed_phases: 9
   total_plans: 37
   completed_plans: 37
 milestone_name: milestone
+current_phase: 06.3
 ---
 
 Total Phases: 7
@@ -29,13 +29,10 @@ See: .planning/PROJECT.md (updated 2026-09-18)
 
 ## Current Position
 
-Phase: 06.3 (Address tech debt: REQUIREMENTS.md traceability, import validation footgun, verification artifact hygiene) — COMPLETE
-Plan: 4/4 plans complete
-Next: /gsd-complete-milestone v1.0
-Status: All phases complete
-Last activity: 2026-09-18 — Phase 06.3 complete
-
-Progress: [████████████████████] 1/1 plans (100%)
+Phase: Milestone v1.0 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-09-18 — Milestone v1.0 completed and archived
 
 ## Performance Metrics
 
@@ -164,9 +161,6 @@ None yet.
 
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
-| 260914-gm6 | Implement three deferred follow-ups from phase 06 UAT: pairs page table layout and CSV export, configurable recent additions limit, configurable recently forgotten limit | 2026-09-14 | 1f2ba13 | [260914-gm6-implement-three-deferred-follow-ups-from](.planning/quick/260914-gm6-implement-three-deferred-follow-ups-from/) |
-| 260914-vjq | Add search and filter controls to PairsPage (text search, active/inactive status, date presets + custom date picker) | 2026-09-14 | f2ad33a | [260914-vjq-add-search-and-filter-controls-to-pairsp](.planning/quick/260914-vjq-add-search-and-filter-controls-to-pairsp/) |
-| 260914-w2a | Replace date preset buttons on PairsPage with from/to date range inputs for first observed and last used | 2026-09-14 | 311d37c | [260914-w2a-replace-date-preset-buttons-on-pairspage](.planning/quick/260914-w2a-replace-date-preset-buttons-on-pairspage/) |
 
 ### Roadmap Evolution
 
@@ -180,9 +174,14 @@ None yet.
 |----------|------|--------|-------------|
 | Pairs page | Export pairs as CSV download; table layout with word form / meaning / first observed / last used / active columns | Implemented (260914-gm6) | 2026-09-14 |
 | Doctor Report | Configurable recent additions + recently forgotten limit (currently hard-coded 5); control on Doctor Report page with regenerate button | Implemented (260914-gm6) | 2026-09-14 |
+| debug_sessions | knowledge-base (milestone v1.0 close-out audit false positive: `.planning/debug/knowledge-base.md` is a static reference doc with no `status:` frontmatter, misclassified by the scanner as an open session) | acknowledged | 2026-09-18 |
 
 ## Session Continuity
 
-Last session: 2026-09-18T10:35:51.000Z
+Last session: 2026-09-18T12:50:52.248Z
 Stopped at: Phase 06.3 complete — milestone v1.0 100% complete, ready for /gsd-complete-milestone v1.0
 Resume file: None
+
+## Operator Next Steps
+
+- Start the next milestone with /gsd-new-milestone
