@@ -60,6 +60,7 @@
     "importErrorTitle": "Nie można wczytać pliku",
     "importErrorDescriptionCorrupt": "Ten plik wygląda na uszkodzony lub nie jest kopią zapasową aplikacji Słówko.",
     "importErrorDescriptionVersion": "Ta kopia zapasowa została utworzona w innej wersji aplikacji i nie może zostać wczytana.",
+    "importErrorDescriptionMissingProfile": "Ten plik kopii zapasowej nie zawiera danych profilu dziecka (lub zawiera ich więcej niż jeden) i nie może zostać zaimportowany.",
     "importSuccess": "Dane zaimportowane pomyślnie"
   },
   "profile": {

@@ -58,6 +58,7 @@
     "importErrorTitle": "Cannot read file",
     "importErrorDescriptionCorrupt": "This file doesn't appear to be a Little Words backup.",
     "importErrorDescriptionVersion": "This backup was made with a different version of the app and cannot be imported.",
+    "importErrorDescriptionMissingProfile": "This backup file has no child profile data, or has more than one, and cannot be imported.",
     "importSuccess": "Data imported successfully"
   },
   "profile": {

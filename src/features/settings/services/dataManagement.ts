@@ -169,6 +169,7 @@ export async function exportMeaningsCSV(): Promise<void> {
 
 // Restores all app data from a JSON backup file.
 // Throws with message 'wrong-schema-version' if schemaVersion !== BACKUP_SCHEMA_VERSION.
+// Throws with message 'invalid-child-profile-count' if childProfile.length !== 1 (D-01).
 // Throws with message 'corrupt' if the file cannot be parsed or is not a valid backup.
 // The caller (DataSection) is responsible for showing error/success UI.
 export async function importData(file: File): Promise<void> {
@@ -189,6 +190,17 @@ export async function importData(file: File): Promise<void> {
     (parsed as Record<string, unknown>).schemaVersion !== BACKUP_SCHEMA_VERSION
   ) {
     throw new Error('wrong-schema-version')
+  }
+
+  // Check childProfile count next for a more specific error message than 'corrupt' (D-02)
+  if (
+    typeof parsed === 'object' &&
+    parsed !== null &&
+    'childProfile' in parsed &&
+    Array.isArray((parsed as Record<string, unknown>).childProfile) &&
+    ((parsed as Record<string, unknown>).childProfile as unknown[]).length !== 1
+  ) {
+    throw new Error('invalid-child-profile-count')
   }
 
   if (!validateBackupData(parsed)) {

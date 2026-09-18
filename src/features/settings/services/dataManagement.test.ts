@@ -346,7 +346,7 @@ describe('dataManagement - importData', () => {
     const { importData } = await import('./dataManagement')
     const backup = {
       schemaVersion: 3,
-      childProfile: [],
+      childProfile: [{ name: 'Alex', birthDate: '2022-01-01', languages: ['pl'], createdAt: '2024-01-01' }],
       wordForms: [],
       meanings: [],
       wordFormMeanings: [{ wordFormId: 1, meaningId: 1, firstObservationDate: '2024-01-01', lastUsedDate: '2024-01-01' }],

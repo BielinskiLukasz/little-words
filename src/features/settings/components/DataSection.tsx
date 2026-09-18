@@ -53,6 +53,8 @@ export function DataSection() {
       const message = err instanceof Error ? err.message : ''
       if (message.includes('wrong-schema-version')) {
         setImportErrorMessage(t('settings.importErrorDescriptionVersion'))
+      } else if (message.includes('invalid-child-profile-count')) {
+        setImportErrorMessage(t('settings.importErrorDescriptionMissingProfile'))
       } else {
         setImportErrorMessage(t('settings.importErrorDescriptionCorrupt'))
       }
