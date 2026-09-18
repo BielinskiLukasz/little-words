@@ -32,6 +32,8 @@ metrics:
   files_changed: 9
 status: complete
 requirements_satisfied: [REPORT-01, REPORT-02]
+requirements-completed:
+  - REPORT-02
 ---
 
 # Phase 04 Plan 01: Doctor Report End-to-End Summary

@@ -51,6 +51,8 @@ actuals:
   tokens: 18000
   tasks: 3
   commits: 3
+requirements-completed:
+  - DATA-01
 ---
 
 # Phase 04 Plan 02: Settings Data Management — Summary

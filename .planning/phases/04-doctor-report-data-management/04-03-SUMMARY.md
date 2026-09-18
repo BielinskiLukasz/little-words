@@ -3,6 +3,8 @@ plan: 04-03
 status: complete
 gap_ids: [G-04-7]
 commit: b049baa
+requirements-completed:
+  - DATA-03
 ---
 
 # Plan 04-03 Summary — G-04-7 CSV Column Reorder

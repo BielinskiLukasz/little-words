@@ -5,6 +5,8 @@ completed: 2026-06-30
 commits:
   - 8019c7e  # test(01-02): add failing tests for Dexie schema v1
   - fcd3a41  # feat(01-02): implement Dexie schema v1 with entities and service stubs
+requirements-completed:
+  - FOUND-02
 ---
 
 # 01-02 Summary: Dexie Schema v1
