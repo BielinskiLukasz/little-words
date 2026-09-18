@@ -6,6 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - `npm run dev` — Vite dev server (localhost:5173)
 - `npm run build` — TypeScript check + Vite bundle → `dist/`
+- `npm run preview` — serve the production build locally
 - `npm run lint` — ESLint with typescript-eslint
 - `npm run test` — Vitest single run
 - `npm run test:watch` — Vitest in watch mode
@@ -283,18 +284,18 @@ Little Words is a privacy-first, offline-capable Progressive Web App that helps 
 
 ## Architecture
 
-**Entry point**: `src/main.tsx` → `src/App.tsx` (ErrorBoundary wrapping RouterProvider)
+**Entry point**: `src/main.tsx` → `src/App.tsx` (ErrorBoundary wrapping RouterProvider). `App.tsx` also owns the PWA update flow: `useRegisterSW` (from `virtual:pwa-register/react`, `registerType: 'prompt'` in `vite.config.ts`) surfaces a persistent Sonner toast when a new service worker is waiting, and `updateServiceWorker(true)` applies it.
 
 **Routing** (`src/router/index.tsx`): `createHashRouter` (hash-mode, required for GitHub Pages). An `AuthGuard` component checks whether `childProfile` table is empty; if so, it redirects to `/onboarding`. All main routes share `RootLayout` (bottom nav + FAB).
 
 **Database** (`src/db/`):
-- `db.ts` — `AppDB` class, Dexie schema v2
+- `db.ts` — `AppDB` class, Dexie schema v3
 - `schema.ts` — TypeScript interfaces + `CATEGORIES` constant
 - `services/` — one file per entity; all DB reads/writes go here
 
-Schema: `childProfile`, `wordForms`, `meanings`, `wordFormMeanings` (junction, compound key `[wordFormId+meaningId]`)
+Schema: `childProfile`, `wordForms`, `meanings`, `wordFormMeanings` (junction, compound key `[wordFormId+meaningId]`). Since v3, `wordFormMeanings` also carries per-pair `firstObservationDate`, `lastUsedDate`, and `isActive`; the parent `Meaning`'s aggregate dates/active status are recomputed on every pair write (see `wordFormMeaning.service.ts`).
 
-**Feature modules** (`src/features/`): self-contained by domain — `add-entry/`, `onboarding/`, `settings/`, `ios-install/`, `welcome/`. Each feature owns its components and hooks.
+**Feature modules** (`src/features/`): self-contained by domain — `add-entry/`, `doctor-report/`, `onboarding/`, `settings/`, `ios-install/`, `welcome/`. Each feature owns its components and hooks.
 
 **Shared UI**: Shadcn/UI component copies live in `src/components/ui/`; layout shell in `src/shared/components/` (`RootLayout`, `BottomNav`, `ErrorBoundary`).
 
