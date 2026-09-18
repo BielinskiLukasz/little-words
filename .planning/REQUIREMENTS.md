@@ -130,13 +130,20 @@
 | PWA-01 | Phase 5 | Complete |
 | PWA-02 | Phase 5 | Complete |
 | PWA-03 | Phase 5 | Complete |
+| PREREL-01 | Phase 6 | Complete |
+| PREREL-02 | Phase 6 | Complete |
+| PREREL-03 | Phase 6 | Complete |
+| PREREL-04 | Phase 6 | Complete |
+| PREREL-05 | Phase 6 | Complete |
 
 **Coverage:**
 
 - v1 requirements: 26 total
-- Mapped to phases: 26
+- Phase 6 pre-release requirements: 5 total
+- Mapped to phases: 31
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-06-30*
 *Last updated: 2026-09-14 — synced stale checkboxes (FOUND-01..04, REPORT-01..02, DATA-01..03) to reflect verified phase completions*
+*Last updated: 2026-09-18 — Phase 06.3: added PREREL-01..05 traceability rows (Phase 6 pre-release requirements, previously untracked)*
