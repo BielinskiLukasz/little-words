@@ -16,8 +16,6 @@ milestone_name: milestone
 current_phase: 06.3
 ---
 
-Total Phases: 7
-
 # Project State
 
 ## Project Reference
@@ -25,7 +23,7 @@ Total Phases: 7
 See: .planning/PROJECT.md (updated 2026-09-18)
 
 **Core value:** A parent can walk into a specialist consultation and present objective, structured observations instead of relying on memory.
-**Current focus:** All milestone v1.0 phases complete — ready for `/gsd-complete-milestone v1.0`
+**Current focus:** Milestone v1.0 shipped and archived — planning next milestone
 
 ## Current Position
 
@@ -154,8 +152,7 @@ None yet.
 
 ### Blockers/Concerns
 
-- ⚠️ [Phase 6.3, deferred] `06.3-REVIEW.md` findings WR-02 (stale D-01/D-02 doc-comment citation), WR-03 (duplicated childProfile length-check invariant, no shared constant), WR-04 (magic-string error-code coupling between dataManagement.ts and DataSection.tsx), WR-05 (pre-existing CSV formula-injection gap in buildMeaningsCSV/escapeCSVCell), and IN-01 (i18n key name only half-describes the failure mode) remain open — none are data-loss risks, all explicitly deferred per D-06 as candidates for a future import-hardening phase, alongside the already-deferred category validation, referential integrity, and wordForms round-trip test coverage.
-- ⏳ [Phase 06.3] `06.3-UAT.md` has one pending human_verification item: visually confirm the new `importErrorDescriptionMissingProfile` i18n message renders correctly (plain, parent-facing wording) in both English and Polish in the AlertDialog. Run `/gsd-verify-work 06.3` to complete it.
+- ⚠️ [v1.0, deferred to next milestone] `06.3-REVIEW.md` findings WR-02 (stale D-01/D-02 doc-comment citation), WR-03 (duplicated childProfile length-check invariant, no shared constant), WR-04 (magic-string error-code coupling between dataManagement.ts and DataSection.tsx), WR-05 (pre-existing CSV formula-injection gap in buildMeaningsCSV/escapeCSVCell), and IN-01 (i18n key name only half-describes the failure mode) remain open — none are data-loss risks, all explicitly deferred per D-06 (also logged in PROJECT.md Key Decisions as an accepted risk) as candidates for a future import-hardening phase, alongside the already-deferred category validation, referential integrity, and wordForms round-trip test coverage.
 
 ### Quick Tasks Completed
 
@@ -178,8 +175,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-09-18T12:50:52.248Z
-Stopped at: Phase 06.3 complete — milestone v1.0 100% complete, ready for /gsd-complete-milestone v1.0
+Last session: 2026-09-18T13:21:33.883Z
+Stopped at: Milestone v1.0 completed and archived — ready to start next milestone
 Resume file: None
 
 ## Operator Next Steps
