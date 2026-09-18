@@ -204,11 +204,11 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 **Goal:** Three audit-identified tech-debt items are closed: `validateBackupData`/`importData` reject a backup with an empty or multi-entry `childProfile` array via a distinct error instead of silently wiping data (D-01..D-05); `REQUIREMENTS.md` traceability includes PREREL-01..05 and the 14 audit-flagged `SUMMARY.md` files have their `requirements-completed` frontmatter backfilled (D-07..D-09); and `05-VERIFICATION.md`/`06-VERIFICATION.md` body Status lines are corrected to match their already-passing frontmatter (D-10, D-11).
 **Requirements**: Closes milestone v1.0 audit tech-debt items affecting DATA-02, PREREL-01..05, PWA-01..03
 **Depends on:** Phase 6
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 
-- [ ] 06.3-01-PLAN.md — TDD fix: validateBackupData/importData reject childProfile.length !== 1 with a distinct error + i18n messages (D-01..D-05) [DATA-02]
+- [x] 06.3-01-PLAN.md — TDD fix: validateBackupData/importData reject childProfile.length !== 1 with a distinct error + i18n messages (D-01..D-05) [DATA-02]
 - [ ] 06.3-02-PLAN.md — REQUIREMENTS.md PREREL-01..05 traceability rows + Coverage update; backfill requirements-completed frontmatter across 12 SUMMARY.md files (D-07..D-09) [PREREL-01..05]
 - [ ] 06.3-03-PLAN.md — Fix 05-VERIFICATION.md/06-VERIFICATION.md body Status line to 'passed' (D-10, D-11)
 
