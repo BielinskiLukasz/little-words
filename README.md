@@ -1,7 +1,7 @@
 # Little Words
 
 [![Deploy to GitHub Pages](https://github.com/BielinskiLukasz/little-words/actions/workflows/deploy.yml/badge.svg)](https://github.com/BielinskiLukasz/little-words/actions/workflows/deploy.yml)
-![Status](https://img.shields.io/badge/status-early_development-orange)
+![Status](https://img.shields.io/badge/status-v1.0_MVP_shipped-brightgreen)
 ![Version](https://img.shields.io/badge/version-0.2.0-blue)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
@@ -46,24 +46,22 @@ The primary metric is **active meanings**, not word count — one spoken form ca
 
 ## Features
 
-### Built
+All v1.0 MVP features below shipped 2026-09-18 (9 phases, 37 plans).
 
 - **Child profile** — name, birth date, home languages, optional clinical flags (prematurity, speech therapy, neurological care)
 - **Onboarding wizard** — guided first-run setup with guard: no main screen until profile is complete
 - **Word form logging** — FAB → bottom sheet entry with meaning autocomplete and 14 clinical categories; atomically links word forms to meanings (many-to-many)
 - **Dashboard** — Active Meanings count as the primary metric; secondary cards for Active Word Forms, New This Month, and "Review these?" (meanings unused 30+ days); personalised greeting
-- **Meanings list & detail** — scrollable, sortable; filter by category; toggle Active/Inactive; set last-use date; view all linked word forms
-- **Word Forms list & detail** — scrollable, sortable; view linked meanings; delete word form (link removed, meaning preserved)
+- **Meanings list & detail** — scrollable, sortable; filter by category; toggle Active/Inactive; inline edit text/categories; per-pair first/last observation dates and Active toggle; view all linked word forms
+- **Word Forms list & detail** — scrollable, sortable; inline edit word form text; per-pair first/last observation dates and Active toggle; delete word form (link removed, meaning preserved)
+- **Pairs view** — every word-form ↔ meaning pair in one list with dual-chip navigation and sorting
 - **Categories view** — each of the 14 categories with meaning count; tap to filter meanings by category
 - **Timeline view** — monthly vocabulary growth as bar + line chart and data table
-- **Settings** — language switcher (English / Polish), profile edit, data management placeholder, about section
+- **Doctor Report** — one-tap generation of a structured plain-text summary (age, per-category meanings, recent additions, recently-forgotten inactive meanings); copies to clipboard
+- **Data portability** — schema-versioned JSON export/import for backup and device migration, with corrupt-vs-wrong-version error differentiation; CSV export for spreadsheet analysis
+- **Settings** — language switcher (English / Polish), profile edit, data export/import, about section
+- **Full PWA** — offline-capable service worker, installable manifest, update-prompt toast on new deploys
 - **iOS install prompt** — Add to Home Screen guidance for Safari users
-
-### Planned (v1)
-
-- **Doctor Report** — one-tap generation of a structured plain-text summary; copies to clipboard
-- **Data portability** — JSON export/import for backup and device migration; CSV export for spreadsheet analysis
-- **Full PWA** — offline after first load; new-version notification toast; verified Android/iOS installability
 
 ---
 
@@ -161,9 +159,11 @@ little-words/
 │   │   └── services/         # Per-entity CRUD (childProfile, meaning, wordForm, …)
 │   ├── features/             # Self-contained feature slices
 │   │   ├── add-entry/        # FAB + bottom sheet word logging
+│   │   ├── doctor-report/    # Report generation + clipboard copy
 │   │   ├── ios-install/      # Safari install prompt
 │   │   ├── onboarding/       # First-run wizard
-│   │   └── settings/         # App settings panel
+│   │   ├── settings/         # App settings panel (incl. data export/import)
+│   │   └── welcome/          # First-save welcome/install nudge
 │   ├── i18n/                 # i18next config + locale files (en/, pl/)
 │   ├── pages/                # Route-level page components
 │   ├── router/               # Hash router definition
@@ -181,14 +181,14 @@ little-words/
 
 ## Data Model
 
-Stored in IndexedDB (Dexie schema v2):
+Stored in IndexedDB (Dexie schema v3):
 
 | Table | Key fields |
 |-------|------------|
 | `childProfile` | name, birthDate, languages, clinical flags, parentNotes |
 | `wordForms` | form text, createdAt |
 | `meanings` | text, categories[], isActive, firstUseDate, lastUseDate |
-| `wordFormMeanings` | join table — links word forms to meanings (many-to-many) |
+| `wordFormMeanings` | join table — links word forms to meanings (many-to-many); per-pair firstObservationDate, lastUsedDate, isActive |
 
 **14 predefined categories:** Nouns, Verbs, Adjectives, People, Food, Animals, Vehicles, Body Parts, Onomatopoeia, Requests, Social Communication, Emotions, Places, Other.
 
@@ -203,24 +203,26 @@ The app is hosted on **GitHub Pages** at `https://BielinskiLukasz.github.io/litt
 GitHub Actions deploys automatically on every push to `main` or `develop`:
 
 1. Checks out the repository on Node 24
-2. Runs `npm ci && npm run build`
-3. Publishes `dist/` to the `gh-pages` branch via `actions/deploy-pages`
+2. Runs `npm ci`, then `npm run lint`, `npm run test`, and `npm run build` as a quality gate
+3. Publishes `dist/` to the `gh-pages` branch via `peaceiris/actions-gh-pages@v4`
 
 All built asset paths are prefixed with `/little-words/` at build time (`base` in `vite.config.ts`). Client-side navigation uses hash-based routing (`/#/path`) and requires no server-side URL rewriting.
-
-To trigger a manual deploy, use **Actions → Deploy to GitHub Pages → Run workflow** in the GitHub UI.
 
 ---
 
 ## Roadmap
 
-| Phase | What ships | Status |
+**v1.0 MVP shipped 2026-09-18** — 9 phases, 37 plans, 54 tasks. See `.planning/RETROSPECTIVE.md` and `.planning/MILESTONES.md` for the full history.
+
+| Phase | What shipped | Status |
 |-------|------------|--------|
-| 1 — Foundation | Vite scaffold, Dexie schema v2, i18n, hash router shell | Done |
+| 1 — Foundation | Vite scaffold, Dexie schema, i18n, hash router shell | Done |
 | 2 — Onboarding & Data Entry | Child profile wizard, FAB → bottom sheet word logging | Done |
 | 3 — Browse Views | Meanings, Word Forms, Categories, Timeline list and detail pages | Done |
-| 4 — Doctor Report & Data Management | Report generation, JSON/CSV export & import | Not started |
-| 5 — PWA Polish | Full offline support, update prompt, installability testing | Not started |
+| 4 — Doctor Report & Data Management | Report generation, JSON/CSV export & import | Done |
+| 5 — PWA Polish | Full offline support, update prompt, installability | Done |
+| 6 — Pairs & Inline Editing | Pairs view, per-pair metadata (schema v3), inline edit on detail pages | Done |
+| 6.1–6.3 — Post-milestone hardening | Meaning-rollup dedup fix, v2→v3 import migration, import-validation hardening | Done |
 
 ---
 
@@ -264,7 +266,7 @@ The prompt is shown only in Safari on iOS. Chrome and Firefox on iOS use the sam
 Run `npm run build` locally to see the full error. The project enforces `strict`, `noUnusedLocals`, and `noUnusedParameters` — all unused imports and variables must be removed before the build succeeds.
 
 **The service worker is serving stale content after a deploy.**
-The PWA is configured with `registerType: 'autoUpdate'`. Hard-refresh (`Ctrl+Shift+R` / `Cmd+Shift+R`) or clear the browser cache if the update prompt does not appear within a few seconds of loading the updated app.
+The PWA is configured with `registerType: 'prompt'` — a persistent toast asks you to reload when a new version is available. Hard-refresh (`Ctrl+Shift+R` / `Cmd+Shift+R`) or clear the browser cache if the update prompt does not appear within a few seconds of loading the updated app.
 
 ---
 
