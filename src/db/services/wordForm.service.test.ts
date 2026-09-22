@@ -120,3 +120,117 @@ describe('wordForm.service - updateWordForm', () => {
     await expect(updateWordForm(wordFormId, '   ')).rejects.toThrow()
   })
 })
+
+// ── getActiveWordFormsCount ──────────────────────────────────────────────────
+
+describe('wordForm.service - getActiveWordFormsCount', () => {
+  beforeEach(async () => {
+    await Dexie.delete('LittleWordsDB')
+    testDb = new AppDB()
+    await testDb.open()
+  })
+
+  afterEach(async () => {
+    testDb.close()
+    await Dexie.delete('LittleWordsDB')
+  })
+
+  it('returns 0 when there are no word forms', async () => {
+    const { getActiveWordFormsCount } = await import('./wordForm.service')
+    expect(await getActiveWordFormsCount()).toBe(0)
+  })
+
+  it('excludes a word form that has no linked meanings at all', async () => {
+    await testDb.wordForms.add({ form: 'unlinked', createdAt: '2025-01-01' })
+
+    const { getActiveWordFormsCount } = await import('./wordForm.service')
+    expect(await getActiveWordFormsCount()).toBe(0)
+  })
+
+  it('excludes a word form whose only linked meaning is inactive', async () => {
+    const wordFormId = await testDb.wordForms.add({ form: 'ba', createdAt: '2025-01-01' }) as number
+    const meaningId = await testDb.meanings.add({
+      text: 'ball',
+      categories: ['Nouns'],
+      isActive: false,
+      firstUseDate: '2025-01-01',
+      lastUseDate: '2025-01-01',
+    }) as number
+    await testDb.wordFormMeanings.add({
+      wordFormId,
+      meaningId,
+      firstObservationDate: '2025-01-01',
+      lastUsedDate: '2025-01-01',
+      isActive: false,
+    })
+
+    const { getActiveWordFormsCount } = await import('./wordForm.service')
+    expect(await getActiveWordFormsCount()).toBe(0)
+  })
+
+  it('includes a word form with at least one active linked meaning', async () => {
+    const wordFormId = await testDb.wordForms.add({ form: 'ma', createdAt: '2025-01-01' }) as number
+    const meaningId = await testDb.meanings.add({
+      text: 'mama',
+      categories: ['People'],
+      isActive: true,
+      firstUseDate: '2025-01-01',
+      lastUseDate: '2025-06-01',
+    }) as number
+    await testDb.wordFormMeanings.add({
+      wordFormId,
+      meaningId,
+      firstObservationDate: '2025-01-01',
+      lastUsedDate: '2025-06-01',
+      isActive: true,
+    })
+
+    const { getActiveWordFormsCount } = await import('./wordForm.service')
+    expect(await getActiveWordFormsCount()).toBe(1)
+  })
+
+  it('mixed set: counts only the active-linked word forms, not the total row count (regression for the over-count bug)', async () => {
+    // Active word form: linked to an active meaning
+    const activeFormId = await testDb.wordForms.add({ form: 'ma', createdAt: '2025-01-01' }) as number
+    const activeMeaningId = await testDb.meanings.add({
+      text: 'mama',
+      categories: ['People'],
+      isActive: true,
+      firstUseDate: '2025-01-01',
+      lastUseDate: '2025-06-01',
+    }) as number
+    await testDb.wordFormMeanings.add({
+      wordFormId: activeFormId,
+      meaningId: activeMeaningId,
+      firstObservationDate: '2025-01-01',
+      lastUsedDate: '2025-06-01',
+      isActive: true,
+    })
+
+    // Inactive word form: linked only to an inactive meaning
+    const inactiveFormId = await testDb.wordForms.add({ form: 'ba', createdAt: '2025-01-01' }) as number
+    const inactiveMeaningId = await testDb.meanings.add({
+      text: 'ball',
+      categories: ['Nouns'],
+      isActive: false,
+      firstUseDate: '2025-01-01',
+      lastUseDate: '2025-01-01',
+    }) as number
+    await testDb.wordFormMeanings.add({
+      wordFormId: inactiveFormId,
+      meaningId: inactiveMeaningId,
+      firstObservationDate: '2025-01-01',
+      lastUsedDate: '2025-01-01',
+      isActive: false,
+    })
+
+    // Unlinked word form: no meanings at all
+    await testDb.wordForms.add({ form: 'unlinked', createdAt: '2025-01-01' })
+
+    const totalWordForms = await testDb.wordForms.count()
+    expect(totalWordForms).toBe(3) // sanity check: naive count would wrongly report 3
+
+    const { getActiveWordFormsCount } = await import('./wordForm.service')
+    expect(await getActiveWordFormsCount()).toBe(1)
+  })
+})

@@ -121,3 +121,17 @@ export async function getWordFormsWithActiveMeaningCount(): Promise<
     })
   )
 }
+
+/**
+ * Count word forms that are "active" — i.e. have at least one linked meaning
+ * that is itself active (activeMeaningCount > 0).
+ *
+ * WordForm has no isActive field of its own; activeness is derived from
+ * linked meanings, using the same convention as getWordFormsWithActiveMeaningCount
+ * (and the WordFormsPage active/inactive badge). A word form with zero linked
+ * meanings, or whose linked meanings are all inactive, is not counted.
+ */
+export async function getActiveWordFormsCount(): Promise<number> {
+  const wordForms = await getWordFormsWithActiveMeaningCount()
+  return wordForms.filter((wf) => wf.activeMeaningCount > 0).length
+}

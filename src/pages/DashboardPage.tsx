@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { db } from '@/db/db'
 import { getMeaningsUnused30Days } from '@/db/services/meaning.service'
+import { getActiveWordFormsCount } from '@/db/services/wordForm.service'
 
 export function DashboardPage() {
   const { t } = useTranslation('common')
@@ -20,9 +21,7 @@ export function DashboardPage() {
   })
 
   // Active word forms count
-  const activeWordFormsCount = useLiveQuery(() =>
-    db.wordForms.toCollection().count()
-  )
+  const activeWordFormsCount = useLiveQuery(() => getActiveWordFormsCount())
 
   // New meanings this month
   const newMeaningsThisMonth = useLiveQuery(async () => {
